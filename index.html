@@ -10853,6 +10853,193 @@ button{font-size:10px}
   }
 }
 </style>
+
+<style>
+/* PREPRO V172 — final mobile development workspace. Desktop is intentionally untouched. */
+@media (max-width:900px){
+  /* Core mobile viewport */
+  html,body{max-width:100%!important;overflow-x:hidden!important}
+  .workspace{padding:14px 12px calc(34px + env(safe-area-inset-bottom))!important}
+  #script,#breakdown,#shots,#storyboard,#references{width:100%!important;max-width:100%!important;overflow:visible!important}
+  #script .header,#breakdown .header,#shots .header,#storyboard .header,#references .header{margin-bottom:12px!important;gap:8px!important}
+  #script .header h2,#breakdown .header h2,#shots .header h2,#storyboard .header h2,#references .header h2{font-size:24px!important}
+  #script .header p,#breakdown .header p,#shots .header p,#storyboard .header p,#references .header p{font-size:12px!important;line-height:1.45!important}
+
+  /* Every DEVELOPMENT tab becomes: header → horizontal scene rail → full-width content. */
+  #script .script-reader-layout,
+  #breakdown .breakdown-layout-v32,
+  #shots .shot-layout-v53,
+  #storyboard .story-layout-v57,
+  #references .ref-layout-v67{
+    display:flex!important;
+    flex-direction:column!important;
+    grid-template-columns:none!important;
+    width:100%!important;
+    max-width:100%!important;
+    gap:10px!important;
+    column-gap:0!important;
+    overflow:visible!important;
+  }
+
+  #script .script-scenes-v27,
+  #breakdown .break-scenes-v32,
+  #shots .shot-scenes-v53,
+  #storyboard .story-scenes-v57,
+  #references .ref-scenes-v67{
+    order:0!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    margin:0!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+    overflow:visible!important;
+    box-shadow:none!important;
+  }
+  #script .script-scenes-v27>.panel-head,
+  #breakdown .break-scenes-v32>.panel-head,
+  #shots .shot-scenes-v53>.panel-head,
+  #storyboard .story-scenes-v57>.panel-head,
+  #references .ref-scenes-v67>.panel-head{display:none!important}
+  #script .script-scenes-v27>.panel-body,
+  #breakdown .break-scenes-v32>.panel-body,
+  #shots .shot-scenes-v53>.panel-body,
+  #storyboard .story-scenes-v57>.panel-body,
+  #references .ref-scenes-v67>.panel-body{
+    width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;
+    padding:0!important;margin:0!important;overflow:visible!important;background:transparent!important
+  }
+  #script #sceneList,
+  #breakdown #breakSceneList,
+  #shots #shotSceneList,
+  #storyboard #storySceneList,
+  #references #refSceneList{
+    display:flex!important;
+    grid-template-columns:none!important;
+    grid-auto-rows:auto!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    gap:7px!important;
+    padding:1px 1px 7px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scroll-snap-type:x proximity!important;
+    -webkit-overflow-scrolling:touch!important;
+    scrollbar-width:none!important;
+  }
+  #script #sceneList::-webkit-scrollbar,#breakdown #breakSceneList::-webkit-scrollbar,#shots #shotSceneList::-webkit-scrollbar,#storyboard #storySceneList::-webkit-scrollbar,#references #refSceneList::-webkit-scrollbar{display:none!important}
+  #script #sceneList .scene-btn,
+  #breakdown #breakSceneList .scene-btn,
+  #shots #shotSceneList .scene-btn,
+  #storyboard #storySceneList .scene-btn,
+  #references #refSceneList .scene-btn{
+    flex:0 0 148px!important;
+    width:148px!important;
+    min-width:148px!important;
+    max-width:148px!important;
+    height:54px!important;
+    min-height:54px!important;
+    max-height:54px!important;
+    padding:7px 9px!important;
+    border:1px solid #29343a!important;
+    border-radius:10px!important;
+    background:#11171a!important;
+    scroll-snap-align:start!important;
+  }
+  #script #sceneList .scene-btn.active,#breakdown #breakSceneList .scene-btn.active,#shots #shotSceneList .scene-btn.active,#storyboard #storySceneList .scene-btn.active,#references #refSceneList .scene-btn.active{
+    background:#19291f!important;border-color:#466b52!important
+  }
+  #script #sceneList .scene-no,#breakdown #breakSceneList .scene-no,#shots #shotSceneList .scene-no,#storyboard #storySceneList .scene-no,#references #refSceneList .scene-no{font-size:12px!important}
+  #script #sceneList .scene-name,#breakdown #breakSceneList .scene-name,#shots #shotSceneList .scene-name,#storyboard #storySceneList .scene-name,#references #refSceneList .scene-name{font-size:10.5px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  #script #sceneList .scene-time,#breakdown #breakSceneList .scene-time,#shots #shotSceneList .scene-time,#storyboard #storySceneList .scene-time,#references #refSceneList .scene-time{font-size:9px!important}
+
+  /* SCRIPT — full-width reading surface */
+  #script .script-stage-v27{order:1!important;width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important;border-radius:12px!important;overflow:hidden!important}
+  #script .script-stage-toolbar{min-height:46px!important;padding:10px 12px!important;gap:8px!important}
+  #script .script-scene-title-v27{font-size:13px!important;line-height:1.35!important;min-width:0!important}
+  #script .script-scene-meta-v27{font-size:10px!important;white-space:nowrap!important}
+  #script .script-stage-scroll{width:100%!important;max-width:100%!important;padding:0!important;overflow:visible!important}
+  #script .script-paper-v27{width:100%!important;max-width:100%!important;min-width:0!important;min-height:0!important;margin:0!important;padding:22px 16px 42px!important;border:0!important;border-radius:0!important;box-shadow:none!important;overflow-wrap:anywhere!important}
+  #script .script-paper-v27 .script-line{font-size:13.5px!important;line-height:1.7!important;max-width:100%!important}
+  #script .script-paper-v27 .dialogue{width:auto!important;max-width:92%!important;margin-left:auto!important;margin-right:auto!important}
+  #script .script-paper-v27 .parenthetical{max-width:84%!important;margin-left:auto!important;margin-right:auto!important}
+  #script .scene-filter-panel-v27{position:fixed!important;left:12px!important;right:12px!important;top:calc(70px + env(safe-area-inset-top))!important;width:auto!important;max-width:none!important;z-index:10050!important}
+
+  /* BREAKDOWN — script and production tools no longer fight for width. */
+  #breakdown .break-script-stage-v32{order:1!important;width:100%!important;min-width:0!important;max-width:100%!important;min-height:0!important;margin:0!important;border-radius:12px!important;overflow:hidden!important}
+  #breakdown .break-stage-head-v32{min-height:45px!important;padding:10px 12px!important}
+  #breakdown .break-help-v32{display:none!important}
+  #breakdown .break-stage-scroll-v32{width:100%!important;max-width:100%!important;max-height:none!important;padding:0!important;overflow:visible!important}
+  #breakdown .break-script{width:100%!important;max-width:100%!important;min-height:260px!important;padding:20px 15px 30px!important;overflow-wrap:anywhere!important}
+  #breakdown .break-line{font-size:13.5px!important;line-height:1.65!important}
+  #breakdown .mobile-break-quick-v169{order:2!important;position:sticky!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;width:100%!important;max-width:100%!important;margin:0!important;padding:9px!important;z-index:80!important}
+  #breakdown .mobile-break-quick-v169:not(:has(.mobile-break-selection-v169.active)){display:none!important}
+  #breakdown .break-tools-v32{order:3!important;width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important;border-radius:12px!important;overflow:hidden!important}
+  #breakdown .break-tools-head-v32{padding:11px 12px!important}
+  #breakdown .break-tools-body-v32{padding:11px!important}
+  #breakdown #breakMeta .form-grid{grid-template-columns:1fr 1fr!important;gap:8px!important}
+  #breakdown .break-summary{grid-template-columns:1fr!important}
+
+  /* SHOT LIST — scene rail on top, editable cards stacked vertically. */
+  #shots #addShot{width:100%!important;flex:1 1 100%!important;min-height:44px!important}
+  #shots .shot-workspace-v53{order:1!important;width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important;overflow:visible!important}
+  #shots .shot-work-head-v53{padding:11px 12px!important;gap:8px!important;align-items:flex-start!important;flex-wrap:wrap!important}
+  #shots .shot-work-head-v53>div:first-child{min-width:0!important;flex:1 1 100%!important}
+  #shots .shot-progress-v53{width:100%!important;max-width:none!important}
+  #shots .shot-cards-v53{padding:10px!important;gap:10px!important}
+  #shots .shot-card-v56{
+    position:relative!important;
+    display:grid!important;
+    grid-template-columns:30px 48px minmax(0,1fr)!important;
+    width:100%!important;max-width:100%!important;min-width:0!important;min-height:0!important;
+    overflow:hidden!important
+  }
+  #shots .shot-drag-v56{grid-column:1!important;grid-row:1!important;min-height:52px!important;border-right:1px solid #252d33!important}
+  #shots .shot-number-v56{grid-column:2!important;grid-row:1!important;min-height:52px!important;border-right:0!important;gap:5px!important}
+  #shots .shot-group-v56{grid-column:1/-1!important;width:100%!important;min-width:0!important;padding:12px!important;border-right:0!important;border-top:1px solid #252d33!important}
+  #shots .shot-group-camera-v56{grid-row:2!important}
+  #shots .shot-group-lens-v56{grid-row:3!important}
+  #shots .shot-group-content-v56{grid-row:4!important}
+  #shots .shot-field-v56,#shots .shot-group-v56 input,#shots .shot-group-v56 select,#shots .shot-group-v56 textarea{width:100%!important;min-width:0!important;max-width:100%!important}
+  #shots .shot-content-footer-v56{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;align-items:end!important}
+  #shots .shot-notes-v56{grid-column:1/-1!important}
+  #shots .shot-actions-v56{position:absolute!important;right:8px!important;top:7px!important;width:auto!important;border:0!important;background:transparent!important;z-index:2!important}
+  #shots .shot-actions-v56 button{width:36px!important;height:36px!important;min-height:36px!important;padding:0!important}
+
+  /* STORYBOARD — cards use the entire phone width. */
+  #storyboard .storyboard-header-v57{align-items:stretch!important}
+  #storyboard #storyPrintBtn{flex:1 1 100%!important;width:100%!important}
+  #storyboard .story-view-toggle-v59{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;width:100%!important;max-width:100%!important}
+  #storyboard .story-view-toggle-v59 button{min-width:0!important;padding:9px 5px!important;font-size:11px!important}
+  #storyboard .story-workspace-v57{order:1!important;width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important;overflow:visible!important}
+  #storyboard .story-work-head-v57{padding:11px 12px!important;gap:8px!important;align-items:flex-start!important;flex-wrap:wrap!important}
+  #storyboard .story-work-head-v57>div:first-child{min-width:0!important;flex:1 1 100%!important}
+  #storyboard .story-progress-v57{width:100%!important;max-width:none!important}
+  #storyboard .story-grid-v57,#storyboard .story-grid-v57.overview,#storyboard .story-blocking-grid-v66{display:grid!important;grid-template-columns:minmax(0,1fr)!important;width:100%!important;max-width:100%!important;padding:10px!important;gap:10px!important}
+  #storyboard .story-card-v57{width:100%!important;min-width:0!important;max-width:100%!important;height:auto!important;overflow:hidden!important}
+  #storyboard .story-card-head-v57{flex-wrap:wrap!important;align-items:center!important}
+  #storyboard .story-tech-grid-v57{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+
+  /* REFERENCES gets the same scene rail behavior and a full-width workspace. */
+  #references .ref-workspace-v67{order:1!important;width:100%!important;min-width:0!important;max-width:100%!important;margin:0!important}
+  #references .ref-grid-v67,#references .ref-grid-v67.board-v67{grid-template-columns:minmax(0,1fr)!important}
+}
+
+@media (max-width:520px){
+  #breakdown #breakMeta .form-grid{grid-template-columns:1fr!important}
+  #shots .shot-content-footer-v56{grid-template-columns:1fr!important}
+  #shots .shot-notes-v56{grid-column:auto!important}
+  #storyboard .story-tech-grid-v57{grid-template-columns:1fr!important}
+}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -15819,7 +16006,89 @@ function printableBase(title,body,landscape=false){
   #breakdown .break-item textarea{font-size:13px!important;min-height:58px!important}
 }
 </style>
-  </head>
+  
+<style>
+/* PREPRO V173 — responsive desktop shot list only.
+   Keeps the desktop composition, but lets the rail/card columns shrink with the window. */
+@media (min-width:901px){
+  #shots .shot-layout-v53{
+    gap:clamp(10px,1vw,14px)!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+  #shots .shot-scenes-v53{
+    flex:0 1 clamp(180px,18vw,244px)!important;
+    width:clamp(180px,18vw,244px)!important;
+    min-width:180px!important;
+    max-width:244px!important;
+  }
+  #shots .shot-workspace-v53{
+    flex:1 1 0%!important;
+    width:0!important;
+    min-width:0!important;
+    max-width:none!important;
+    overflow-x:hidden!important;
+  }
+  #shots .shot-cards-v53{
+    width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+  #shots .shot-card-v56{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    grid-template-columns:
+      clamp(24px,2.2vw,30px)
+      clamp(40px,3.6vw,54px)
+      minmax(118px,.92fr)
+      minmax(128px,1fr)
+      minmax(220px,2.25fr)
+      clamp(32px,2.8vw,38px)!important;
+  }
+  #shots .shot-group-v56{
+    min-width:0!important;
+    padding:clamp(9px,.9vw,14px)!important;
+  }
+  #shots .shot-field-v56,
+  #shots .shot-footer-field-v56,
+  #shots .shot-script-head-v56{min-width:0!important}
+  #shots .shot-field-v56 input,
+  #shots .shot-field-v56 select,
+  #shots .shot-content-footer-v56 input,
+  #shots .shot-content-footer-v56 select,
+  #shots .shot-script-excerpt-v56,
+  #shots .shot-description-v56{
+    min-width:0!important;
+    max-width:100%!important;
+  }
+  #shots .shot-content-footer-v56{
+    grid-template-columns:minmax(58px,.7fr) minmax(62px,.65fr) minmax(82px,.85fr) minmax(100px,1.25fr)!important;
+    gap:clamp(5px,.6vw,8px)!important;
+  }
+}
+
+/* Mid-size desktop / split-screen: preserve every field, but use a denser two-row card. */
+@media (min-width:901px) and (max-width:1180px){
+  #shots .shot-scenes-v53{
+    flex-basis:180px!important;
+    width:180px!important;
+    min-width:180px!important;
+  }
+  #shots .shot-card-v56{
+    grid-template-columns:26px 44px minmax(120px,.8fr) minmax(130px,.9fr) minmax(190px,1.6fr) 32px!important;
+  }
+  #shots .shot-group-v56{padding:9px!important}
+  #shots .shot-group-title-v56{margin-bottom:8px!important}
+  #shots .shot-content-footer-v56{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    align-items:end!important;
+  }
+  #shots .shot-vfx-v56{min-width:0!important}
+}
+</style>
+</head>
   <body>
     <main class="print-doc">
       <header class="print-doc-head">
