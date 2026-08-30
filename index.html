@@ -11040,6 +11040,120 @@ button{font-size:10px}
 }
 </style>
 
+
+<style>
+/* PREPRO V174 — SHOT LIST desktop fluid width fix.
+   App stylesheet only: desktop shrinks with the browser; mobile V172/V171 rules stay untouched. */
+@media (min-width:901px){
+  #shots{
+    min-width:0!important;
+    width:100%!important;
+    max-width:100%!important;
+    overflow-x:hidden!important;
+  }
+  #shots .shot-layout-v53{
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:flex-start!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    gap:clamp(10px,1vw,14px)!important;
+  }
+  #shots .shot-scenes-v53{
+    flex:0 1 clamp(168px,16vw,244px)!important;
+    width:clamp(168px,16vw,244px)!important;
+    min-width:168px!important;
+    max-width:244px!important;
+  }
+  #shots .shot-workspace-v53{
+    flex:1 1 0!important;
+    width:0!important;
+    min-width:0!important;
+    max-width:100%!important;
+    overflow-x:hidden!important;
+  }
+  #shots .shot-work-head-v53,
+  #shots .shot-cards-v53{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+  #shots .shot-cards-v53{
+    padding-left:clamp(8px,1vw,14px)!important;
+    padding-right:clamp(8px,1vw,14px)!important;
+  }
+  #shots .shot-card-v56{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    grid-template-columns:
+      clamp(22px,2vw,30px)
+      clamp(38px,3.4vw,54px)
+      minmax(0,24%)
+      minmax(0,26%)
+      minmax(0,1fr)
+      clamp(28px,2.6vw,38px)!important;
+  }
+  #shots .shot-group-v56,
+  #shots .shot-group-camera-v56,
+  #shots .shot-group-lens-v56,
+  #shots .shot-group-content-v56,
+  #shots .shot-field-v56,
+  #shots .shot-footer-field-v56,
+  #shots .shot-script-head-v56,
+  #shots .shot-content-footer-v56{
+    min-width:0!important;
+    max-width:100%!important;
+  }
+  #shots .shot-group-v56{
+    padding:clamp(8px,.85vw,14px)!important;
+  }
+  #shots .shot-field-v56 input,
+  #shots .shot-field-v56 select,
+  #shots .shot-content-footer-v56 input,
+  #shots .shot-content-footer-v56 select,
+  #shots .shot-script-excerpt-v56,
+  #shots .shot-description-v56{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+  }
+  #shots .shot-content-footer-v56{
+    grid-template-columns:minmax(48px,.65fr) minmax(52px,.58fr) minmax(72px,.85fr) minmax(82px,1.15fr)!important;
+    gap:clamp(4px,.55vw,8px)!important;
+  }
+  #shots .shot-vfx-v56{
+    min-width:0!important;
+    overflow:hidden!important;
+  }
+}
+
+/* Compact desktop / split view: continue shrinking instead of retaining the old fixed card width. */
+@media (min-width:901px) and (max-width:1200px){
+  #shots .shot-scenes-v53{
+    flex-basis:clamp(156px,16vw,190px)!important;
+    width:clamp(156px,16vw,190px)!important;
+    min-width:156px!important;
+  }
+  #shots .shot-card-v56{
+    grid-template-columns:22px 38px minmax(0,23%) minmax(0,24%) minmax(0,1fr) 28px!important;
+  }
+  #shots .shot-group-v56{padding:7px!important}
+  #shots .shot-group-title-v56{margin-bottom:7px!important}
+  #shots .shot-field-v56 input,
+  #shots .shot-field-v56 select,
+  #shots .shot-content-footer-v56 input,
+  #shots .shot-content-footer-v56 select{
+    padding-left:8px!important;
+    padding-right:8px!important;
+  }
+  #shots .shot-content-footer-v56{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -16007,87 +16121,7 @@ function printableBase(title,body,landscape=false){
 }
 </style>
   
-<style>
-/* PREPRO V173 — responsive desktop shot list only.
-   Keeps the desktop composition, but lets the rail/card columns shrink with the window. */
-@media (min-width:901px){
-  #shots .shot-layout-v53{
-    gap:clamp(10px,1vw,14px)!important;
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-  }
-  #shots .shot-scenes-v53{
-    flex:0 1 clamp(180px,18vw,244px)!important;
-    width:clamp(180px,18vw,244px)!important;
-    min-width:180px!important;
-    max-width:244px!important;
-  }
-  #shots .shot-workspace-v53{
-    flex:1 1 0%!important;
-    width:0!important;
-    min-width:0!important;
-    max-width:none!important;
-    overflow-x:hidden!important;
-  }
-  #shots .shot-cards-v53{
-    width:100%!important;
-    min-width:0!important;
-    box-sizing:border-box!important;
-  }
-  #shots .shot-card-v56{
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-    grid-template-columns:
-      clamp(24px,2.2vw,30px)
-      clamp(40px,3.6vw,54px)
-      minmax(118px,.92fr)
-      minmax(128px,1fr)
-      minmax(220px,2.25fr)
-      clamp(32px,2.8vw,38px)!important;
-  }
-  #shots .shot-group-v56{
-    min-width:0!important;
-    padding:clamp(9px,.9vw,14px)!important;
-  }
-  #shots .shot-field-v56,
-  #shots .shot-footer-field-v56,
-  #shots .shot-script-head-v56{min-width:0!important}
-  #shots .shot-field-v56 input,
-  #shots .shot-field-v56 select,
-  #shots .shot-content-footer-v56 input,
-  #shots .shot-content-footer-v56 select,
-  #shots .shot-script-excerpt-v56,
-  #shots .shot-description-v56{
-    min-width:0!important;
-    max-width:100%!important;
-  }
-  #shots .shot-content-footer-v56{
-    grid-template-columns:minmax(58px,.7fr) minmax(62px,.65fr) minmax(82px,.85fr) minmax(100px,1.25fr)!important;
-    gap:clamp(5px,.6vw,8px)!important;
-  }
-}
 
-/* Mid-size desktop / split-screen: preserve every field, but use a denser two-row card. */
-@media (min-width:901px) and (max-width:1180px){
-  #shots .shot-scenes-v53{
-    flex-basis:180px!important;
-    width:180px!important;
-    min-width:180px!important;
-  }
-  #shots .shot-card-v56{
-    grid-template-columns:26px 44px minmax(120px,.8fr) minmax(130px,.9fr) minmax(190px,1.6fr) 32px!important;
-  }
-  #shots .shot-group-v56{padding:9px!important}
-  #shots .shot-group-title-v56{margin-bottom:8px!important}
-  #shots .shot-content-footer-v56{
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-    align-items:end!important;
-  }
-  #shots .shot-vfx-v56{min-width:0!important}
-}
-</style>
 </head>
   <body>
     <main class="print-doc">
