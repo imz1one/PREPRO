@@ -4,8 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PREPRO</title>
-<meta name="application-name" content="PREPRO">
-<meta name="apple-mobile-web-app-title" content="PREPRO">
 <style>
 :root{
   --bg:#0d1015;--panel:#151a22;--panel2:#1c222c;--line:#29313d;--text:#eef2f7;--muted:#96a0b0;
@@ -10734,136 +10732,9 @@ button{font-size:10px}
 }
 
 
-/* PREPRO V170 — mobile-only Script / Breakdown UX (actual app stylesheet) */
-.mobile-break-quick-v169{display:none}
-@media (max-width:780px){
-  /* SCRIPT: one-column reader. Scene navigator is a horizontal rail. */
-  #script{overflow:visible!important}
-  #script .header.script-header-v27{padding-bottom:4px!important;gap:8px!important}
-  #script .header.script-header-v27>div:first-child>p{display:none!important}
-  #script .script-title-row{align-items:center!important;gap:8px!important}
-  #script .script-summary-badge{font-size:10px!important;white-space:nowrap!important}
-  #script .header.script-header-v27>label,
-  #script .header.script-header-v27>button{flex:0 0 auto!important;width:auto!important;min-width:0!important}
-  #script .script-import-btn{min-height:40px!important;padding:9px 12px!important}
-  #script #sceneFilterToggle,#script #scriptMoreBtn{width:42px!important;height:40px!important;padding:0!important;display:grid!important;place-items:center!important}
-
-  #script .script-reader-layout{
-    display:flex!important;flex-direction:column!important;grid-template-columns:none!important;
-    gap:10px!important;width:100%!important;min-width:0!important;overflow:visible!important
-  }
-  #script .script-scenes-v27{
-    order:1!important;position:static!important;width:100%!important;max-width:100%!important;min-width:0!important;
-    height:auto!important;max-height:none!important;border:0!important;border-radius:0!important;
-    background:transparent!important;box-shadow:none!important;overflow:visible!important
-  }
-  #script .script-scenes-v27 .panel-head{display:none!important}
-  #script .script-scenes-v27 .panel-body{padding:0!important;overflow:visible!important}
-  #script #sceneList.script-scene-list-v27{
-    display:flex!important;flex-direction:row!important;gap:7px!important;width:100%!important;max-width:100%!important;
-    overflow-x:auto!important;overflow-y:hidden!important;padding:2px 0 8px!important;
-    scroll-snap-type:x proximity!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important
-  }
-  #script #sceneList.script-scene-list-v27::-webkit-scrollbar{display:none!important}
-  #script #sceneList .scene-btn{
-    flex:0 0 132px!important;width:132px!important;min-width:132px!important;max-width:132px!important;
-    min-height:62px!important;height:auto!important;padding:9px 10px!important;margin:0!important;
-    display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;grid-template-rows:auto auto!important;
-    column-gap:8px!important;row-gap:3px!important;align-items:center!important;text-align:left!important;
-    border:1px solid var(--line)!important;border-radius:12px!important;background:var(--panel)!important;scroll-snap-align:start!important
-  }
-  #script #sceneList .scene-btn.active{border-color:var(--accent)!important;box-shadow:0 0 0 1px var(--accent) inset!important}
-  #script #sceneList .scene-no{grid-row:1/3!important;font-size:12px!important;font-weight:850!important;align-self:center!important;white-space:nowrap!important}
-  #script #sceneList .scene-name{min-width:0!important;font-size:11.5px!important;font-weight:700!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
-  #script #sceneList .scene-time{justify-self:start!important;font-size:9px!important;padding:3px 7px!important;white-space:nowrap!important}
-
-  #script .script-stage-v27{
-    order:2!important;width:100%!important;max-width:100%!important;min-width:0!important;
-    border-radius:14px!important;overflow:hidden!important
-  }
-  #script .script-stage-toolbar{padding:10px 12px!important;min-height:46px!important;position:static!important}
-  #script .script-scene-title-v27{font-size:14px!important;line-height:1.35!important;white-space:normal!important;overflow-wrap:anywhere!important}
-  #script .script-stage-scroll{padding:0!important;overflow:visible!important;max-height:none!important}
-  #script #scriptPaper.script-paper-v27{
-    width:100%!important;max-width:100%!important;min-width:0!important;min-height:0!important;
-    margin:0!important;padding:24px 16px 50px!important;border:0!important;border-radius:0!important;box-shadow:none!important
-  }
-  #script #scriptPaper .script-line{font-size:14px!important;line-height:1.72!important;margin-bottom:8px!important;overflow-wrap:anywhere!important}
-  #script #scriptPaper .scene-heading{font-size:14px!important;line-height:1.45!important;margin:0 0 22px!important;font-weight:850!important}
-  #script #scriptPaper .character{margin-top:20px!important;margin-bottom:4px!important;text-align:center!important;font-size:13px!important;font-weight:850!important}
-  #script #scriptPaper .dialogue{max-width:90%!important;margin-left:auto!important;margin-right:auto!important}
-  #script #scriptPaper .parenthetical{max-width:82%!important;margin-left:auto!important;margin-right:auto!important;font-size:12.5px!important}
-  #script .scene-filter-panel-v27{position:fixed!important;left:12px!important;right:12px!important;top:calc(70px + env(safe-area-inset-top))!important;width:auto!important;z-index:120!important;box-shadow:0 14px 35px rgba(0,0,0,.24)!important}
-
-  /* BREAKDOWN: scene rail, script, quick tags, then production details. */
-  #breakdown{overflow:visible!important}
-  #breakdown .header.breakdown-header-v32{padding-bottom:4px!important;margin-bottom:10px!important}
-  #breakdown .header.breakdown-header-v32 p{display:none!important}
-  #breakdown .breakdown-layout-v32{
-    display:flex!important;flex-direction:column!important;grid-template-columns:none!important;
-    gap:10px!important;width:100%!important;min-width:0!important;overflow:visible!important
-  }
-  #breakdown .break-scenes-v32{
-    order:1!important;position:static!important;width:100%!important;max-width:100%!important;min-width:0!important;
-    height:auto!important;max-height:none!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important
-  }
-  #breakdown .break-scenes-v32 .panel-head{display:none!important}
-  #breakdown .break-scenes-v32 .panel-body{padding:0!important;overflow:visible!important}
-  #breakdown #breakSceneList.break-scene-list-v32{
-    display:flex!important;flex-direction:row!important;gap:7px!important;width:100%!important;max-width:100%!important;
-    overflow-x:auto!important;overflow-y:hidden!important;padding:2px 0 8px!important;
-    scroll-snap-type:x proximity!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important
-  }
-  #breakdown #breakSceneList.break-scene-list-v32::-webkit-scrollbar{display:none!important}
-  #breakdown #breakSceneList .scene-btn{
-    flex:0 0 132px!important;width:132px!important;min-width:132px!important;max-width:132px!important;min-height:62px!important;height:auto!important;
-    padding:9px 10px!important;margin:0!important;display:grid!important;
-    grid-template-columns:auto minmax(0,1fr)!important;grid-template-rows:auto auto!important;column-gap:8px!important;row-gap:3px!important;
-    align-items:center!important;text-align:left!important;border:1px solid var(--line)!important;border-radius:12px!important;background:var(--panel)!important;scroll-snap-align:start!important
-  }
-  #breakdown #breakSceneList .scene-btn.active{border-color:var(--accent)!important;box-shadow:0 0 0 1px var(--accent) inset!important}
-  #breakdown #breakSceneList .scene-no{grid-row:1/3!important;font-size:12px!important;font-weight:850!important;align-self:center!important;white-space:nowrap!important}
-  #breakdown #breakSceneList .scene-name{min-width:0!important;font-size:11.5px!important;font-weight:700!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
-  #breakdown #breakSceneList .scene-time{justify-self:start!important;font-size:9px!important;padding:3px 7px!important;white-space:nowrap!important}
-
-  #breakdown .break-script-stage-v32{order:2!important;width:100%!important;max-width:100%!important;min-width:0!important;min-height:0!important;border-radius:14px!important;overflow:hidden!important}
-  #breakdown .break-stage-head-v32{padding:10px 12px!important;min-height:46px!important}
-  #breakdown .break-help-v32{display:none!important}
-  #breakdown .break-stage-scroll-v32{padding:0!important;overflow:visible!important;max-height:none!important}
-  #breakdown .break-script{width:100%!important;max-width:100%!important;min-width:0!important;padding:22px 16px 112px!important;min-height:320px!important}
-  #breakdown .break-line{font-size:14px!important;line-height:1.68!important;padding:4px 2px!important;margin-bottom:5px!important;border-radius:6px!important;overflow-wrap:anywhere!important}
-  #breakdown .break-line.character{text-align:center!important;margin-top:16px!important;font-weight:850!important}
-
-  #breakdown .mobile-break-quick-v169{
-    display:block!important;order:3!important;position:sticky!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;z-index:80!important;
-    width:calc(100% - 16px)!important;margin:-88px 8px 8px!important;padding:9px!important;border:1px solid var(--line)!important;border-radius:14px!important;
-    background:rgba(20,25,28,.94)!important;box-shadow:0 8px 30px rgba(0,0,0,.22)!important;
-    backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important
-  }
-  #breakdown .mobile-break-selection-v169{font-size:11px!important;line-height:1.35!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;padding:0 3px 7px!important;color:var(--muted)!important}
-  #breakdown .mobile-break-selection-v169.active{color:var(--text)!important;font-weight:750!important}
-  #breakdown .mobile-break-cats-v169{display:flex!important;gap:5px!important;overflow-x:auto!important;padding-bottom:1px!important;scrollbar-width:none!important}
-  #breakdown .mobile-break-cats-v169::-webkit-scrollbar{display:none!important}
-  #breakdown .mobile-break-cats-v169 button{flex:0 0 auto!important;min-height:34px!important;padding:7px 10px!important;border:1px solid var(--line)!important;border-radius:9px!important;background:var(--bg)!important;font-size:11px!important;font-weight:800!important;color:var(--text)!important}
-
-  #breakdown .break-tools-v32{order:4!important;width:100%!important;max-width:100%!important;min-width:0!important;margin-top:6px!important;border-radius:14px!important;overflow:visible!important}
-  #breakdown .break-tools-head-v32{padding:12px 14px!important}
-  #breakdown .break-tools-body-v32{padding:12px!important}
-  #breakdown .break-tool-section-v32:has(#breakSelectionPreview),#breakdown .break-tool-section-v32:has(#breakCategoryButtons){display:none!important}
-  #breakdown #breakMeta .form-grid{grid-template-columns:1fr!important;gap:8px!important}
-  #breakdown #breakMeta .field.span2{grid-column:auto!important}
-  #breakdown .break-summary{display:grid!important;grid-template-columns:1fr!important;gap:7px!important}
-  #breakdown .break-group{border:1px solid var(--line)!important;border-radius:10px!important;padding:0!important;overflow:hidden!important;background:var(--panel)!important}
-  #breakdown .break-group-head{display:flex!important;align-items:center!important;padding:11px 12px!important;cursor:pointer!important;margin:0!important;min-height:42px!important}
-  #breakdown .break-group-head:after{content:'⌄';margin-left:auto;font-size:13px;color:var(--muted);transition:transform .18s ease}
-  #breakdown .break-group.mobile-open-v169 .break-group-head:after{transform:rotate(180deg)}
-  #breakdown .break-group .break-items,#breakdown .break-group .quick-add{display:none!important}
-  #breakdown .break-group.mobile-open-v169 .break-items{display:block!important;padding:0 8px 4px!important}
-  #breakdown .break-group.mobile-open-v169 .quick-add{display:flex!important;padding:6px 8px 9px!important}
-  #breakdown .break-item{align-items:flex-start!important}
-  #breakdown .break-item textarea{font-size:16px!important;min-height:58px!important}
-}
-
+/* PREPRO V170 · collaboration activity */
+.activity-toolbar-v170{display:flex;align-items:center;gap:12px;margin-bottom:14px}.activity-summary-v170{font-size:12px;color:var(--muted);flex:1}.activity-list-v170{display:flex;flex-direction:column;gap:10px}.activity-item-v170{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;align-items:start;padding:15px 16px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}.activity-avatar-v170{width:38px;height:38px;border-radius:12px;background:var(--panel2);display:flex;align-items:center;justify-content:center;font-weight:800}.activity-main-v170 b{font-size:13px}.activity-main-v170 p{margin:5px 0 0;font-size:12.5px;color:var(--text);line-height:1.55}.activity-meta-v170{font-size:11px;color:var(--muted);margin-top:5px}.activity-time-v170{font-size:11px;color:var(--muted);white-space:nowrap}.activity-empty-v170{padding:44px 20px;text-align:center;border:1px dashed var(--line);border-radius:14px;color:var(--muted)}.activity-change-v170{display:inline-block;margin-top:7px;padding:5px 8px;border-radius:8px;background:var(--panel2);font-size:11px;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:780px){.activity-item-v170{grid-template-columns:38px minmax(0,1fr);padding:13px}.activity-time-v170{grid-column:2;margin-top:-4px}.activity-toolbar-v170{align-items:flex-start}.activity-list-v170{gap:8px}}
 </style>
 </head>
 <body>
@@ -10879,6 +10750,7 @@ button{font-size:10px}
       <div class="nav-label">WORKSPACE</div>
       <button data-view="projects"><span class="nav-icon">◫</span><span>프로젝트</span></button>
       <button data-view="dashboard" class="active"><span class="nav-icon">⌂</span><span>대시보드</span></button>
+      <button data-view="activity"><span class="nav-icon">◴</span><span>활동 기록</span></button>
     </div>
 
     <div class="nav-group">
@@ -11542,6 +11414,18 @@ button{font-size:10px}
   </div>
 </section>
 
+
+<section id="activity" class="view">
+  <div class="header">
+    <div><div class="script-title-row"><h2>활동 기록</h2><span class="script-summary-badge">Collaboration</span></div><p>팀원이 수정한 메뉴와 항목을 시간순으로 확인합니다.</p></div>
+  </div>
+  <div class="activity-toolbar-v170">
+    <div id="activitySummaryV170" class="activity-summary-v170"></div>
+    <button id="clearActivityV170" type="button">기록 비우기</button>
+  </div>
+  <div id="activityListV170" class="activity-list-v170"></div>
+</section>
+
 <section id="exports" class="view">
   <div class="header exports-header-v130">
     <div>
@@ -12015,6 +11899,70 @@ let cloudSaveTimerV167=null;
 let cloudLastPayloadV167='';
 let cloudChannelV167=null;
 
+// PREPRO V170 · lightweight collaboration history stored with the project.
+let activityBaselineV170=null;
+let activityRecordingV170=false;
+function activityCloneV170(v){try{return JSON.parse(JSON.stringify(v))}catch(e){return null}}
+function activityCleanV170(v){
+  if(Array.isArray(v))return v.map(activityCleanV170);
+  if(v&&typeof v==='object'){const o={};for(const [k,val] of Object.entries(v)){if(k.startsWith('_activity')||k==='_lastEditedV170')continue;o[k]=activityCleanV170(val)}return o}
+  return v;
+}
+function activityValueV170(v){
+  if(v==null||v==='')return '비어 있음';
+  if(typeof v==='string'){if(v.startsWith('data:image'))return '이미지';return v.replace(/\\s+/g,' ').slice(0,70)}
+  if(typeof v==='boolean')return v?'예':'아니오';
+  if(typeof v==='number')return String(v);
+  if(Array.isArray(v))return `${v.length}개 항목`;
+  return '내용 변경';
+}
+function activityDiffV170(a,b,path='',out=[]){
+  if(out.length>=24)return out;
+  if(JSON.stringify(a)===JSON.stringify(b))return out;
+  const ao=a&&typeof a==='object',bo=b&&typeof b==='object';
+  if(ao&&bo&&!Array.isArray(a)&&!Array.isArray(b)){
+    const keys=new Set([...Object.keys(a),...Object.keys(b)]);
+    for(const k of keys){if(k.startsWith('_activity')||k==='_lastEditedV170')continue;activityDiffV170(a[k],b[k],path?path+'.'+k:k,out);if(out.length>=24)break}
+  }else if(Array.isArray(a)&&Array.isArray(b)){
+    const n=Math.max(a.length,b.length);for(let i=0;i<n;i++){activityDiffV170(a[i],b[i],`${path}[${i}]`,out);if(out.length>=24)break}
+  }else out.push({path,before:a,after:b});
+  return out;
+}
+function activityViewV170(){const el=document.querySelector('.view.active');return el?.id||'project'}
+function activityViewLabelV170(v){return ({projects:'프로젝트',dashboard:'대시보드',script:'대본',breakdown:'대본 분석',shots:'샷리스트',storyboard:'콘티',aivfx:'AI / VFX',references:'레퍼런스',schedule:'촬영 일정',callsheet:'콜시트',locations:'로케이션',equipment:'장비',cast:'출연진',exports:'출력 / 내보내기',activity:'활동 기록'})[v]||v}
+function activityPathLabelV170(path,p){
+  let label=path||'프로젝트';
+  const sm=label.match(/^scenes\\[(\\d+)\\]/);
+  if(sm){const si=+sm[1],sc=p?.scenes?.[si],sn=sc?.number||`S#${si+1}`;label=label.replace(sm[0],sn);const shm=label.match(/\\.shots\\[(\\d+)\\]/);if(shm){const i=+shm[1],shot=sc?.shots?.[i];label=label.replace(shm[0],` · SHOT ${shot?.number||i+1}`)}const bm=label.match(/\\.breakdownItems\\[(\\d+)\\]/);if(bm){const i=+bm[1],it=sc?.breakdownItems?.[i];label=label.replace(bm[0],` · ${it?.category||'제작 요소'}`)}}
+  const map={title:'프로젝트명',rawScript:'원본 대본',text:'내용',note:'메모',lens:'Lens',size:'Shot Size',movement:'Movement',support:'Support',location:'장소',time:'시간',actor:'배우',contact:'연락처',wardrobe:'의상',makeup:'메이크업',call:'콜타임'};
+  label=label.replace(/\\.([A-Za-z][A-Za-z0-9_]*)$/,(m,k)=>' · '+(map[k]||k));
+  return label;
+}
+function recordActivityV170(){
+  if(activityRecordingV170||cloudApplyingV167)return;
+  const p=project();if(!p)return;
+  const now=activityCleanV170(p);
+  if(!activityBaselineV170){activityBaselineV170=activityCloneV170(now);return}
+  const diffs=activityDiffV170(activityBaselineV170,now);
+  activityBaselineV170=activityCloneV170(now);
+  if(!diffs.length)return;
+  activityRecordingV170=true;
+  try{
+    const who=cloudNameV167(),view=activityViewV170(),ts=new Date().toISOString();
+    p._activityLogV170=Array.isArray(p._activityLogV170)?p._activityLogV170:[];p._lastEditedV170=p._lastEditedV170&&typeof p._lastEditedV170==='object'?p._lastEditedV170:{};
+    const grouped=diffs.slice(0,12).map(d=>({path:d.path,label:activityPathLabelV170(d.path,p),before:activityValueV170(d.before),after:activityValueV170(d.after)}));
+    p._activityLogV170.unshift({id:'act_'+Date.now()+'_'+Math.random().toString(36).slice(2,6),at:ts,by:who,view,changes:grouped,extra:Math.max(0,diffs.length-12)});
+    p._activityLogV170=p._activityLogV170.slice(0,300);
+    grouped.forEach(c=>p._lastEditedV170[c.path]={by:who,at:ts,view});
+  }finally{activityRecordingV170=false}
+}
+function activityAgoV170(iso){const d=Date.now()-new Date(iso).getTime(),m=Math.max(0,Math.floor(d/60000));if(m<1)return '방금';if(m<60)return `${m}분 전`;const h=Math.floor(m/60);if(h<24)return `${h}시간 전`;const day=Math.floor(h/24);if(day<7)return `${day}일 전`;return new Date(iso).toLocaleDateString('ko-KR')}
+function renderActivityV170(){
+  const list=$('#activityListV170'),sum=$('#activitySummaryV170');if(!list)return;const logs=project()._activityLogV170||[];if(sum)sum.textContent=`최근 ${logs.length}개의 저장 기록 · 최대 300개 보관`;
+  if(!logs.length){list.innerHTML='<div class="activity-empty-v170">아직 기록된 수정이 없습니다.<br>이 기능을 추가한 이후의 변경부터 표시됩니다.</div>';return}
+  list.innerHTML=logs.map(x=>{const cs=x.changes||[],first=cs[0],more=Math.max(0,cs.length-1)+(x.extra||0);return `<article class="activity-item-v170"><div class="activity-avatar-v170">${esc((x.by||'?').slice(0,1))}</div><div class="activity-main-v170"><b>${esc(x.by||'팀원')}</b><p>${esc(activityViewLabelV170(x.view))} · ${esc(first?.label||'내용 수정')}${more?` 외 ${more}건`:''}</p><div class="activity-meta-v170">${cs.slice(0,3).map(c=>esc(c.label)).join(' · ')}</div>${first?`<div class="activity-change-v170">${esc(first.before)} → ${esc(first.after)}</div>`:''}</div><div class="activity-time-v170" title="${esc(x.at||'')}">${activityAgoV170(x.at)}</div></article>`}).join('');
+}
+
 function cloudNameV167(){
   let n='';
   try{n=(localStorage.getItem('prepro_team_name_v167')||'').trim()}catch(e){}
@@ -12070,6 +12018,7 @@ function applyCloudProjectV167(remoteProject){
     store.activeId=incoming.id;
     localStorage.setItem(STORE,JSON.stringify(store));
     cloudLastPayloadV167=JSON.stringify(incoming);
+    activityBaselineV170=activityCloneV170(activityCleanV170(incoming));
     ensureSelected();
     renderAll();
     repairStaticButtonsV160();
@@ -12124,6 +12073,7 @@ async function initCloudV167(){
 }
 
 function saveStore(){
+  recordActivityV170();
   localStorage.setItem(STORE,JSON.stringify(store));
   cloudStatusV167(cloudReadyV167?'저장 중...':'로컬 저장됨');
   renderStats();
@@ -12132,6 +12082,7 @@ function saveStore(){
 function selectedScene(){const p=project();return p.scenes.find(s=>s.id===p.selectedSceneId)||p.scenes[0]||null}
 function ensureSelected(){const p=project();if(!p.selectedSceneId&&p.scenes[0])p.selectedSceneId=p.scenes[0].id}
 function save(){ cloudStatusV167(cloudReadyV167?'저장 중...':'로컬 저장 중...'); saveStore(); }
+activityBaselineV170=activityCloneV170(activityCleanV170(project()));
 
 async function ensureScript(src,globalName,module=false){
   if(window[globalName])return;
@@ -15365,6 +15316,7 @@ function renderAll(){
   safeRender(renderRefs);
   safeRender(renderAIVFXV147);
   safeRender(renderStats);
+  safeRender(renderActivityV170);
 }
 function switchView(v){
   $$('.view').forEach(x=>x.classList.toggle('active',x.id===v));
@@ -15372,6 +15324,7 @@ function switchView(v){
   // 화면 진입 시 최신 데이터로 다시 렌더링
   if(v==='projects'){ensureProjectStoreV156();renderProjects();}
   else if(v==='dashboard'){renderStats();}
+  else if(v==='activity')renderActivityV170();
   else if(v==='cast')renderCast();
   else if(v==='breakdown')renderBreakdown();
   else if(v==='shots')renderShots();
@@ -15385,6 +15338,7 @@ function switchView(v){
   setTimeout(bindCoreActionButtonsV158,0);
 }
 $$('.nav button').forEach(b=>b.onclick=()=>switchView(b.dataset.view));
+if($('#clearActivityV170'))$('#clearActivityV170').onclick=()=>{if(!confirm('활동 기록을 모두 비울까요?'))return;project()._activityLogV170=[];project()._lastEditedV170={};saveStore();renderActivityV170()};
 document.addEventListener('click',()=>document.querySelectorAll('[data-ref-scene-menu]').forEach(m=>m.hidden=true));
 if(typeof bindAIVFXV147==='function')bindAIVFXV147();
 if(typeof bindAIScriptPickerV148==='function')bindAIScriptPickerV148();
@@ -15675,6 +15629,78 @@ function printableBase(title,body,landscape=false){
       }
     
 
+/* PREPRO V169 — mobile-only Script / Breakdown UX */
+.mobile-break-quick-v169{display:none}
+@media (max-width:780px){
+  /* Script becomes a reader-first screen with a horizontal scene rail. */
+  #script .header.script-header-v27{padding-bottom:10px!important;gap:8px!important}
+  #script .header.script-header-v27>div:first-child>p{display:none!important}
+  #script .script-title-row{align-items:center!important}
+  #script .script-summary-badge{font-size:10px!important;white-space:nowrap}
+  #script .script-import-btn,#script #sceneFilterToggle,#script #scriptMoreBtn{min-height:38px!important}
+  #script .script-reader-layout{display:flex!important;flex-direction:column!important;gap:10px!important;min-height:0!important}
+  #script .script-scenes-v27{width:calc(100vw - 24px)!important;max-width:none!important;min-width:0!important;border-radius:12px!important;overflow:visible!important;background:transparent!important;border:0!important;box-shadow:none!important}
+  #script .script-scenes-v27 .panel-head{display:none!important}
+  #script .script-scenes-v27 .panel-body{padding:0!important;overflow:visible!important}
+  #script .script-scene-list-v27{display:flex!important;gap:7px!important;overflow-x:auto!important;overflow-y:hidden!important;padding:2px 1px 8px!important;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  #script .script-scene-list-v27::-webkit-scrollbar{display:none}
+  #script .script-scene-list-v27 button{flex:0 0 auto!important;width:auto!important;min-width:118px!important;max-width:200px!important;min-height:48px!important;padding:8px 10px!important;border:1px solid var(--line)!important;border-radius:11px!important;background:var(--panel)!important;display:grid!important;grid-template-columns:auto 1fr!important;grid-template-rows:auto auto!important;column-gap:7px!important;row-gap:2px!important;scroll-snap-align:start;text-align:left!important}
+  #script .script-scene-list-v27 button.active{border-color:var(--accent)!important;box-shadow:0 0 0 1px var(--accent) inset!important}
+  #script .script-scene-list-v27 .scene-no{grid-row:1/3!important;font-size:12px!important;font-weight:800!important;align-self:center}
+  #script .script-scene-list-v27 .scene-name{font-size:12px!important;font-weight:700!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  #script .script-scene-list-v27 .scene-time{font-size:9px!important;justify-self:start!important}
+  #script .script-stage-v27{width:100%!important;min-width:0!important;border-radius:14px!important;overflow:hidden!important}
+  #script .script-stage-toolbar{padding:10px 12px!important;min-height:46px!important;position:sticky!important;top:0!important;z-index:2!important;background:var(--panel)!important}
+  #script .script-scene-title-v27{font-size:14px!important;line-height:1.3!important}
+  #script .script-stage-scroll{padding:0!important;overflow:visible!important}
+  #script .script-paper-v27{width:100%!important;max-width:none!important;min-height:0!important;margin:0!important;padding:24px 18px 48px!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+  #script .script-paper-v27 .script-line{font-size:14px!important;line-height:1.72!important;margin-bottom:8px!important}
+  #script .script-paper-v27 .scene-heading{font-size:14px!important;margin:0 0 22px!important;font-weight:800!important}
+  #script .script-paper-v27 .character{margin-top:20px!important;margin-bottom:4px!important;text-align:center!important;font-size:13px!important;font-weight:800!important}
+  #script .script-paper-v27 .dialogue{max-width:88%!important;margin-left:auto!important;margin-right:auto!important}
+  #script .script-paper-v27 .parenthetical{max-width:78%!important;margin-left:auto!important;margin-right:auto!important;font-size:12.5px!important}
+  #script .scene-filter-panel-v27{position:fixed!important;left:12px!important;right:12px!important;top:calc(62px + env(safe-area-inset-top))!important;width:auto!important;z-index:120!important;box-shadow:0 14px 35px rgba(0,0,0,.18)!important}
+
+  /* Breakdown: scene rail + full-width script + sticky quick classification. */
+  #breakdown .header.breakdown-header-v32{padding-bottom:8px!important}
+  #breakdown .header.breakdown-header-v32 p{display:none!important}
+  #breakdown .breakdown-layout-v32{display:flex!important;flex-direction:column!important;gap:10px!important;overflow:visible!important}
+  #breakdown .break-scenes-v32{order:1;width:calc(100vw - 24px)!important;max-width:none!important;min-width:0!important;border:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}
+  #breakdown .break-scenes-v32 .panel-head{display:none!important}
+  #breakdown .break-scenes-v32 .panel-body{padding:0!important;overflow:visible!important}
+  #breakdown .break-scene-list-v32{display:flex!important;gap:7px!important;overflow-x:auto!important;overflow-y:hidden!important;padding:2px 1px 8px!important;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;scrollbar-width:none}
+  #breakdown .break-scene-list-v32::-webkit-scrollbar{display:none}
+  #breakdown .break-scene-list-v32 button{flex:0 0 auto!important;width:auto!important;min-width:118px!important;max-width:200px!important;min-height:48px!important;padding:8px 10px!important;border-radius:11px!important;scroll-snap-align:start}
+  #breakdown .break-script-stage-v32{order:2;width:100%!important;min-width:0!important;min-height:0!important;border-radius:14px!important;overflow:hidden!important}
+  #breakdown .break-stage-head-v32{padding:10px 12px!important;min-height:46px!important}
+  #breakdown .break-help-v32{display:none!important}
+  #breakdown .break-stage-scroll-v32{padding:0!important;overflow:visible!important;max-height:none!important}
+  #breakdown .break-script{padding:22px 16px 110px!important;min-height:320px!important}
+  #breakdown .break-line{font-size:14px!important;line-height:1.68!important;padding:4px 2px!important;margin-bottom:5px!important;border-radius:6px!important}
+  #breakdown .break-line.character{text-align:center!important;margin-top:16px!important;font-weight:800!important}
+  #breakdown .mobile-break-quick-v169{display:block!important;order:3;position:sticky!important;bottom:calc(8px + env(safe-area-inset-bottom))!important;z-index:80!important;margin:-88px 8px 8px!important;padding:9px!important;border:1px solid var(--line)!important;border-radius:14px!important;background:color-mix(in srgb,var(--panel) 94%,transparent)!important;box-shadow:0 8px 30px rgba(0,0,0,.16)!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  #breakdown .mobile-break-selection-v169{font-size:11px!important;line-height:1.35!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;padding:0 3px 7px!important;color:var(--muted)!important}
+  #breakdown .mobile-break-selection-v169.active{color:var(--text)!important;font-weight:700!important}
+  #breakdown .mobile-break-cats-v169{display:flex!important;gap:5px!important;overflow-x:auto!important;padding-bottom:1px!important;scrollbar-width:none}
+  #breakdown .mobile-break-cats-v169::-webkit-scrollbar{display:none}
+  #breakdown .mobile-break-cats-v169 button{flex:0 0 auto!important;min-height:34px!important;padding:7px 10px!important;border:1px solid var(--line)!important;border-radius:9px!important;background:var(--bg)!important;font-size:11px!important;font-weight:800!important;color:var(--text)!important}
+  #breakdown .break-tools-v32{order:4;width:100%!important;min-width:0!important;max-width:none!important;margin-top:6px!important;border-radius:14px!important;overflow:visible!important}
+  #breakdown .break-tools-head-v32{padding:12px 14px!important}
+  #breakdown .break-tools-body-v32{padding:12px!important}
+  #breakdown .break-tool-section-v32:has(#breakSelectionPreview),#breakdown .break-tool-section-v32:has(#breakCategoryButtons){display:none!important}
+  #breakdown #breakMeta .form-grid{grid-template-columns:1fr 1fr!important;gap:8px!important}
+  #breakdown #breakMeta .field.span2{grid-column:1/-1!important}
+  #breakdown .break-summary{display:grid!important;grid-template-columns:1fr!important;gap:7px!important}
+  #breakdown .break-group{border:1px solid var(--line)!important;border-radius:10px!important;padding:0!important;overflow:hidden!important;background:var(--panel)!important}
+  #breakdown .break-group-head{padding:11px 12px!important;cursor:pointer!important;margin:0!important;min-height:42px!important}
+  #breakdown .break-group-head:after{content:'⌄';margin-left:auto;font-size:13px;color:var(--muted);transition:transform .18s ease}
+  #breakdown .break-group.mobile-open-v169 .break-group-head:after{transform:rotate(180deg)}
+  #breakdown .break-group .break-items,#breakdown .break-group .quick-add{display:none!important}
+  #breakdown .break-group.mobile-open-v169 .break-items{display:block!important;padding:0 8px 4px!important}
+  #breakdown .break-group.mobile-open-v169 .quick-add{display:flex!important;padding:6px 8px 9px!important}
+  #breakdown .break-item{align-items:flex-start!important}
+  #breakdown .break-item textarea{font-size:13px!important;min-height:58px!important}
+}
 </style>
   </head>
   <body>
@@ -17205,11 +17231,6 @@ document.addEventListener('click',e=>{
   window.addEventListener('resize',()=>{if(window.innerWidth>780)setOpen(false)});
 })();
 
-</script>
-
-<script>
-// PREPRO V170 — public site title is intentionally versionless.
-document.title='PREPRO';
 </script>
 </body>
 </html>
