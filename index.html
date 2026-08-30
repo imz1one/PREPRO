@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PREPRO V167</title>
+<title>PREPRO V168</title>
 <style>
 :root{
   --bg:#0d1015;--panel:#151a22;--panel2:#1c222c;--line:#29313d;--text:#eef2f7;--muted:#96a0b0;
@@ -10557,6 +10557,180 @@ button{font-size:10px}
   overflow:visible!important;
 }
 
+
+/* PREPRO V168 — mobile responsive shell */
+.mobile-nav-toggle-v168{display:none!important}
+.mobile-nav-backdrop-v168{display:none}
+
+@media (max-width: 780px){
+  :root{--mobile-topbar-v168:60px}
+  html,body{width:100%;max-width:100%;overflow-x:hidden!important;-webkit-text-size-adjust:100%}
+  body{min-height:100dvh!important;padding:0!important}
+  button,input,select,textarea{font-size:16px;touch-action:manipulation}
+  button{min-height:42px}
+
+  .app{display:block!important;width:100%!important;min-height:100dvh!important;height:auto!important}
+  .main{display:block!important;width:100%!important;min-width:0!important;min-height:100dvh!important}
+
+  .sidebar{
+    position:fixed!important;z-index:10020!important;left:0;top:0;bottom:0;
+    width:min(86vw,320px)!important;height:100dvh!important;
+    transform:translateX(-105%);transition:transform .22s ease;
+    box-shadow:18px 0 48px rgba(0,0,0,.45)!important;
+    overflow:hidden!important;
+  }
+  .app.mobile-nav-open-v168 .sidebar{transform:translateX(0)}
+  .mobile-nav-backdrop-v168{
+    display:block;position:fixed;z-index:10010;inset:0;background:rgba(0,0,0,.54);
+    opacity:0;pointer-events:none;transition:opacity .2s ease;
+  }
+  .app.mobile-nav-open-v168 + .mobile-nav-backdrop-v168,
+  .mobile-nav-backdrop-v168.open{opacity:1;pointer-events:auto}
+  .sidebar .brand{min-height:68px!important;padding:14px 16px!important}
+  .sidebar .brand h1{font-size:14px!important}
+  .sidebar .brand h1:after{content:none!important}
+  .sidebar .brand p{font-size:9px!important}
+  .sidebar .nav{padding:9px 10px 12px!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch}
+  .sidebar .nav button{font-size:13px!important;text-align:left!important;min-height:42px;padding:10px 11px!important}
+  .sidebar .nav button span{font-size:inherit}
+  .sidebar .nav-icon{font-size:14px!important}
+  .sidebar .side-actions{padding-bottom:calc(12px + env(safe-area-inset-bottom))!important}
+
+  .topbar{
+    position:sticky!important;z-index:9000!important;top:0;
+    min-height:var(--mobile-topbar-v168)!important;height:auto!important;
+    padding:8px 10px!important;padding-top:calc(8px + env(safe-area-inset-top))!important;
+    gap:7px!important;flex-wrap:nowrap!important;
+    background:rgba(14,17,20,.96)!important;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)
+  }
+  .mobile-nav-toggle-v168{
+    display:grid!important;place-items:center!important;flex:0 0 42px!important;width:42px!important;height:42px!important;
+    min-height:42px!important;padding:0!important;font-size:20px!important;line-height:1!important
+  }
+  .topbar-project{min-width:0!important;flex:1 1 auto!important;gap:4px!important}
+  .topbar-kicker{display:none!important}
+  .project-input{
+    width:100%!important;min-width:0!important;max-width:none!important;height:42px!important;
+    padding:8px 7px!important;font-size:16px!important;text-overflow:ellipsis
+  }
+  .save-pill{display:none!important}
+  .topbar>.grow{display:none!important}
+  #printBtn{display:none!important}
+
+  .workspace{
+    width:100%!important;max-width:100%!important;overflow:visible!important;
+    padding:16px 12px calc(40px + env(safe-area-inset-bottom))!important
+  }
+  .view{width:100%!important;max-width:100%!important;min-width:0!important;margin:0!important}
+  .header{align-items:flex-start!important;flex-wrap:wrap!important;gap:8px!important;margin-bottom:14px!important}
+  .header>div:first-child{min-width:0;flex:1 1 100%}
+  .header>.grow{display:none!important}
+  .header h2{font-size:22px!important;line-height:1.18!important}
+  .header p{font-size:12px!important;line-height:1.5!important;max-width:100%!important}
+  .header button{min-height:40px!important;flex:1 1 auto}
+
+  .grid,.cols4,.cols3,.form-grid,.call-grid,
+  .story-grid,.ref-grid,.loc-grid,.equip-grid,.cast-grid,.project-grid{
+    grid-template-columns:minmax(0,1fr)!important
+  }
+  .span2,.span4{grid-column:auto!important}
+  .two,.schedule-layout,.script-layout{grid-template-columns:minmax(0,1fr)!important}
+
+  .card,.panel{border-radius:11px!important}
+  .panel-head{flex-wrap:wrap!important}
+  .panel-body{padding:13px!important}
+  .filterbar{gap:7px!important}
+  .filterbar input,.filterbar select,.filterbar button{width:100%!important;min-width:0!important}
+
+  .table-wrap{width:100%!important;max-width:100%!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch}
+  .table-wrap table{min-width:900px!important}
+  table{max-width:none}
+
+  .script-nav{position:static!important;max-height:none!important}
+  .script-paper{width:100%!important;max-width:100%!important;min-height:0!important;padding:30px 20px!important;border-radius:8px!important}
+  .script-line{padding-left:7px!important;padding-right:7px!important}
+  .script-line .type{display:none!important}
+  .script-line.dialogue{max-width:90%!important}
+  .script-line.parenthetical{max-width:82%!important}
+
+  .dashboard-hero{min-height:0!important;padding:22px 20px!important;display:block!important}
+  .dashboard-hero h2{font-size:26px!important}
+  .hero-steps{margin-top:20px!important;white-space:normal!important;flex-wrap:wrap!important}
+
+  #dashboard .dash-project-v143,
+  #dashboard .dash-stats-v143,
+  #dashboard .dash-main-grid-v143,
+  #dashboard .dash-bottom-grid-v143,
+  #dashboard .dash-ready-row-v143,
+  #dashboard .dash-next-info-v143,
+  #dashboard .dash-scene-row-v143,
+  #dashboard .dash-quick-v143,
+  #breakdown .breakdown-layout,
+  #breakdown .breakdown-layout-v32,
+  #script .script-reader-layout,
+  #shots .shot-layout-v53,
+  #storyboard .story-layout-v57,
+  #references .ref-layout-v67,
+  #schedule .schedule-layout-v69,
+  #callsheet .callsheet-layout-v70,
+  #locations .location-layout-v79,
+  #equipment .equipment-layout-v84,
+  #cast .cast-layout-v105,
+  .aivfx-workspace-v149,
+  .aivfx-grid-v147,
+  #exports .export-grid-v130{
+    grid-template-columns:minmax(0,1fr)!important
+  }
+
+  #storyboard .story-grid-v57,
+  #storyboard .story-grid-v57.overview,
+  #storyboard .story-blocking-grid-v66,
+  #references .ref-grid-v67,
+  #references .ref-grid-v67.board-v67,
+  #locations .location-photo-grid-v79,
+  #cast .cast-content-grid-v120,
+  #cast .cast-prep-grid-v105,
+  .aivfx-detail-grid-v149,
+  .aivfx-summary-v147{
+    grid-template-columns:minmax(0,1fr)!important
+  }
+
+  #shots .shot-card-v53,#shots .shot-card-v56,
+  #equipment .equipment-row-head-v84,#equipment .equipment-detail-v84,
+  #callsheet .call-edit-grid-v96,#callsheet .call-timeline-item-head-v96,
+  #callsheet .call-timeline-head-fields-v96,#callsheet .call-timeline-item-body-v96,
+  #callsheet .call-timeline-head-v102,#callsheet .call-timeline-row-v102,
+  #callsheet .call-timeline-top-v103,#callsheet .call-timeline-bottom-v103,
+  #locations .location-list-row-v79,#locations .location-info-grid-v79,
+  #locations .location-fields-v79,#locations .location-condition-v79,
+  #cast .cast-profile-head-v105,#cast .cast-info-grid-v105,#cast .cast-quick-info-v120,
+  .story-tech-grid-v57,.ref-fields-v67,.schedule-summary-v69,.schedule-day-fields-v69,
+  .schedule-scene-v69,.call-timeline-row-v74,.cs-info-grid-v74,.cs-two-col-v74,
+  .cs-stats-v70,.cs-two-col-v70,.cs-cast-v70{
+    grid-template-columns:minmax(0,1fr)!important
+  }
+
+  #equipment .equipment-batch-v123{position:static!important;width:100%!important}
+  #equipment .equipment-row-head-v84,#equipment .equipment-detail-v84{gap:9px!important}
+  #cast .cast-layout-v105,#locations .location-layout-v79,#equipment .equipment-layout-v84{gap:12px!important}
+
+  .strip{grid-template-columns:44px 76px minmax(170px,1fr) 78px 78px 78px 105px!important;min-width:720px}
+  .day-card{overflow-x:auto!important}
+
+  .call-sheet{padding:18px 14px!important;overflow-x:auto!important}
+  .call-sheet table{min-width:680px!important}
+
+  .story-grid-v57.overview .story-card-v57{height:auto!important}
+  img,video,canvas{max-width:100%;height:auto}
+
+  .modal,.dialog,[role="dialog"]{max-width:calc(100vw - 20px)!important}
+}
+
+@media (min-width:781px) and (max-width:1100px){
+  .workspace{padding-left:18px!important;padding-right:18px!important}
+  .project-input{min-width:150px!important}
+}
+
 </style>
 </head>
 <body>
@@ -10619,6 +10793,7 @@ button{font-size:10px}
 
 <main class="main">
 <div class="topbar">
+  <button id="mobileNavToggleV168" class="mobile-nav-toggle-v168" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
   <div class="topbar-project">
     <span class="topbar-kicker">PROJECT</span>
     <input id="projectTitle" class="project-input" value="새 프로젝트">
@@ -16838,6 +17013,38 @@ document.addEventListener('click',e=>{
 },true);
 
 
+
+
+// PREPRO V168 — mobile navigation
+(function initMobileNavV168(){
+  const app=document.querySelector('.app');
+  const sidebar=document.querySelector('.sidebar');
+  const toggle=document.getElementById('mobileNavToggleV168');
+  if(!app||!sidebar||!toggle)return;
+
+  let backdrop=document.querySelector('.mobile-nav-backdrop-v168');
+  if(!backdrop){
+    backdrop=document.createElement('div');
+    backdrop.className='mobile-nav-backdrop-v168';
+    backdrop.setAttribute('aria-hidden','true');
+    document.body.appendChild(backdrop);
+  }
+
+  const setOpen=(open)=>{
+    app.classList.toggle('mobile-nav-open-v168',open);
+    backdrop.classList.toggle('open',open);
+    toggle.setAttribute('aria-expanded',open?'true':'false');
+    toggle.textContent=open?'×':'☰';
+    if(window.innerWidth<=780) document.body.style.overflow=open?'hidden':'';
+  };
+  toggle.addEventListener('click',()=>setOpen(!app.classList.contains('mobile-nav-open-v168')));
+  backdrop.addEventListener('click',()=>setOpen(false));
+  sidebar.addEventListener('click',e=>{
+    if(window.innerWidth<=780 && e.target.closest('[data-view]')) setOpen(false);
+  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')setOpen(false)});
+  window.addEventListener('resize',()=>{if(window.innerWidth>780)setOpen(false)});
+})();
 
 </script>
 </body>
