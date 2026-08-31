@@ -11670,6 +11670,123 @@ button{font-size:10px}
   #storyboard .story-grid-v57{grid-template-columns:1fr!important}
 }
 </style>
+
+<style id="prepro-v180-half-desktop-fix">
+/* PREPRO V180 — Mac half-screen desktop polish.
+   Desktop-only: 769–1180px. Mobile rules are untouched. */
+@media (min-width:769px) and (max-width:1180px){
+  /* Give the working area more room on split-screen Macs. */
+  .app{grid-template-columns:188px minmax(0,1fr)!important}
+  .sidebar{min-width:0!important;width:auto!important}
+  .brand{padding:16px 14px!important}
+  .brand h1{font-size:13px!important;letter-spacing:2px!important}
+  .brand p{font-size:8px!important}
+  .nav{padding:12px 8px!important}
+  .nav button,.side-actions button{padding-left:10px!important;padding-right:8px!important}
+  .nav button span:last-child,.side-actions button span:last-child{min-width:0!important;overflow:hidden!important;text-overflow:ellipsis!important;white-space:nowrap!important}
+  .workspace{padding:14px!important;min-width:0!important;overflow-x:hidden!important}
+  .topbar{padding:0 14px!important}
+  .view,.view.active{min-width:0!important;width:100%!important;max-width:100%!important}
+
+  /* Shared horizontal scene rails: scroll instead of clipping. */
+  #script #sceneList,#breakdown #breakSceneList,#shots #shotSceneList,#storyboard #storySceneList,#references #refSceneList{
+    min-width:100%!important;width:max-content!important;max-width:none!important;overflow:visible!important
+  }
+  #script .scene-list-v27,#breakdown .break-scene-list-v32,#shots .shot-scene-list-v53,#storyboard .story-scene-list-v57,#references .ref-scene-list-v67,
+  #script .script-scenes-v27 .panel-body,#breakdown .break-scenes-v32 .panel-body,#shots .shot-scenes-v53 .panel-body,#storyboard .story-scenes-v57 .panel-body,#references .ref-scenes-v67 .panel-body{
+    overflow-x:auto!important;overflow-y:hidden!important;max-width:100%!important;scrollbar-width:thin
+  }
+
+  /* SCRIPT — paper must shrink with the window; dialogue wraps inside it. */
+  #script .script-reader-layout{display:block!important;width:100%!important;min-width:0!important}
+  #script .script-scenes-v27{width:100%!important;max-width:100%!important;margin:0 0 12px!important}
+  #script .script-scenes-v27>.panel-head{display:none!important}
+  #script .script-scenes-v27>.panel-body{padding:0!important;border:0!important}
+  #script #sceneList{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;gap:7px!important;padding:0 0 8px!important}
+  #script #sceneList .scene-btn{flex:0 0 170px!important;width:170px!important;min-width:170px!important;max-width:170px!important}
+  #script .script-stage-v27,.script-stage-scroll{width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important}
+  #script .script-paper-v27{
+    width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;
+    padding:28px clamp(22px,4vw,40px) 44px!important;overflow:hidden!important
+  }
+  #script .script-paper-v27 .script-line{max-width:100%!important;min-width:0!important;box-sizing:border-box!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:keep-all!important}
+  #script .script-paper-v27 .script-line.dialogue{width:min(72%,560px)!important;max-width:72%!important;margin-left:auto!important;margin-right:auto!important}
+  #script .script-paper-v27 .script-line.character{max-width:72%!important;margin-left:auto!important;margin-right:auto!important}
+  #script .script-paper-v27 .script-line.action{width:100%!important}
+
+  /* BREAKDOWN — same readable paper treatment, tools below instead of stealing width. */
+  #breakdown .breakdown-layout-v32{display:block!important;width:100%!important;min-width:0!important}
+  #breakdown .break-scenes-v32{width:100%!important;max-width:100%!important;margin:0 0 12px!important}
+  #breakdown .break-scenes-v32>.panel-head{display:none!important}
+  #breakdown .break-scenes-v32>.panel-body{padding:0!important;border:0!important}
+  #breakdown #breakSceneList{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;gap:7px!important;padding:0 0 8px!important}
+  #breakdown #breakSceneList .scene-btn{flex:0 0 170px!important;width:170px!important;min-width:170px!important;max-width:170px!important}
+  #breakdown .break-script-stage-v32,.break-stage-scroll-v32{width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important}
+  #breakdown .break-script{width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important;padding:28px clamp(22px,4vw,40px) 44px!important;overflow:hidden!important}
+  #breakdown .break-script .script-line{max-width:100%!important;min-width:0!important;box-sizing:border-box!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:keep-all!important}
+  #breakdown .break-script .script-line.dialogue{width:min(72%,560px)!important;max-width:72%!important;margin-left:auto!important;margin-right:auto!important}
+  #breakdown .break-script .script-line.character{max-width:72%!important;margin-left:auto!important;margin-right:auto!important}
+  #breakdown .break-tools-v32{position:static!important;width:100%!important;max-width:100%!important;min-width:0!important;margin-top:12px!important}
+
+  /* SHOT LIST — scene rail on top, workspace always full width. */
+  #shots .shot-layout-v53{display:block!important;width:100%!important;min-width:0!important}
+  #shots .shot-scenes-v53{width:100%!important;max-width:100%!important;margin:0 0 12px!important}
+  #shots .shot-scenes-v53>.panel-head{display:none!important}
+  #shots .shot-scenes-v53>.panel-body{padding:0!important;border:0!important}
+  #shots #shotSceneList{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;gap:7px!important;padding:0 0 8px!important}
+  #shots #shotSceneList .scene-btn{flex:0 0 170px!important;width:170px!important;min-width:170px!important;max-width:170px!important}
+  #shots .shot-workspace-v53{width:100%!important;max-width:100%!important;min-width:0!important;overflow:hidden!important}
+  #shots .shot-cards-v53{width:100%!important;max-width:100%!important;min-width:0!important}
+  #shots .shot-card-v56{width:100%!important;max-width:100%!important;min-width:0!important}
+
+  /* STORYBOARD — keep rail + workspace within viewport. */
+  #storyboard .story-scenes-v57>.panel-body{max-width:100%!important}
+  #storyboard #storySceneList{padding-right:8px!important}
+  #storyboard .story-workspace-v57,.story-work-head-v57,.story-blocking-wrap-v66,.story-grid-v57,.story-blocking-grid-v66{max-width:100%!important;min-width:0!important}
+  #storyboard .story-blocking-empty-v66{min-width:0!important;width:100%!important;box-sizing:border-box!important}
+  #storyboard .story-view-toggle-v59{overflow:hidden!important}
+
+  /* REFERENCES — cards/images/forms must never exceed working width. */
+  #references .ref-layout-v67{display:block!important;width:100%!important;min-width:0!important}
+  #references .ref-scenes-v67{width:100%!important;max-width:100%!important;margin:0 0 12px!important}
+  #references .ref-scenes-v67>.panel-head{display:none!important}
+  #references .ref-scenes-v67>.panel-body{padding:0!important;border:0!important}
+  #references #refSceneList{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;gap:7px!important;padding:0 0 8px!important}
+  #references #refSceneList .scene-btn{flex:0 0 170px!important;width:170px!important;min-width:170px!important;max-width:170px!important}
+  #references .ref-workspace-v67,#references .ref-grid-v67,#references .ref-card-v67{width:100%!important;max-width:100%!important;min-width:0!important}
+  #references .ref-card-v67 img,#references .ref-image-v67 img{display:block!important;width:100%!important;max-width:100%!important;height:auto!important;object-fit:cover!important}
+  #references .ref-card-body-v67,#references .ref-form-v67,#references input,#references select,#references textarea{min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+
+  /* LOCATIONS — full-width selector and stacked forms on half-screen. */
+  #locations .location-layout-v79{display:block!important;width:100%!important;min-width:0!important}
+  #locations .location-list-panel-v79{width:100%!important;max-width:100%!important;margin:0 0 12px!important}
+  #locations .location-list-v79{display:flex!important;flex-wrap:nowrap!important;gap:7px!important;overflow-x:auto!important;overflow-y:hidden!important;padding:7px!important}
+  #locations .location-list-row-v79{flex:0 0 220px!important;width:220px!important;min-width:220px!important;max-width:220px!important}
+  #locations .location-work-v79,#locations .location-detail-v79,#locations .location-card-v79,#locations .location-photo-section-v79{width:100%!important;max-width:100%!important;min-width:0!important;box-sizing:border-box!important}
+  #locations .location-title-v79{display:block!important;width:100%!important;max-width:100%!important;padding:10px!important;box-sizing:border-box!important}
+  #locations .location-title-edit-v99{display:grid!important;grid-template-columns:90px minmax(0,1fr)!important;gap:8px!important;width:100%!important;min-width:0!important}
+  #locations .location-title-address-v99{grid-column:1/-1!important;width:100%!important}
+  #locations .location-title-name-v99,#locations .location-title-address-v99{min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+  #locations .location-delete-v79{margin-top:8px!important}
+  #locations .location-info-grid-v79{grid-template-columns:1fr!important;gap:10px!important}
+  #locations .location-fields-v79,#locations .location-condition-v79{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #locations .location-photo-grid-v79{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #locations .location-scene-picker-v79{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #locations input,#locations select,#locations textarea{min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+
+  /* Generic anti-clipping for production/resource pages. */
+  #schedule .schedule-layout-v69,#callsheet .callsheet-layout-v70,#equipment .equipment-layout-v84,#cast .cast-layout-v105,.aivfx-workspace-v149{min-width:0!important;max-width:100%!important}
+  #schedule input,#schedule select,#schedule textarea,#callsheet input,#callsheet select,#callsheet textarea,#equipment input,#equipment select,#equipment textarea,#cast input,#cast select,#cast textarea{min-width:0!important;max-width:100%!important;box-sizing:border-box!important}
+}
+
+/* Extra-tight half-screen: stack multi-column forms, but stay desktop. */
+@media (min-width:769px) and (max-width:960px){
+  .app{grid-template-columns:172px minmax(0,1fr)!important}
+  #locations .location-fields-v79,#locations .location-condition-v79,#locations .location-photo-grid-v79,#locations .location-scene-picker-v79{grid-template-columns:1fr!important}
+  #script .script-paper-v27,#breakdown .break-script{padding-left:22px!important;padding-right:22px!important}
+  #script .script-paper-v27 .script-line.dialogue,#breakdown .break-script .script-line.dialogue{width:82%!important;max-width:82%!important}
+}
+</style>
 </head>
 <body>
 <div class="app">
