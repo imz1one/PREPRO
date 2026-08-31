@@ -12271,7 +12271,7 @@ button{font-size:10px}
 </style>
 
 <style id="prepro-v194-breakdown-rebalance">
-/* PREPRO V194 — Breakdown: narrower screenplay, wider production-elements inspector */
+/* PREPRO V195 — Breakdown: narrower screenplay, wider production-elements inspector */
 #breakdown .breakdown-layout.breakdown-layout-v32{
   grid-template-columns:190px minmax(380px,.82fr) minmax(460px,1.18fr)!important;
   gap:12px!important;
@@ -13451,7 +13451,8 @@ const PREPRO_CLOUD_V167={
   url:'https://bxprpzwvklbjsofxlsmy.supabase.co',
   key:'sb_publishable_wmi02ezf5O46Urpf8o7wPg_R6vdnBVr',
   projectKey:'giraffe',
-  projectName:'기린'
+  projectName:'기린',
+  storageBucket:'prepro-media'
 };
 let cloudClientV167=null;
 let cloudReadyV167=false;
@@ -13459,6 +13460,8 @@ let cloudApplyingV167=false;
 let cloudSaveTimerV167=null;
 let cloudLastPayloadV167='';
 let cloudChannelV167=null;
+let cloudUnsavedV195=false;
+let cloudLastErrorV195='';
 
 // PREPRO V170 · lightweight collaboration history stored with the project.
 let activityBaselineV170=null;
@@ -13538,6 +13541,69 @@ function cloudStatusV167(text){
   const el=$('#saveState');
   if(el)el.textContent=text;
 }
+function dataUrlToBlobV195(dataUrl){
+  const parts=String(dataUrl||'').split(',');
+  if(parts.length<2)throw new Error('이미지 데이터 형식 오류');
+  const mime=(parts[0].match(/data:([^;]+)/)||[])[1]||'image/jpeg';
+  const bin=atob(parts[1]);
+  const bytes=new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+  return new Blob([bytes],{type:mime});
+}
+function locationStoragePathV195(locationId,imageId){
+  const p=project();
+  return `${PREPRO_CLOUD_V167.projectKey}/${p.id||'project'}/locations/${locationId||'location'}/${imageId||uid()}.jpg`;
+}
+async function uploadLocationImageToStorageV195(dataUrl,locationId,imageId,onProgress){
+  if(!cloudReadyV167||!cloudClientV167)throw new Error('클라우드 연결이 필요합니다.');
+  if(typeof onProgress==='function')onProgress(.12,'클라우드 업로드 준비');
+  const path=locationStoragePathV195(locationId,imageId);
+  const blob=dataUrlToBlobV195(dataUrl);
+  if(typeof onProgress==='function')onProgress(.35,'클라우드 업로드 중');
+  const {error}=await cloudClientV167.storage.from(PREPRO_CLOUD_V167.storageBucket).upload(path,blob,{contentType:'image/jpeg',upsert:true,cacheControl:'3600'});
+  if(error)throw error;
+  if(typeof onProgress==='function')onProgress(.88,'URL 생성 중');
+  const {data}=cloudClientV167.storage.from(PREPRO_CLOUD_V167.storageBucket).getPublicUrl(path);
+  const publicUrl=data?.publicUrl;
+  if(!publicUrl)throw new Error('이미지 URL 생성 실패');
+  if(typeof onProgress==='function')onProgress(1,'클라우드 업로드 완료');
+  return {url:publicUrl,path};
+}
+async function removeLocationImageFromStorageV195(im){
+  if(!im?.storagePath||!cloudReadyV167||!cloudClientV167)return;
+  try{await cloudClientV167.storage.from(PREPRO_CLOUD_V167.storageBucket).remove([im.storagePath])}
+  catch(err){console.warn('PREPRO storage delete skipped',err)}
+}
+async function migrateLocationImagesToStorageV195(){
+  if(!cloudReadyV167||!cloudClientV167)return false;
+  const p=project(); let changed=false, done=0, total=0;
+  for(const l of (p.locations||[]))for(const im of (l.images||[]))if(/^data:image\//i.test(im?.image||''))total++;
+  if(!total)return false;
+  cloudStatusV167(`기존 이미지 클라우드 이전 중 · 0/${total}`);
+  for(const l of (p.locations||[])){
+    ensureLocationV79(l);
+    for(const im of l.images){
+      if(!/^data:image\//i.test(im?.image||''))continue;
+      try{
+        const r=await uploadLocationImageToStorageV195(im.image,l.id,im.id);
+        im.image=r.url; im.storagePath=r.path; changed=true; done++;
+        cloudStatusV167(`기존 이미지 클라우드 이전 중 · ${done}/${total}`);
+      }catch(err){
+        console.error('PREPRO image migration failed',err);
+        cloudLastErrorV195=err?.message||String(err);
+        cloudStatusV167('이미지 Storage 설정 필요');
+        return false;
+      }
+    }
+  }
+  if(changed){
+    try{localStorage.setItem(STORE,JSON.stringify(store))}catch(e){}
+    cloudUnsavedV195=true;
+    await saveCloudNowV167();
+    renderLocations();
+  }
+  return changed;
+}
 function cloudProjectPayloadV167(){
   return JSON.parse(JSON.stringify(project()));
 }
@@ -13562,11 +13628,15 @@ async function saveCloudNowV167(){
     },{onConflict:'project_key'});
     if(error)throw error;
     cloudLastPayloadV167=serialized;
+    cloudUnsavedV195=false;
+    cloudLastErrorV195='';
     cloudStatusV167('클라우드 저장됨');
     return true;
   }catch(err){
     console.error('PREPRO cloud save failed',err);
-    cloudStatusV167('로컬 저장됨 · 클라우드 오류');
+    cloudUnsavedV195=true;
+    cloudLastErrorV195=err?.message||err?.details||String(err);
+    cloudStatusV167(`클라우드 저장 실패 · ${String(cloudLastErrorV195).slice(0,42)}`);
     return false;
   }
 }
@@ -13581,6 +13651,7 @@ function applyCloudProjectV167(remoteProject){
     store.activeId=incoming.id;
     try{localStorage.setItem(STORE,JSON.stringify(store))}catch(err){console.warn('PREPRO local cache sync skipped',err)}
     cloudLastPayloadV167=JSON.stringify(incoming);
+    cloudUnsavedV195=false;
     activityBaselineV170=activityCloneV170(activityCleanV170(incoming));
     ensureSelected();
     renderAll();
@@ -13613,10 +13684,23 @@ async function initCloudV167(){
     if(error)throw error;
     cloudReadyV167=true;
     if(rows?.[0]?.data){
-      applyCloudProjectV167(rows[0].data);
+      const remote=rows[0].data;
+      const local=project();
+      const localLoc=(local?.locations||[]).length, remoteLoc=(remote?.locations||[]).length;
+      const localImgs=(local?.locations||[]).reduce((n,x)=>n+(x.images?.length||0),0);
+      const remoteImgs=(remote?.locations||[]).reduce((n,x)=>n+(x.images?.length||0),0);
+      const localHasUnsyncedLocationWork=localLoc>remoteLoc||localImgs>remoteImgs;
+      if(localHasUnsyncedLocationWork){
+        cloudUnsavedV195=true;
+        cloudStatusV167('로컬 로케이션 변경 보호 중...');
+      }else{
+        applyCloudProjectV167(remote);
+      }
     }else{
       await saveCloudNowV167();
     }
+    await migrateLocationImagesToStorageV195();
+    if(cloudUnsavedV195)await saveCloudNowV167();
     if(cloudChannelV167)await cloudClientV167.removeChannel(cloudChannelV167);
     cloudChannelV167=cloudClientV167.channel('prepro-giraffe-v167')
       .on('postgres_changes',{event:'*',schema:'public',table:'projects',filter:`project_key=eq.${PREPRO_CLOUD_V167.projectKey}`},payload=>{
@@ -13624,6 +13708,7 @@ async function initCloudV167(){
         if(!row?.data)return;
         const incoming=JSON.stringify(row.data);
         if(incoming===cloudLastPayloadV167)return;
+        if(cloudUnsavedV195){cloudStatusV167('로컬 변경 보호 중 · 저장 재시도 필요');return;}
         applyCloudProjectV167(row.data);
       }).subscribe(status=>{
         if(status==='SUBSCRIBED')cloudStatusV167(`클라우드 연결됨 · ${name}`);
@@ -13647,6 +13732,7 @@ function saveStore(){
       console.warn('PREPRO: 이미지가 많아 브라우저 로컬 저장공간이 부족할 수 있습니다. 클라우드 저장은 계속 시도합니다.');
     }
   }
+  cloudUnsavedV195=true;
   cloudStatusV167(cloudReadyV167?'저장 중...':'로컬 저장됨');
   renderStats();
   queueCloudSaveV167();
@@ -16159,8 +16245,11 @@ function renderLocations(){
     for(let i=0;i<files.length;i++){
       const file=files[i];
       try{
-        const image=await loadLocationImageFileV182(file,(part,stage)=>setProgress(i,part,stage,file.name));
-        l.images.push({id:uid(),image,note:''});
+        const image=await loadLocationImageFileV182(file,(part,stage)=>setProgress(i,part*.58,stage,file.name));
+        const imageId=uid();
+        if(!cloudReadyV167)throw new Error('클라우드 연결 후 이미지를 추가해주세요.');
+        const stored=await uploadLocationImageToStorageV195(image,l.id,imageId,(part,stage)=>setProgress(i,.58+part*.38,stage,file.name));
+        l.images.push({id:imageId,image:stored.url,storagePath:stored.path});
         ok++;
       }catch(err){
         console.error('PREPRO location image upload failed',file?.name,err);
@@ -16183,7 +16272,7 @@ function renderLocations(){
     if(result){
       if(failed||cloudSaved===false){
         result.classList.add('warn');
-        result.textContent=failed?`${failed}장은 첨부하지 못했습니다. 다른 이미지 형식/용량으로 다시 시도해주세요.`:'화면에는 추가됐지만 클라우드 저장에 실패했습니다. 네트워크 상태를 확인해주세요.';
+        result.textContent=failed?`${failed}장은 첨부하지 못했습니다. Storage 버킷/정책 또는 이미지 파일을 확인해주세요.`:'화면에는 추가됐지만 클라우드 저장에 실패했습니다. 네트워크 상태를 확인해주세요.';
       }else{
         result.classList.add('ok');
         result.textContent=cloudReadyV167?'첨부 및 클라우드 저장 완료':'첨부 완료 · 현재 로컬 모드';
@@ -16203,7 +16292,7 @@ function renderLocations(){
   box.querySelectorAll('[data-loc-image]').forEach(card=>{
     const im=l.images.find(x=>x.id===card.dataset.locImage);if(!im)return;
     const note=card.querySelector('[data-image-note]');if(note)note.oninput=()=>{im.note=note.value;save()};
-    card.querySelector('[data-image-del]').onclick=()=>{l.images=l.images.filter(x=>x.id!==im.id);save();renderLocations()};
+    card.querySelector('[data-image-del]').onclick=async()=>{await removeLocationImageFromStorageV195(im);l.images=l.images.filter(x=>x.id!==im.id);save();renderLocations()};
     card.querySelector('[data-loc-image-open]').onclick=()=>openLocationImageV79(im,l.images.indexOf(im),l);
   });
   box.querySelectorAll('[data-title-k]').forEach(el=>{
