@@ -12214,6 +12214,41 @@ button{font-size:10px}
 }
 </style>
 
+
+<style>
+/* PREPRO V186 — equipment half-window cleanup */
+@media (max-width:900px) and (hover:hover) and (pointer:fine){
+  #equipment .equipment-row-head-v84{
+    grid-template-columns:24px 34px minmax(0,1fr) 38px!important;
+    grid-template-areas:
+      "check index name remove"
+      ". . qty remove"
+      ". . status remove"!important;
+    row-gap:10px!important;
+  }
+  #equipment .equipment-qty-v84,
+  #equipment .equipment-status-v84{
+    grid-template-columns:44px minmax(0,1fr)!important;
+    align-items:center!important;
+  }
+  #equipment .equipment-qty-v84 span,
+  #equipment .equipment-status-v84 span{
+    display:block!important;
+    min-width:0!important;
+    white-space:nowrap!important;
+  }
+  #equipment .equipment-qty-v84 input,
+  #equipment .equipment-status-v84 select{width:100%!important;min-width:0!important}
+}
+#equipment .equipment-remove-v84{
+  width:34px!important;min-width:34px!important;max-width:34px!important;
+  height:34px!important;min-height:34px!important;max-height:34px!important;
+  align-self:center!important;justify-self:center!important;
+  padding:0!important;border-radius:10px!important;
+  display:grid!important;place-items:center!important;
+  line-height:1!important;font-size:16px!important;
+}
+</style>
 </head>
 <body>
 <div class="app">
@@ -15688,7 +15723,218 @@ function printableCallSheetV73(){
   .cs-two-col-v74{display:grid;grid-template-columns:1.35fr .65fr;gap:8px}.cs-notice-v74,.cs-cast-v70{border:1px solid #c7d0d5}.cs-notice-v74>div{padding:4px 6px;border-bottom:1px solid #d0d8dc}.cs-notice-v74 p{margin:2px 0;font-size:4.5pt}.cs-cast-v70{display:grid;grid-template-columns:repeat(3,1fr)}.cs-cast-v70>div{padding:4px 5px;border-right:1px solid #d0d8dc;font-size:4.5pt}
   .cs-footer-v70{display:flex;justify-content:space-between;margin-top:7px;padding:4px 9px;background:#171b1d;color:#8a9397;font-size:4pt}
   @media print{body{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}tr{break-inside:avoid}}
-  </style></head><body>${preview.outerHTML}</body></html>`;
+  </style>
+<style>
+/* PREPRO V186 — equipment half-window cleanup */
+@media (max-width:900px) and (hover:hover) and (pointer:fine){
+  #equipment .equipment-row-head-v84{
+    grid-template-columns:24px 34px minmax(0,1fr) 38px!important;
+    grid-template-areas:
+      "check index name remove"
+      ". . qty remove"
+      ". . status remove"!important;
+    row-gap:10px!important;
+  }
+  #equipment .equipment-qty-v84,
+  #equipment .equipment-status-v84{
+    grid-template-columns:44px minmax(0,1fr)!important;
+    align-items:center!important;
+  }
+  #equipment .equipment-qty-v84 span,
+  #equipment .equipment-status-v84 span{
+    display:block!important;
+    min-width:0!important;
+    white-space:nowrap!important;
+  }
+  #equipment .equipment-qty-v84 input,
+  #equipment .equipment-status-v84 select{width:100%!important;min-width:0!important}
+}
+#equipment .equipment-remove-v84{
+  width:34px!important;min-width:34px!important;max-width:34px!important;
+  height:34px!important;min-height:34px!important;max-height:34px!important;
+  align-self:center!important;justify-self:center!important;
+  padding:0!important;border-radius:10px!important;
+  display:grid!important;place-items:center!important;
+  line-height:1!important;font-size:16px!important;
+}
+</style>
+</head><body>${preview.outerHTML}
+<style>
+/* PREPRO V187 — split-desktop polish: equipment, callsheet, activity, shot footer */
+
+/* Equipment batch apply: compact, proportional, aligned with its date/time controls. */
+#equipment #equipmentBatchApplyV123{
+  width:auto!important;
+  min-width:118px!important;
+  height:36px!important;
+  min-height:36px!important;
+  padding:0 14px!important;
+  border-radius:9px!important;
+  white-space:nowrap!important;
+  justify-self:start!important;
+  align-self:end!important;
+}
+
+/* Activity clear action: quiet danger control, never browser-default white. */
+#activity #clearActivityV170{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  height:34px!important;
+  min-height:34px!important;
+  padding:0 12px!important;
+  border:1px solid #5c3539!important;
+  border-radius:9px!important;
+  background:#241719!important;
+  color:#c98f94!important;
+  font-size:10.5px!important;
+  font-weight:750!important;
+  box-shadow:none!important;
+}
+#activity #clearActivityV170:hover{
+  background:#311d20!important;
+  border-color:#754248!important;
+  color:#e0a7ac!important;
+}
+
+/* Call sheet timeline controls: restrained dark controls matching the app. */
+#callsheet #callSortTimelineBtn,
+#callsheet #callAddTimelineBtn{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  height:34px!important;
+  min-height:34px!important;
+  padding:0 12px!important;
+  border-radius:9px!important;
+  font-size:10.5px!important;
+  font-weight:750!important;
+  line-height:1!important;
+  box-shadow:none!important;
+}
+#callsheet #callSortTimelineBtn{
+  border:1px solid #354047!important;
+  background:#151b1f!important;
+  color:#aeb8bd!important;
+}
+#callsheet #callSortTimelineBtn:hover{
+  border-color:#49565e!important;
+  background:#1b2328!important;
+  color:#e0e5e7!important;
+}
+#callsheet #callAddTimelineBtn{
+  border:1px solid #47614f!important;
+  background:#223129!important;
+  color:#b9cebF!important;
+}
+#callsheet #callAddTimelineBtn:hover{
+  border-color:#5d7966!important;
+  background:#2a3c31!important;
+  color:#e6efe8!important;
+}
+
+/* Shot footer: compact VFX control and clean split-view alignment. */
+#shots .shot-vfx-v56{
+  width:max-content!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:32px!important;
+  padding:0 8px!important;
+  border:1px solid #2f393f!important;
+  border-radius:8px!important;
+  background:#12181c!important;
+  color:#7f8a91!important;
+  font-size:8.5px!important;
+  gap:5px!important;
+  box-sizing:border-box!important;
+}
+#shots .shot-vfx-v56 input{
+  flex:0 0 12px!important;
+  width:12px!important;
+  height:12px!important;
+  margin:0!important;
+}
+
+@media (min-width:901px) and (max-width:1350px){
+  /* Equipment split desktop: batch controls should not stretch awkwardly. */
+  #equipment .equipment-batch-v123{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(130px,170px) minmax(130px,170px) auto!important;
+    align-items:end!important;
+    gap:10px!important;
+  }
+  #equipment #equipmentBatchApplyV123{
+    width:auto!important;
+    min-width:112px!important;
+    max-width:150px!important;
+  }
+
+  /* Shot card split-desktop: number/check column is tidy and content footer reads as one system. */
+  #shots .shot-card-v56{
+    grid-template-columns:24px 52px minmax(0,1fr) minmax(0,1fr) 32px!important;
+    grid-template-areas:
+      "drag number camera lens actions"
+      "drag number content content actions"!important;
+  }
+  #shots .shot-number-v56{
+    grid-area:number!important;
+    justify-content:flex-start!important;
+    padding-top:18px!important;
+    gap:12px!important;
+  }
+  #shots .shot-number-v56 b{
+    font-size:15px!important;
+    line-height:1!important;
+  }
+  #shots .shot-number-v56 input[type=checkbox]{
+    width:14px!important;
+    height:14px!important;
+    margin:0!important;
+  }
+  #shots .shot-group-content-v56{
+    padding:10px 12px 12px!important;
+  }
+  #shots .shot-content-footer-v56{
+    display:grid!important;
+    grid-template-columns:max-content minmax(58px,72px) minmax(100px,128px) minmax(120px,1fr)!important;
+    gap:8px!important;
+    align-items:end!important;
+  }
+  #shots .shot-vfx-v56{
+    align-self:end!important;
+    margin-bottom:0!important;
+  }
+  #shots .shot-footer-field-v56{
+    min-width:0!important;
+  }
+  #shots .shot-footer-field-v56 input,
+  #shots .shot-footer-field-v56 select,
+  #shots .shot-notes-v56{
+    height:34px!important;
+    min-height:34px!important;
+  }
+  #shots .shot-notes-v56{
+    min-width:0!important;
+    width:100%!important;
+  }
+}
+
+@media (min-width:901px) and (max-width:1080px){
+  #shots .shot-content-footer-v56{
+    grid-template-columns:max-content minmax(54px,64px) minmax(90px,110px)!important;
+  }
+  #shots .shot-notes-v56{
+    grid-column:1/-1!important;
+  }
+  #equipment .equipment-batch-v123{
+    grid-template-columns:minmax(0,1fr) minmax(120px,1fr) minmax(120px,1fr)!important;
+  }
+  #equipment #equipmentBatchApplyV123{
+    grid-column:2/4!important;
+    justify-self:end!important;
+  }
+}
+</style>
+
+</body></html>`;
 }
 function printCallSheetV73(){
   return saveCallSheetPdfV141();
@@ -15985,9 +16231,8 @@ function renderEquipment(){
   const rows=equipmentCategoryV84==='ALL'?p.equipment:p.equipment.filter(e=>e.category===equipmentCategoryV84);
   const totalQty=rows.reduce((a,e)=>a+(Number(e.qty)||0),0);
   const rental=rows.filter(e=>e.ownership==='렌탈').length;
-  const checked=rows.filter(e=>e.status==='반출' || e.status==='완료').length;
   if($('#equipmentSummaryV84'))$('#equipmentSummaryV84').innerHTML=`
-    <span><b>${rows.length}</b> 품목</span><span><b>${totalQty}</b> 수량</span><span><b>${rental}</b> 렌탈</span><span><b>${checked}</b> 반출</span>`;
+    <span><b>${rows.length}</b> 품목</span><span><b>${totalQty}</b> 수량</span><span><b>${rental}</b> 렌탈</span>`;
 
   box.innerHTML=rows.length?rows.map((e,i)=>`
     <article class="equipment-row-v84 ${equipmentBatchSelectedV123.has(e.id)?'batch-selected-v123':''}" data-eq="${e.id}">
@@ -16001,7 +16246,6 @@ function renderEquipment(){
           <select data-k="category">${EQUIPMENT_CATEGORIES_V84.filter(x=>x[0]!=='ALL').map(([v,label])=>`<option value="${v}" ${e.category===v?'selected':''}>${label}</option>`).join('')}</select>
         </div>
         <div class="equipment-qty-v84"><span>수량</span><input data-k="qty" type="number" min="1" value="${esc(e.qty)}"></div>
-        <div class="equipment-status-v84"><span>상태</span><select data-k="status">${['준비','예약','픽업','반출','반납','완료'].map(v=>`<option ${e.status===v?'selected':''}>${v}</option>`).join('')}</select></div>
         <button type="button" class="equipment-remove-v84" data-del title="삭제">×</button>
       </div>
       <div class="equipment-detail-v84">
@@ -16016,7 +16260,7 @@ function renderEquipment(){
   box.querySelectorAll('[data-eq]').forEach(card=>{
     const e=p.equipment.find(x=>x.id===card.dataset.eq);if(!e)return;
     card.querySelectorAll('[data-k]').forEach(el=>{
-      el.oninput=()=>{e[el.dataset.k]=el.value;save();if(['category','qty','ownership','status'].includes(el.dataset.k))renderEquipment()};
+      el.oninput=()=>{e[el.dataset.k]=el.value;save();if(['category','qty','ownership'].includes(el.dataset.k))renderEquipment()};
       el.onchange=el.oninput;
     });
     const batchCheck=card.querySelector('[data-batch-check]');
@@ -17564,6 +17808,41 @@ function printableBase(title,body,landscape=false){
 /* Dashboard top actions removed in V185; keep header spacing natural */
 #dashboard .dashboard-header-v143>.grow:last-child{display:block!important}
 </style>
+
+<style>
+/* PREPRO V186 — equipment half-window cleanup */
+@media (max-width:900px) and (hover:hover) and (pointer:fine){
+  #equipment .equipment-row-head-v84{
+    grid-template-columns:24px 34px minmax(0,1fr) 38px!important;
+    grid-template-areas:
+      "check index name remove"
+      ". . qty remove"
+      ". . status remove"!important;
+    row-gap:10px!important;
+  }
+  #equipment .equipment-qty-v84,
+  #equipment .equipment-status-v84{
+    grid-template-columns:44px minmax(0,1fr)!important;
+    align-items:center!important;
+  }
+  #equipment .equipment-qty-v84 span,
+  #equipment .equipment-status-v84 span{
+    display:block!important;
+    min-width:0!important;
+    white-space:nowrap!important;
+  }
+  #equipment .equipment-qty-v84 input,
+  #equipment .equipment-status-v84 select{width:100%!important;min-width:0!important}
+}
+#equipment .equipment-remove-v84{
+  width:34px!important;min-width:34px!important;max-width:34px!important;
+  height:34px!important;min-height:34px!important;max-height:34px!important;
+  align-self:center!important;justify-self:center!important;
+  padding:0!important;border-radius:10px!important;
+  display:grid!important;place-items:center!important;
+  line-height:1!important;font-size:16px!important;
+}
+</style>
 </head>
   <body>
     <main class="print-doc">
@@ -17573,7 +17852,183 @@ function printableBase(title,body,landscape=false){
       </header>
       ${body}
     </main>
-  </body>
+  
+<style>
+/* PREPRO V187 — split-desktop polish: equipment, callsheet, activity, shot footer */
+
+/* Equipment batch apply: compact, proportional, aligned with its date/time controls. */
+#equipment #equipmentBatchApplyV123{
+  width:auto!important;
+  min-width:118px!important;
+  height:36px!important;
+  min-height:36px!important;
+  padding:0 14px!important;
+  border-radius:9px!important;
+  white-space:nowrap!important;
+  justify-self:start!important;
+  align-self:end!important;
+}
+
+/* Activity clear action: quiet danger control, never browser-default white. */
+#activity #clearActivityV170{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  height:34px!important;
+  min-height:34px!important;
+  padding:0 12px!important;
+  border:1px solid #5c3539!important;
+  border-radius:9px!important;
+  background:#241719!important;
+  color:#c98f94!important;
+  font-size:10.5px!important;
+  font-weight:750!important;
+  box-shadow:none!important;
+}
+#activity #clearActivityV170:hover{
+  background:#311d20!important;
+  border-color:#754248!important;
+  color:#e0a7ac!important;
+}
+
+/* Call sheet timeline controls: restrained dark controls matching the app. */
+#callsheet #callSortTimelineBtn,
+#callsheet #callAddTimelineBtn{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  height:34px!important;
+  min-height:34px!important;
+  padding:0 12px!important;
+  border-radius:9px!important;
+  font-size:10.5px!important;
+  font-weight:750!important;
+  line-height:1!important;
+  box-shadow:none!important;
+}
+#callsheet #callSortTimelineBtn{
+  border:1px solid #354047!important;
+  background:#151b1f!important;
+  color:#aeb8bd!important;
+}
+#callsheet #callSortTimelineBtn:hover{
+  border-color:#49565e!important;
+  background:#1b2328!important;
+  color:#e0e5e7!important;
+}
+#callsheet #callAddTimelineBtn{
+  border:1px solid #47614f!important;
+  background:#223129!important;
+  color:#b9cebF!important;
+}
+#callsheet #callAddTimelineBtn:hover{
+  border-color:#5d7966!important;
+  background:#2a3c31!important;
+  color:#e6efe8!important;
+}
+
+/* Shot footer: compact VFX control and clean split-view alignment. */
+#shots .shot-vfx-v56{
+  width:max-content!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:32px!important;
+  padding:0 8px!important;
+  border:1px solid #2f393f!important;
+  border-radius:8px!important;
+  background:#12181c!important;
+  color:#7f8a91!important;
+  font-size:8.5px!important;
+  gap:5px!important;
+  box-sizing:border-box!important;
+}
+#shots .shot-vfx-v56 input{
+  flex:0 0 12px!important;
+  width:12px!important;
+  height:12px!important;
+  margin:0!important;
+}
+
+@media (min-width:901px) and (max-width:1350px){
+  /* Equipment split desktop: batch controls should not stretch awkwardly. */
+  #equipment .equipment-batch-v123{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(130px,170px) minmax(130px,170px) auto!important;
+    align-items:end!important;
+    gap:10px!important;
+  }
+  #equipment #equipmentBatchApplyV123{
+    width:auto!important;
+    min-width:112px!important;
+    max-width:150px!important;
+  }
+
+  /* Shot card split-desktop: number/check column is tidy and content footer reads as one system. */
+  #shots .shot-card-v56{
+    grid-template-columns:24px 52px minmax(0,1fr) minmax(0,1fr) 32px!important;
+    grid-template-areas:
+      "drag number camera lens actions"
+      "drag number content content actions"!important;
+  }
+  #shots .shot-number-v56{
+    grid-area:number!important;
+    justify-content:flex-start!important;
+    padding-top:18px!important;
+    gap:12px!important;
+  }
+  #shots .shot-number-v56 b{
+    font-size:15px!important;
+    line-height:1!important;
+  }
+  #shots .shot-number-v56 input[type=checkbox]{
+    width:14px!important;
+    height:14px!important;
+    margin:0!important;
+  }
+  #shots .shot-group-content-v56{
+    padding:10px 12px 12px!important;
+  }
+  #shots .shot-content-footer-v56{
+    display:grid!important;
+    grid-template-columns:max-content minmax(58px,72px) minmax(100px,128px) minmax(120px,1fr)!important;
+    gap:8px!important;
+    align-items:end!important;
+  }
+  #shots .shot-vfx-v56{
+    align-self:end!important;
+    margin-bottom:0!important;
+  }
+  #shots .shot-footer-field-v56{
+    min-width:0!important;
+  }
+  #shots .shot-footer-field-v56 input,
+  #shots .shot-footer-field-v56 select,
+  #shots .shot-notes-v56{
+    height:34px!important;
+    min-height:34px!important;
+  }
+  #shots .shot-notes-v56{
+    min-width:0!important;
+    width:100%!important;
+  }
+}
+
+@media (min-width:901px) and (max-width:1080px){
+  #shots .shot-content-footer-v56{
+    grid-template-columns:max-content minmax(54px,64px) minmax(90px,110px)!important;
+  }
+  #shots .shot-notes-v56{
+    grid-column:1/-1!important;
+  }
+  #equipment .equipment-batch-v123{
+    grid-template-columns:minmax(0,1fr) minmax(120px,1fr) minmax(120px,1fr)!important;
+  }
+  #equipment #equipmentBatchApplyV123{
+    grid-column:2/4!important;
+    justify-self:end!important;
+  }
+}
+</style>
+
+</body>
   </html>`;
 }
 function printBreakdownDoc(){
@@ -19092,5 +19547,434 @@ document.addEventListener('click',e=>{
 })();
 
 </script>
+
+<style>
+/* PREPRO V187 — split-desktop polish: equipment, callsheet, activity, shot footer */
+
+/* Equipment batch apply: compact, proportional, aligned with its date/time controls. */
+#equipment #equipmentBatchApplyV123{
+  width:auto!important;
+  min-width:118px!important;
+  height:36px!important;
+  min-height:36px!important;
+  padding:0 14px!important;
+  border-radius:9px!important;
+  white-space:nowrap!important;
+  justify-self:start!important;
+  align-self:end!important;
+}
+
+/* Activity clear action: quiet danger control, never browser-default white. */
+#activity #clearActivityV170{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  height:34px!important;
+  min-height:34px!important;
+  padding:0 12px!important;
+  border:1px solid #5c3539!important;
+  border-radius:9px!important;
+  background:#241719!important;
+  color:#c98f94!important;
+  font-size:10.5px!important;
+  font-weight:750!important;
+  box-shadow:none!important;
+}
+#activity #clearActivityV170:hover{
+  background:#311d20!important;
+  border-color:#754248!important;
+  color:#e0a7ac!important;
+}
+
+/* Call sheet timeline controls: restrained dark controls matching the app. */
+#callsheet #callSortTimelineBtn,
+#callsheet #callAddTimelineBtn{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  height:34px!important;
+  min-height:34px!important;
+  padding:0 12px!important;
+  border-radius:9px!important;
+  font-size:10.5px!important;
+  font-weight:750!important;
+  line-height:1!important;
+  box-shadow:none!important;
+}
+#callsheet #callSortTimelineBtn{
+  border:1px solid #354047!important;
+  background:#151b1f!important;
+  color:#aeb8bd!important;
+}
+#callsheet #callSortTimelineBtn:hover{
+  border-color:#49565e!important;
+  background:#1b2328!important;
+  color:#e0e5e7!important;
+}
+#callsheet #callAddTimelineBtn{
+  border:1px solid #47614f!important;
+  background:#223129!important;
+  color:#b9cebF!important;
+}
+#callsheet #callAddTimelineBtn:hover{
+  border-color:#5d7966!important;
+  background:#2a3c31!important;
+  color:#e6efe8!important;
+}
+
+/* Shot footer: compact VFX control and clean split-view alignment. */
+#shots .shot-vfx-v56{
+  width:max-content!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:32px!important;
+  padding:0 8px!important;
+  border:1px solid #2f393f!important;
+  border-radius:8px!important;
+  background:#12181c!important;
+  color:#7f8a91!important;
+  font-size:8.5px!important;
+  gap:5px!important;
+  box-sizing:border-box!important;
+}
+#shots .shot-vfx-v56 input{
+  flex:0 0 12px!important;
+  width:12px!important;
+  height:12px!important;
+  margin:0!important;
+}
+
+@media (min-width:901px) and (max-width:1350px){
+  /* Equipment split desktop: batch controls should not stretch awkwardly. */
+  #equipment .equipment-batch-v123{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(130px,170px) minmax(130px,170px) auto!important;
+    align-items:end!important;
+    gap:10px!important;
+  }
+  #equipment #equipmentBatchApplyV123{
+    width:auto!important;
+    min-width:112px!important;
+    max-width:150px!important;
+  }
+
+  /* Shot card split-desktop: number/check column is tidy and content footer reads as one system. */
+  #shots .shot-card-v56{
+    grid-template-columns:24px 52px minmax(0,1fr) minmax(0,1fr) 32px!important;
+    grid-template-areas:
+      "drag number camera lens actions"
+      "drag number content content actions"!important;
+  }
+  #shots .shot-number-v56{
+    grid-area:number!important;
+    justify-content:flex-start!important;
+    padding-top:18px!important;
+    gap:12px!important;
+  }
+  #shots .shot-number-v56 b{
+    font-size:15px!important;
+    line-height:1!important;
+  }
+  #shots .shot-number-v56 input[type=checkbox]{
+    width:14px!important;
+    height:14px!important;
+    margin:0!important;
+  }
+  #shots .shot-group-content-v56{
+    padding:10px 12px 12px!important;
+  }
+  #shots .shot-content-footer-v56{
+    display:grid!important;
+    grid-template-columns:max-content minmax(58px,72px) minmax(100px,128px) minmax(120px,1fr)!important;
+    gap:8px!important;
+    align-items:end!important;
+  }
+  #shots .shot-vfx-v56{
+    align-self:end!important;
+    margin-bottom:0!important;
+  }
+  #shots .shot-footer-field-v56{
+    min-width:0!important;
+  }
+  #shots .shot-footer-field-v56 input,
+  #shots .shot-footer-field-v56 select,
+  #shots .shot-notes-v56{
+    height:34px!important;
+    min-height:34px!important;
+  }
+  #shots .shot-notes-v56{
+    min-width:0!important;
+    width:100%!important;
+  }
+}
+
+@media (min-width:901px) and (max-width:1080px){
+  #shots .shot-content-footer-v56{
+    grid-template-columns:max-content minmax(54px,64px) minmax(90px,110px)!important;
+  }
+  #shots .shot-notes-v56{
+    grid-column:1/-1!important;
+  }
+  #equipment .equipment-batch-v123{
+    grid-template-columns:minmax(0,1fr) minmax(120px,1fr) minmax(120px,1fr)!important;
+  }
+  #equipment #equipmentBatchApplyV123{
+    grid-column:2/4!important;
+    justify-self:end!important;
+  }
+}
+</style>
+
+<style>
+/* PREPRO V188 — split-desktop shot number/check alignment */
+@media (min-width:901px) and (max-width:1350px){
+  #shots .shot-number-v56{
+    justify-content:center!important;
+    align-items:center!important;
+    padding:0!important;
+    gap:10px!important;
+    min-height:0!important;
+  }
+  #shots .shot-number-v56 b{
+    display:block!important;
+    margin:0!important;
+    line-height:1!important;
+    text-align:center!important;
+  }
+  #shots .shot-number-v56 input[type=checkbox]{
+    display:block!important;
+    margin:0!important;
+    flex:0 0 auto!important;
+  }
+}
+</style>
+
+
+<style id="prepro-v189-final-polish">
+/* PREPRO V189 — bundled UI polish requested after V188. */
+
+/* ---------- Shot list: split-desktop footer + number/check alignment ---------- */
+@media (max-width:1350px) and (hover:hover) and (pointer:fine){
+  #shots .shot-number-v56{
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:10px!important;
+    padding:12px 4px!important;
+    min-height:92px!important;
+  }
+  #shots .shot-number-v56 b{
+    margin:0!important;
+    font-size:15px!important;
+    line-height:1!important;
+    text-align:center!important;
+  }
+  #shots .shot-number-v56 input[type=checkbox]{
+    width:14px!important;
+    height:14px!important;
+    margin:0!important;
+  }
+  #shots .shot-content-footer-v56{
+    display:grid!important;
+    grid-template-columns:max-content minmax(90px,1fr) minmax(120px,1.15fr)!important;
+    grid-template-areas:
+      "vfx fps status"
+      "notes notes notes"!important;
+    column-gap:10px!important;
+    row-gap:9px!important;
+    align-items:end!important;
+    width:100%!important;
+  }
+  #shots .shot-vfx-v56{
+    grid-area:vfx!important;
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:auto!important;
+    min-width:0!important;
+    max-width:92px!important;
+    height:34px!important;
+    padding:0 9px!important;
+    margin:0!important;
+    border-radius:8px!important;
+    white-space:nowrap!important;
+  }
+  #shots .shot-vfx-v56 input{
+    width:12px!important;
+    height:12px!important;
+    flex:0 0 12px!important;
+  }
+  #shots .shot-footer-field-v56:nth-of-type(1){grid-area:fps!important}
+  #shots .shot-footer-field-v56:nth-of-type(2){grid-area:status!important}
+  #shots .shot-footer-field-v56{
+    min-width:0!important;
+    width:100%!important;
+    gap:5px!important;
+  }
+  #shots .shot-footer-field-v56 input,
+  #shots .shot-footer-field-v56 select{
+    width:100%!important;
+    min-width:0!important;
+    height:36px!important;
+    min-height:36px!important;
+  }
+  #shots .shot-notes-v56{
+    grid-area:notes!important;
+    width:100%!important;
+    min-width:0!important;
+    height:36px!important;
+    min-height:36px!important;
+  }
+}
+
+/* ---------- Equipment: no status column, better half-window rhythm ---------- */
+#equipment .equipment-row-head-v84{
+  grid-template-columns:34px minmax(220px,1.5fr) minmax(92px,120px) 34px!important;
+}
+#equipment .equipment-detail-v84{
+  padding:15px 16px 16px!important;
+  gap:12px!important;
+}
+#equipment .equipment-detail-v84 label{
+  gap:7px!important;
+}
+#equipment .equipment-detail-v84 label>span{
+  display:block!important;
+  margin:0 0 1px!important;
+  line-height:1.25!important;
+}
+#equipment .equipment-detail-v84 input,
+#equipment .equipment-detail-v84 select{
+  padding-left:10px!important;
+  padding-right:10px!important;
+}
+#equipment .equipment-remove-v84{
+  width:32px!important;
+  min-width:32px!important;
+  height:32px!important;
+  min-height:32px!important;
+  border-radius:9px!important;
+}
+@media (max-width:1250px) and (hover:hover) and (pointer:fine){
+  #equipment .equipment-row-head-v84{
+    grid-template-columns:28px 32px minmax(0,1fr) minmax(100px,125px) 34px!important;
+    grid-template-areas:"check index name qty remove"!important;
+    gap:9px!important;
+    align-items:center!important;
+    padding:12px 14px!important;
+  }
+  #equipment .equipment-check-v123{grid-area:check!important}
+  #equipment .equipment-index-v84{grid-area:index!important}
+  #equipment .equipment-name-v84{grid-area:name!important;min-width:0!important}
+  #equipment .equipment-qty-v84{grid-area:qty!important;min-width:0!important}
+  #equipment .equipment-remove-v84{grid-area:remove!important}
+  #equipment .equipment-qty-v84{
+    grid-template-columns:auto minmax(0,1fr)!important;
+    gap:6px!important;
+  }
+  #equipment .equipment-detail-v84{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    padding:16px!important;
+    gap:13px 14px!important;
+  }
+  #equipment .equipment-notes-v84{grid-column:1/-1!important}
+}
+
+/* Batch-apply button stays proportional instead of stretching. */
+#equipment #equipmentBatchApplyV123{
+  width:auto!important;
+  max-width:none!important;
+  min-width:126px!important;
+  height:36px!important;
+  padding:0 15px!important;
+  white-space:nowrap!important;
+}
+
+/* ---------- Call sheet / activity controls: no browser-white buttons ---------- */
+#callsheet #callSortTimelineBtn,
+#callsheet #callAddTimelineBtn{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  background:#151b1f!important;
+  border:1px solid #354047!important;
+  color:#aeb8bd!important;
+  border-radius:9px!important;
+  box-shadow:none!important;
+}
+#callsheet #callAddTimelineBtn{
+  background:#203027!important;
+  border-color:#496050!important;
+  color:#bed0c2!important;
+}
+#activity #clearActivityV170{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  background:#211719!important;
+  border:1px solid #533438!important;
+  color:#bd898e!important;
+  border-radius:9px!important;
+  box-shadow:none!important;
+}
+
+/* ---------- AI / VFX: content-sized detail panel; remove trailing empty floor ---------- */
+#aivfx .aivfx-workspace-v149{
+  min-height:0!important;
+  height:auto!important;
+  align-items:start!important;
+  grid-auto-rows:max-content!important;
+}
+#aivfx .aivfx-list-panel-v149,
+#aivfx .aivfx-detail-panel-v149,
+#aivfx .aivfx-detail-v149{
+  min-height:0!important;
+  height:auto!important;
+  align-self:start!important;
+}
+#aivfx .aivfx-detail-panel-v149{
+  overflow:visible!important;
+}
+#aivfx .aivfx-detail-body-v149{
+  height:auto!important;
+}
+#aivfx .aivfx-detail-actions-v149{
+  position:static!important;
+}
+
+/* ---------- Reference: Image Change / Enlarge are one visual system ---------- */
+#references .ref-actions-v67 .ref-change-v67,
+#references .ref-actions-v67 button[data-ref-enlarge]{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:32px!important;
+  height:32px!important;
+  padding:0 10px!important;
+  border-radius:7px!important;
+  font-size:10px!important;
+  font-weight:700!important;
+  line-height:1!important;
+  box-sizing:border-box!important;
+}
+
+/* ---------- Cast: edit action belongs to the dark/sage app, not a white form button ---------- */
+#cast .cast-edit-btn-v121{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  height:34px!important;
+  min-height:34px!important;
+  padding:0 13px!important;
+  border:1px solid #42564a!important;
+  border-radius:9px!important;
+  background:#1a251f!important;
+  color:#b8cabd!important;
+  font-size:10px!important;
+  font-weight:750!important;
+  box-shadow:none!important;
+}
+#cast .cast-edit-btn-v121:hover{
+  background:#223129!important;
+  border-color:#5a7060!important;
+  color:#e3ece5!important;
+}
+</style>
 </body>
 </html>
