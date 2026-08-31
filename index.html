@@ -11469,6 +11469,12 @@ button{font-size:10px}
 }
 </style>
 
+
+<style id="prepro-v178-location-booking">
+.location-booking-link-v178{display:inline-flex;align-items:center;justify-content:center;min-height:31px;padding:0 11px;border:1px solid #405448;border-radius:7px;background:#18231e;color:#b8d2bd!important;font-size:9px;font-weight:800;text-decoration:none}
+.location-booking-link-v178:hover{background:#1d2b24;border-color:#58705f;color:#d8e8dc!important}
+@media (max-width:700px){.location-booking-link-v178{width:100%;min-height:42px;font-size:12px}}
+</style>
 </head>
 <body>
 <div class="app">
@@ -14908,7 +14914,7 @@ function printCallSheetV73(){
 
 let selectedLocationIdV79=null;
 function ensureLocationV79(l){
-  ['name','address','contact','phone','parking','power','toilet','noise','sun','hours','permit','notes'].forEach(k=>{if(typeof l[k]!=='string')l[k]=''});
+  ['name','address','contact','phone','bookingUrl','parking','power','toilet','noise','sun','hours','permit','notes'].forEach(k=>{if(typeof l[k]!=='string')l[k]=''});
   if(!Array.isArray(l.sceneIds))l.sceneIds=[];
   if(!Array.isArray(l.images))l.images=[];
   return l;
@@ -14970,12 +14976,11 @@ function renderLocations(){
 
     <div class="location-info-grid-v79">
       <section class="location-card-v79">
-        <div class="location-section-head-v79"><div><b>운영 정보</b><span>연락 · 시간 · 허가</span></div></div>
+        <div class="location-section-head-v79"><div><b>운영 정보</b><span>담당 · 예약</span></div></div>
         <div class="location-fields-v79 location-fields-clean-v118">
-          <label><span>담당자</span><input data-k="contact" value="${esc(l.contact)}" placeholder="성함 / 직책"></label>
-          <label><span>연락처</span><input data-k="phone" value="${esc(l.phone)}" placeholder="010-0000-0000"></label>
-          <label><span>촬영 가능 시간</span><input data-k="hours" value="${esc(l.hours)}" placeholder="예: 08:00–20:00 / 야간 불가"></label>
-          <label><span>허가 / 대관</span><input data-k="permit" value="${esc(l.permit)}" placeholder="허가 여부, 대관료, 계약 관련"></label>
+          <label><span>담당자</span><input data-k="contact" value="${esc(l.contact)}" placeholder="성함 / 직책 / 연락처"></label>
+          <label><span>예약 링크</span><input data-k="bookingUrl" value="${esc(l.bookingUrl)}" placeholder="https://..." inputmode="url"></label>
+          ${l.bookingUrl?`<div class="wide-v79"><a class="location-booking-link-v178" href="${esc(/^https?:\/\//i.test(l.bookingUrl)?l.bookingUrl:'https://'+l.bookingUrl)}" target="_blank" rel="noopener">예약 페이지 열기 ↗</a></div>`:''}
         </div>
       </section>
 
@@ -16141,7 +16146,7 @@ if($('#callSortTimelineBtn'))$('#callSortTimelineBtn').onclick=()=>{
   c.timeline=c.timeline.map((x,i)=>({...x,__i:i})).sort((a,b)=>toMins(a.time)-toMins(b.time)||a.__i-b.__i).map(({__i,...x})=>x);
   save();renderCallSheet();
 };
-$('#addLocation').onclick=()=>{const l={id:uid(),name:'',address:'',notes:'',contact:'',phone:'',parking:'',power:'',toilet:'',noise:'',sun:'',hours:'',permit:'',sceneIds:[],images:[]};project().locations.push(l);selectedLocationIdV79=l.id;save();renderLocations()};
+$('#addLocation').onclick=()=>{const l={id:uid(),name:'',address:'',notes:'',contact:'',phone:'',bookingUrl:'',parking:'',power:'',toilet:'',noise:'',sun:'',hours:'',permit:'',sceneIds:[],images:[]};project().locations.push(l);selectedLocationIdV79=l.id;save();renderLocations()};
 $('#addEquipment').onclick=()=>{const cat=equipmentCategoryV84==='ALL'?'Camera':equipmentCategoryV84;project().equipment.push({id:uid(),name:'',category:cat,qty:'1',ownership:'보유',vendor:'',pickup:'',returnDate:'',manager:'',status:'준비',notes:''});save();renderEquipment()};
 if($('#refUpload'))$('#refUpload').onchange=async e=>{
   const files=[...(e.target.files||[])];
@@ -16216,7 +16221,7 @@ function bindCoreActionButtonsV158(){
   const loc=$('#addLocation');
   if(loc)loc.onclick=()=>{
     const p=project();p.locations=p.locations||[];
-    const l={id:uid(),name:'',address:'',notes:'',contact:'',phone:'',parking:'',power:'',toilet:'',noise:'',sun:'',hours:'',permit:'',sceneIds:[],images:[]};
+    const l={id:uid(),name:'',address:'',notes:'',contact:'',phone:'',bookingUrl:'',parking:'',power:'',toilet:'',noise:'',sun:'',hours:'',permit:'',sceneIds:[],images:[]};
     p.locations.push(l);selectedLocationIdV79=l.id;saveStore();renderLocations();
   };
   const eq=$('#addEquipment');
@@ -16437,6 +16442,193 @@ function printableBase(title,body,landscape=false){
 </style>
   
 
+<style>
+
+/* =========================================================
+   PREPRO V177 — FLUID DESKTOP / WINDOW RESPONSIVE PASS
+   Desktop only. Mobile (<=900px) intentionally untouched.
+   ========================================================= */
+@media (min-width:901px) and (max-width:1500px){
+  /* App shell scales with the browser window instead of holding desktop widths. */
+  .app{
+    grid-template-columns:clamp(176px,15vw,224px) minmax(0,1fr)!important;
+  }
+  .main,.workspace,.view,.view.active{min-width:0!important;max-width:100%!important}
+  .workspace{padding:clamp(12px,1.45vw,20px)!important}
+  .topbar{padding-left:clamp(12px,1.35vw,18px)!important;padding-right:clamp(12px,1.35vw,18px)!important}
+  .project-input{min-width:0!important;width:clamp(150px,24vw,260px)!important;max-width:100%!important}
+  .header{min-width:0;flex-wrap:wrap;align-items:flex-end}
+  .header>div:first-child{min-width:0}
+  .header p{max-width:100%}
+  .grid,.panel,.card{min-width:0}
+
+  /* Common overview grids */
+  .cols4{grid-template-columns:repeat(auto-fit,minmax(155px,1fr))!important}
+  .cols3{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))!important}
+  .story-grid,.ref-grid,.loc-grid,.equip-grid,.cast-grid,.project-grid{
+    grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr))!important;
+  }
+
+  /* Script */
+  #script .script-reader-layout{
+    grid-template-columns:clamp(165px,16vw,210px) minmax(0,1fr) clamp(240px,23vw,292px)!important;
+    gap:clamp(8px,1vw,12px)!important;
+    min-width:0!important;
+  }
+  #script .script-scenes-v27,#script .script-stage-v27,#script .script-inspector-v27{min-width:0!important}
+  #script .script-paper-v27{width:100%!important;max-width:820px!important;padding-left:clamp(28px,4vw,64px)!important;padding-right:clamp(28px,4vw,64px)!important}
+
+  /* Breakdown */
+  #breakdown .breakdown-layout-v32{
+    grid-template-columns:clamp(165px,15vw,210px) minmax(0,1fr) clamp(250px,23vw,340px)!important;
+    gap:clamp(8px,1vw,12px)!important;
+    min-width:0!important;
+  }
+  #breakdown .break-scenes-v32,#breakdown .break-script-stage-v32,#breakdown .break-tools-v32{min-width:0!important;max-width:100%!important}
+  #breakdown .break-script{padding-left:clamp(24px,3vw,42px)!important;padding-right:clamp(24px,3vw,42px)!important}
+
+  /* Shot list / Storyboard / References */
+  #shots .shot-layout-v53,
+  #storyboard .story-layout-v57,
+  #references .ref-layout-v67{
+    grid-template-columns:clamp(160px,16vw,220px) minmax(0,1fr)!important;
+    gap:clamp(8px,1vw,12px)!important;
+    width:100%!important;max-width:100%!important;min-width:0!important;
+  }
+  #shots .shot-scenes-v53,#shots .shot-workspace-v53,
+  #storyboard .story-scenes-v57,#storyboard .story-workspace-v57,
+  #references .ref-scenes-v67,#references .ref-workspace-v67{min-width:0!important;max-width:100%!important}
+
+  /* Shot cards: all major columns truly shrink with the window. */
+  #shots .shot-card-v56{
+    width:100%!important;max-width:100%!important;min-width:0!important;
+    grid-template-columns:
+      clamp(24px,2vw,30px)
+      clamp(40px,4vw,54px)
+      minmax(150px,1fr)
+      minmax(165px,1.06fr)
+      minmax(230px,1.72fr)
+      clamp(30px,2.6vw,38px)!important;
+  }
+  #shots .shot-group-v56,#shots .shot-group-content-v56,#shots .shot-field-v56{min-width:0!important}
+  #shots .shot-content-footer-v56{
+    grid-template-columns:auto minmax(58px,72px) minmax(88px,108px) minmax(110px,1fr)!important;
+  }
+  #shots .shot-field-v56 input,#shots .shot-field-v56 select,
+  #shots .shot-content-footer-v56 input,#shots .shot-content-footer-v56 select,
+  #shots .shot-script-excerpt-v56,#shots .shot-description-v56{min-width:0!important;max-width:100%!important}
+
+  #storyboard .story-grid-v57{
+    grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr))!important;
+    padding:clamp(9px,1.2vw,14px)!important;
+  }
+  #references .ref-grid-v67,#references .ref-grid-v67.board-v67{
+    grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr))!important;
+  }
+
+  /* AI / VFX */
+  #aivfx .aivfx-workspace-v149,
+  #ai .aivfx-workspace-v149,
+  .aivfx-workspace-v149{
+    grid-template-columns:minmax(250px,34%) minmax(0,1fr)!important;
+    min-width:0!important;
+  }
+  .aivfx-list-panel-v149,.aivfx-detail-panel-v149{min-width:0!important}
+
+  /* Production */
+  #schedule .schedule-layout-v69{
+    grid-template-columns:clamp(210px,22vw,285px) minmax(0,1fr)!important;
+    min-width:0!important;
+  }
+  #schedule .schedule-workspace-v69,#schedule .schedule-unscheduled-v69{min-width:0!important}
+  #schedule .schedule-day-fields-v69{
+    grid-template-columns:clamp(105px,11vw,145px) clamp(82px,8vw,110px) minmax(130px,1fr)!important;
+  }
+  #callsheet .callsheet-layout-v70{
+    grid-template-columns:clamp(300px,31vw,440px) minmax(0,1fr)!important;
+    gap:clamp(10px,1.2vw,16px)!important;
+    min-width:0!important;
+  }
+  #callsheet .callsheet-editor-v70,#callsheet .callsheet-preview-wrap-v70{min-width:0!important;max-width:100%!important}
+
+  /* Resources */
+  #locations .location-layout-v79{
+    grid-template-columns:clamp(190px,20vw,270px) minmax(0,1fr)!important;
+    min-width:0!important;
+  }
+  #locations .location-list-v79,#locations .location-work-v79{min-width:0!important}
+  #equipment .equipment-layout-v84{
+    grid-template-columns:clamp(175px,18vw,230px) minmax(0,1fr)!important;
+    min-width:0!important;
+  }
+  #equipment .equipment-categories-v84,#equipment .equipment-work-v84{min-width:0!important;max-width:100%!important}
+  #cast .cast-layout-v105{
+    grid-template-columns:clamp(185px,19vw,225px) minmax(0,1fr)!important;
+    min-width:0!important;
+  }
+  #cast .cast-list-panel-v105,#cast .cast-detail-v105{min-width:0!important;max-width:100%!important}
+
+  /* Dashboard / Delivery */
+  #dashboard .dash-stats-v143{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))!important}
+  #dashboard .dash-project-v143,
+  #dashboard .dash-main-grid-v143,
+  #dashboard .dash-bottom-grid-v143{min-width:0!important}
+  #exports .export-grid-v130,.export-grid{grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr))!important}
+}
+
+/* Mid-size desktop / split-window mode. Still desktop: sidebar and controls remain desktop UI. */
+@media (min-width:901px) and (max-width:1180px){
+  .app{grid-template-columns:clamp(154px,17vw,184px) minmax(0,1fr)!important}
+  .brand{padding-left:12px!important;padding-right:12px!important}
+  .nav button,.side-actions button{padding-left:11px!important;padding-right:9px!important}
+
+  #script .script-reader-layout{grid-template-columns:clamp(150px,17vw,180px) minmax(0,1fr)!important}
+  #script .script-inspector-v27{grid-column:1/-1!important;position:static!important;max-width:none!important;width:100%!important}
+
+  #breakdown .breakdown-layout-v32{grid-template-columns:clamp(150px,17vw,180px) minmax(0,1fr)!important}
+  #breakdown .break-tools-v32{grid-column:1/-1!important;position:static!important;width:100%!important;min-width:0!important;max-width:none!important}
+
+  #shots .shot-layout-v53,#storyboard .story-layout-v57,#references .ref-layout-v67{
+    grid-template-columns:clamp(145px,17vw,180px) minmax(0,1fr)!important;
+  }
+  #shots .shot-card-v56{
+    grid-template-columns:26px 44px minmax(0,1fr) minmax(0,1fr) 32px!important;
+    grid-template-areas:
+      "drag number camera lens actions"
+      "drag number content content actions"!important;
+  }
+  #shots .shot-drag-v56{grid-area:drag}
+  #shots .shot-number-v56{grid-area:number}
+  #shots .shot-group-camera-v56{grid-area:camera}
+  #shots .shot-group-lens-v56{grid-area:lens}
+  #shots .shot-group-content-v56{grid-area:content;border-top:1px solid #252d33!important}
+  #shots .shot-actions-v56{grid-area:actions}
+  #shots .shot-card-v56{min-height:0!important}
+  #shots .shot-content-footer-v56{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #shots .shot-vfx-v56{min-width:0!important}
+
+  #storyboard .story-grid-v57{grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr))!important}
+
+  #schedule .schedule-layout-v69{grid-template-columns:clamp(185px,22vw,225px) minmax(0,1fr)!important}
+  #schedule .schedule-summary-v69{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #schedule .schedule-day-fields-v69{grid-template-columns:1fr 1fr!important}
+  #schedule .schedule-day-fields-v69>*:last-child{grid-column:1/-1}
+
+  #callsheet .callsheet-layout-v70{grid-template-columns:1fr!important}
+  #callsheet .callsheet-editor-v70{position:static!important;height:auto!important;max-height:none!important;overflow:visible!important}
+
+  #locations .location-layout-v79{grid-template-columns:clamp(180px,22vw,220px) minmax(0,1fr)!important}
+  #equipment .equipment-layout-v84{grid-template-columns:clamp(165px,20vw,200px) minmax(0,1fr)!important}
+  #cast .cast-layout-v105{grid-template-columns:clamp(175px,21vw,205px) minmax(0,1fr)!important}
+  #cast .cast-info-grid-v105{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #cast .cast-prep-grid-v105{grid-template-columns:1fr!important}
+
+  .aivfx-workspace-v149{grid-template-columns:minmax(230px,36%) minmax(0,1fr)!important}
+  .aivfx-detail-grid-v149{grid-template-columns:1fr!important}
+
+  #dashboard .dash-project-v143,#dashboard .dash-main-grid-v143,#dashboard .dash-bottom-grid-v143{grid-template-columns:1fr!important}
+}
+</style>
 </head>
   <body>
     <main class="print-doc">
@@ -16507,8 +16699,7 @@ function printLocationsDocV136(){
       <h2>${String(i+1).padStart(2,'0')} · ${esc(l.name||'새 로케이션')}</h2>
       <div class="muted">${esc(l.address||'주소 미입력')} · 연결 씬 ${linked.length}개</div>
       <table><tbody>
-        <tr><th>담당자</th><td>${esc(l.contact||'—')}</td><th>연락처</th><td>${esc(l.phone||'—')}</td></tr>
-        <tr><th>촬영 가능 시간</th><td>${esc(l.hours||'—')}</td><th>허가 / 대관</th><td>${esc(l.permit||'—')}</td></tr>
+        <tr><th>담당자</th><td>${esc(l.contact||'—')}</td><th>예약 링크</th><td>${esc(l.bookingUrl||'—')}</td></tr>
         <tr><th>주차 / 차량</th><td>${esc(l.parking||'—')}</td><th>전기</th><td>${esc(l.power||'—')}</td></tr>
         <tr><th>화장실 / 대기</th><td>${esc(l.toilet||'—')}</td><th>소음 / 통제</th><td>${esc(l.noise||'—')}</td></tr>
         <tr><th>자연광 / 해 방향</th><td colspan="3">${esc(l.sun||'—')}</td></tr>
@@ -17261,8 +17452,7 @@ async function saveLocationsPdfV141(){
     const linked=p.scenes.filter(s=>(l.sceneIds||[]).includes(s.id));
     doc.section(`${String(i+1).padStart(2,'0')} · ${l.name||'새 로케이션'}`,l.address||'주소 미입력');
     doc.kv([
-      ['담당자',l.contact||'—','연락처',l.phone||'—'],
-      ['촬영 가능 시간',l.hours||'—','허가 / 대관',l.permit||'—'],
+      ['담당자',l.contact||'—','예약 링크',l.bookingUrl||'—'],
       ['주차 / 차량',l.parking||'—','전기',l.power||'—'],
       ['화장실 / 대기',l.toilet||'—','소음 / 통제',l.noise||'—'],
       ['연결 씬',linked.map(s=>s.number).join(', ')||'—','자연광 / 해 방향',l.sun||'—']
