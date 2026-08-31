@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PREPRO</title>
+<title>PREPRO V190</title>
 <style>
 :root{
   --bg:#0d1015;--panel:#151a22;--panel2:#1c222c;--line:#29313d;--text:#eef2f7;--muted:#96a0b0;
@@ -19974,6 +19974,12 @@ document.addEventListener('click',e=>{
   background:#223129!important;
   border-color:#5a7060!important;
   color:#e3ece5!important;
+}
+
+/* PREPRO V190 — keep full brand name at half/mobile widths */
+@media (max-width:900px){
+  .sidebar .brand h1, .brand h1{font-size:14px!important;letter-spacing:.12em!important;}
+  .sidebar .brand h1::after, .brand h1::after{content:none!important;display:none!important;}
 }
 </style>
 </body>
