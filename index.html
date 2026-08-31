@@ -11787,6 +11787,210 @@ button{font-size:10px}
   #script .script-paper-v27 .script-line.dialogue,#breakdown .break-script .script-line.dialogue{width:82%!important;max-width:82%!important}
 }
 </style>
+
+<style id="prepro-v181-location-gallery-polish">
+/* PREPRO V181 — Location gallery + controls polish. */
+#locations #addLocation{
+  min-height:40px!important;
+  padding:0 16px!important;
+  border:1px solid #9fc4a8!important;
+  border-radius:10px!important;
+  background:#a9cbb1!important;
+  color:#0c1610!important;
+  font-weight:800!important;
+  letter-spacing:-.01em!important;
+  box-shadow:0 6px 18px rgba(0,0,0,.14)!important;
+}
+#locations #addLocation:hover{
+  background:#b5d5bc!important;
+  border-color:#b5d5bc!important;
+  transform:translateY(-1px);
+}
+
+#locations .location-photo-section-v79{
+  background:#0f1518!important;
+  border-color:#303b41!important;
+  overflow:visible!important;
+}
+#locations .location-photo-section-v79 .location-section-head-v79{
+  min-height:48px!important;
+  height:auto!important;
+  padding:10px 13px!important;
+  background:#11181b!important;
+}
+#locations .location-photo-section-v79 .location-section-head-v79>div{
+  gap:9px!important;
+}
+#locations .location-photo-section-v79 .location-section-head-v79 b{
+  font-size:13px!important;
+  color:#e3e8ea!important;
+}
+#locations .location-photo-section-v79 .location-section-head-v79 span{
+  display:inline-flex!important;
+  align-items:center!important;
+  min-height:22px!important;
+  padding:0 8px!important;
+  border:1px solid #303b41!important;
+  border-radius:999px!important;
+  background:#0d1316!important;
+  color:#89959b!important;
+  font-size:9.5px!important;
+}
+#locations .location-upload-v79{
+  min-height:34px!important;
+  height:34px!important;
+  padding:0 12px!important;
+  border:1px solid #536b5a!important;
+  border-radius:9px!important;
+  background:#18251d!important;
+  color:#b9d5c0!important;
+  font-size:10.5px!important;
+  font-weight:800!important;
+  transition:.16s ease!important;
+}
+#locations .location-upload-v79:hover{
+  border-color:#789a82!important;
+  background:#203126!important;
+  color:#d8e8dc!important;
+}
+
+/* Let hunting photos breathe instead of forcing four tiny thumbnails. */
+#locations .location-photo-grid-v79{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr))!important;
+  gap:12px!important;
+  padding:12px!important;
+  align-items:start!important;
+}
+#locations .location-photo-v79{
+  position:relative!important;
+  overflow:hidden!important;
+  border:1px solid #303b41!important;
+  border-radius:12px!important;
+  background:#0c1215!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.13)!important;
+  transition:border-color .16s ease,transform .16s ease,box-shadow .16s ease!important;
+}
+#locations .location-photo-v79:hover{
+  border-color:#4b5d55!important;
+  transform:translateY(-1px)!important;
+  box-shadow:0 11px 28px rgba(0,0,0,.19)!important;
+}
+#locations .location-photo-open-v79{
+  aspect-ratio:16/10!important;
+  background:#090e10!important;
+  overflow:hidden!important;
+}
+#locations .location-photo-open-v79 img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  transition:transform .2s ease!important;
+}
+#locations .location-photo-v79:hover .location-photo-open-v79 img{
+  transform:scale(1.012)!important;
+}
+#locations .location-photo-v79>div{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 34px!important;
+  align-items:center!important;
+  gap:7px!important;
+  padding:8px!important;
+  border-top:1px solid #263137!important;
+  background:#10171a!important;
+}
+#locations .location-photo-v79 input{
+  height:34px!important;
+  padding:0 10px!important;
+  border:1px solid transparent!important;
+  border-radius:8px!important;
+  background:#0c1215!important;
+  color:#bfc8cc!important;
+  font-size:10.5px!important;
+}
+#locations .location-photo-v79 input:focus{
+  border-color:#4a6554!important;
+  background:#0e1518!important;
+  outline:none!important;
+}
+#locations .location-photo-v79 [data-image-del]{
+  width:34px!important;
+  min-width:34px!important;
+  height:34px!important;
+  padding:0!important;
+  border:1px solid #513438!important;
+  border-radius:8px!important;
+  background:#241719!important;
+  color:#c4878d!important;
+  font-size:17px!important;
+  line-height:1!important;
+}
+#locations .location-photo-v79 [data-image-del]:hover{
+  background:#321e21!important;
+  border-color:#7b4a50!important;
+  color:#e0a0a6!important;
+}
+#locations .location-photo-empty-v79{
+  min-height:220px!important;
+  border:1px dashed #364248!important;
+  border-radius:10px!important;
+  background:linear-gradient(180deg,#10171a,#0d1316)!important;
+  color:#748087!important;
+  font-size:11px!important;
+}
+
+#locations .location-delete-v79{
+  min-height:34px!important;
+  height:34px!important;
+  padding:0 11px!important;
+  border:1px solid #493337!important;
+  border-radius:9px!important;
+  background:#181214!important;
+  color:#a9797f!important;
+  font-size:10px!important;
+  font-weight:700!important;
+}
+#locations .location-delete-v79:hover{
+  background:#241719!important;
+  border-color:#6c444a!important;
+  color:#d89ba1!important;
+}
+#locations .location-booking-link-v178{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-height:34px!important;
+  padding:0 12px!important;
+  border:1px solid #405747!important;
+  border-radius:9px!important;
+  background:#17221b!important;
+  color:#b4ccb9!important;
+  font-size:10.5px!important;
+  font-weight:800!important;
+  text-decoration:none!important;
+}
+#locations .location-booking-link-v178:hover{
+  background:#1e2c23!important;
+  border-color:#63806b!important;
+  color:#d7e5da!important;
+}
+
+/* Medium desktop / Mac split view: two generous columns. */
+@media (min-width:769px) and (max-width:1180px){
+  #locations .location-photo-grid-v79{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important;
+  }
+  #locations .location-photo-open-v79{aspect-ratio:16/9!important}
+}
+/* Mobile keeps one full-width photo per row. */
+@media (max-width:768px){
+  #locations .location-photo-grid-v79{grid-template-columns:1fr!important;gap:10px!important;padding:10px!important}
+  #locations .location-photo-open-v79{aspect-ratio:16/9!important}
+  #locations .location-upload-v79{min-height:36px!important;height:36px!important}
+}
+</style>
+
 </head>
 <body>
 <div class="app">
