@@ -12312,8 +12312,6 @@ button{font-size:10px}
       <p>프로젝트의 현재 준비 상태와 다음 촬영 회차를 한눈에 확인합니다.</p>
     </div>
     <div class="grow"></div>
-    <button class="dashboard-action-v143" data-dashboard-view="script">대본 보기</button>
-    <button class="primary dashboard-action-v143" data-dashboard-view="schedule">촬영 일정</button>
   </div>
 
   <section class="dash-project-v143">
@@ -17497,6 +17495,74 @@ function printableBase(title,body,landscape=false){
 
   #dashboard .dash-project-v143,#dashboard .dash-main-grid-v143,#dashboard .dash-bottom-grid-v143{grid-template-columns:1fr!important}
 }
+
+
+/* PREPRO V185 — final polish: scene titles, call sheet controls, AI/VFX fit-content */
+#shots #shotSceneTitle,
+#storyboard #storySceneTitle{
+  font-size:16px!important;
+  line-height:1.35!important;
+  font-weight:750!important;
+  letter-spacing:-.01em!important;
+}
+
+/* Call Sheet timeline actions — match PREPRO controls */
+#callsheet #callSortTimelineBtn,
+#callsheet #callAddTimelineBtn{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  min-height:34px!important;
+  padding:7px 12px!important;
+  border-radius:8px!important;
+  font-size:10.5px!important;
+  font-weight:700!important;
+  box-shadow:none!important;
+  transition:background .15s ease,border-color .15s ease,color .15s ease!important;
+}
+#callsheet #callSortTimelineBtn{
+  border:1px solid #30383d!important;
+  background:#151b1f!important;
+  color:#aeb7b9!important;
+}
+#callsheet #callSortTimelineBtn:hover{
+  background:#1b2327!important;
+  border-color:#3a454b!important;
+  color:#d5dcda!important;
+}
+#callsheet #callAddTimelineBtn{
+  border:1px solid #405847!important;
+  background:#28392e!important;
+  color:#c8d8cc!important;
+}
+#callsheet #callAddTimelineBtn:hover{
+  background:#314536!important;
+  border-color:#506c58!important;
+  color:#edf3ee!important;
+}
+
+/* AI / VFX — stop the detail workspace from stretching into a large empty block */
+#aivfx .aivfx-workspace-v149{
+  min-height:0!important;
+  align-items:start!important;
+}
+#aivfx .aivfx-list-panel-v149,
+#aivfx .aivfx-detail-panel-v149{
+  height:auto!important;
+  min-height:0!important;
+  align-self:start!important;
+}
+#aivfx .aivfx-detail-v149{
+  min-height:0!important;
+}
+#aivfx .aivfx-detail-empty-v149{
+  min-height:260px!important;
+}
+#aivfx .aivfx-list-panel-v149{
+  max-height:min(70vh,760px)!important;
+}
+
+/* Dashboard top actions removed in V185; keep header spacing natural */
+#dashboard .dashboard-header-v143>.grow:last-child{display:block!important}
 </style>
 </head>
   <body>
