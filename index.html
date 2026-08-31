@@ -13462,6 +13462,9 @@ let cloudLastPayloadV167='';
 let cloudChannelV167=null;
 let cloudUnsavedV195=false;
 let cloudLastErrorV195='';
+let cloudSavePromiseV196=null;
+let cloudSavePendingV196=false;
+let cloudSaveRetryV196=0;
 
 // PREPRO V170 · lightweight collaboration history stored with the project.
 let activityBaselineV170=null;
@@ -13609,36 +13612,82 @@ function cloudProjectPayloadV167(){
 }
 function queueCloudSaveV167(){
   if(!cloudReadyV167||cloudApplyingV167||!cloudClientV167)return false;
+  cloudSavePendingV196=true;
   clearTimeout(cloudSaveTimerV167);
-  cloudSaveTimerV167=setTimeout(saveCloudNowV167,700);
+  cloudSaveTimerV167=setTimeout(()=>saveCloudNowV167(),700);
+  return true;
 }
-async function saveCloudNowV167(){
-  if(!cloudReadyV167||cloudApplyingV167||!cloudClientV167)return;
-  const data=cloudProjectPayloadV167();
-  const serialized=JSON.stringify(data);
-  if(serialized===cloudLastPayloadV167){cloudStatusV167('클라우드 저장됨');return true}
-  cloudStatusV167('클라우드 저장 중...');
-  try{
-    const {error}=await cloudClientV167.from('projects').upsert({
-      project_key:PREPRO_CLOUD_V167.projectKey,
-      project_name:data.title||PREPRO_CLOUD_V167.projectName,
-      data,
-      updated_at:new Date().toISOString(),
-      updated_by:cloudNameV167()
-    },{onConflict:'project_key'});
-    if(error)throw error;
-    cloudLastPayloadV167=serialized;
-    cloudUnsavedV195=false;
-    cloudLastErrorV195='';
-    cloudStatusV167('클라우드 저장됨');
-    return true;
-  }catch(err){
-    console.error('PREPRO cloud save failed',err);
-    cloudUnsavedV195=true;
-    cloudLastErrorV195=err?.message||err?.details||String(err);
-    cloudStatusV167(`클라우드 저장 실패 · ${String(cloudLastErrorV195).slice(0,42)}`);
-    return false;
-  }
+function cloudDelayV196(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
+function isCloudLockErrorV196(err){
+  const msg=String(err?.message||err?.details||err||'').toLowerCase();
+  return msg.includes('lock timeout')||msg.includes('statement timeout')||msg.includes('canceling statement');
+}
+async function runCloudSaveV196(){
+  let finalResult=true;
+  do{
+    cloudSavePendingV196=false;
+    if(!cloudReadyV167||cloudApplyingV167||!cloudClientV167)return false;
+    const data=cloudProjectPayloadV167();
+    const serialized=JSON.stringify(data);
+    if(serialized===cloudLastPayloadV167){
+      cloudUnsavedV195=false;
+      cloudStatusV167('클라우드 저장됨');
+      continue;
+    }
+    cloudStatusV167('클라우드 저장 중...');
+    let saved=false;
+    let lastErr=null;
+    for(let attempt=0;attempt<4&&!saved;attempt++){
+      try{
+        const {error}=await cloudClientV167.from('projects').upsert({
+          project_key:PREPRO_CLOUD_V167.projectKey,
+          project_name:data.title||PREPRO_CLOUD_V167.projectName,
+          data,
+          updated_at:new Date().toISOString(),
+          updated_by:cloudNameV167()
+        },{onConflict:'project_key'});
+        if(error)throw error;
+        saved=true;
+      }catch(err){
+        lastErr=err;
+        if(!isCloudLockErrorV196(err)||attempt===3)break;
+        cloudSaveRetryV196=attempt+1;
+        cloudStatusV167(`클라우드 저장 대기 · 자동 재시도 ${attempt+1}/3`);
+        await cloudDelayV196(700*(attempt+1));
+      }
+    }
+    cloudSaveRetryV196=0;
+    if(saved){
+      cloudLastPayloadV167=serialized;
+      cloudLastErrorV195='';
+      /* If edits arrived while this request was in flight, loop once more with the latest snapshot. */
+      const latestSerialized=JSON.stringify(cloudProjectPayloadV167());
+      if(latestSerialized!==serialized)cloudSavePendingV196=true;
+      cloudUnsavedV195=cloudSavePendingV196;
+      cloudStatusV167(cloudSavePendingV196?'변경사항 저장 중...':'클라우드 저장됨');
+    }else{
+      console.error('PREPRO cloud save failed',lastErr);
+      finalResult=false;
+      cloudUnsavedV195=true;
+      cloudLastErrorV195=lastErr?.message||lastErr?.details||String(lastErr);
+      cloudStatusV167(`클라우드 저장 실패 · ${String(cloudLastErrorV195).slice(0,52)}`);
+      break;
+    }
+  }while(cloudSavePendingV196);
+  return finalResult&&!cloudUnsavedV195;
+}
+function saveCloudNowV167(){
+  if(!cloudReadyV167||cloudApplyingV167||!cloudClientV167)return Promise.resolve(false);
+  clearTimeout(cloudSaveTimerV167);
+  cloudSavePendingV196=true;
+  if(cloudSavePromiseV196)return cloudSavePromiseV196;
+  cloudSavePromiseV196=runCloudSaveV196().finally(()=>{
+    cloudSavePromiseV196=null;
+    if(cloudSavePendingV196&&cloudReadyV167&&!cloudApplyingV167){
+      setTimeout(()=>saveCloudNowV167(),0);
+    }
+  });
+  return cloudSavePromiseV196;
 }
 function applyCloudProjectV167(remoteProject){
   if(!remoteProject||typeof remoteProject!=='object')return false;
