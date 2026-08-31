@@ -11991,6 +11991,229 @@ button{font-size:10px}
 }
 </style>
 
+
+<style id="prepro-location-upload-v182">
+/* PREPRO V182 · location image upload feedback */
+#locations .location-upload-progress-v182{margin:10px 0 2px;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:#0f1418}
+#locations .location-upload-progress-v182[hidden]{display:none!important}
+#locations .location-upload-progress-v182>div:first-child{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;font-size:11px;color:var(--muted)}
+#locations .location-upload-progress-v182 strong{color:var(--text);font-weight:650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#locations .location-upload-progress-v182 em{font-style:normal;font-variant-numeric:tabular-nums;white-space:nowrap}
+#locations .location-upload-track-v182{height:5px;border-radius:999px;overflow:hidden;background:#20282d}
+#locations .location-upload-track-v182 i{display:block;width:0;height:100%;border-radius:inherit;background:var(--accent);transition:width .16s ease}
+#locations .location-upload-v79.is-uploading-v182{opacity:.58;pointer-events:none}
+#locations .location-upload-result-v182{margin-top:7px;font-size:10.5px;color:var(--muted)}
+#locations .location-upload-result-v182.ok{color:#9fc8aa}
+#locations .location-upload-result-v182.warn{color:#d6bd7d}
+</style>
+
+<style id="prepro-v183-location-spacing-polish">
+/* PREPRO V183 — Give location form copy more breathing room. */
+#locations .location-fields-v79,
+#locations .location-condition-v79{
+  padding:16px 14px 17px!important;
+  gap:13px 14px!important;
+}
+#locations .location-fields-v79 label,
+#locations .location-condition-v79 label{
+  gap:7px!important;
+}
+#locations .location-fields-v79 span,
+#locations .location-condition-v79 span{
+  display:block!important;
+  padding-left:2px!important;
+  line-height:1.35!important;
+}
+#locations .location-fields-v79 input,
+#locations .location-condition-v79 textarea{
+  padding-left:12px!important;
+  padding-right:12px!important;
+}
+#locations .location-condition-v79 textarea{
+  padding-top:10px!important;
+  padding-bottom:10px!important;
+}
+#locations .location-scene-picker-v79{
+  padding:14px!important;
+  gap:8px!important;
+}
+#locations .location-scene-picker-v79 label{
+  padding:8px 11px!important;
+}
+#locations .location-notes-v79{
+  width:calc(100% - 28px)!important;
+  margin:14px!important;
+  padding:11px 12px!important;
+}
+#locations .location-section-head-v79{
+  padding-left:14px!important;
+  padding-right:14px!important;
+}
+#locations .location-booking-link-v178{
+  margin-top:2px!important;
+}
+@media (max-width:768px){
+  #locations .location-fields-v79,
+  #locations .location-condition-v79{padding:14px 12px 15px!important;gap:12px!important}
+  #locations .location-scene-picker-v79{padding:12px!important}
+  #locations .location-notes-v79{width:calc(100% - 24px)!important;margin:12px!important}
+}
+</style>
+
+<style id="prepro-v184-final-fixes">
+/* PREPRO V184 — equipment split-screen, location upload/gallery, schedule count spacing */
+
+/* Shooting schedule: keep the count visually separate from the heading. */
+#schedule .schedule-unscheduled-head-v69>div{
+  justify-content:flex-start!important;
+  gap:8px!important;
+}
+#schedule #unscheduledCount{
+  display:inline-flex!important;
+  align-items:center!important;
+  margin-left:0!important;
+  color:#7f8b91!important;
+  font-size:10px!important;
+  font-weight:500!important;
+  white-space:nowrap!important;
+}
+
+/* Location gallery: preserve each uploaded image's natural aspect ratio. */
+#locations .location-photo-v79{position:relative!important;overflow:hidden!important}
+#locations .location-photo-open-v79{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  aspect-ratio:auto!important;
+  min-height:0!important;
+  line-height:0!important;
+  background:#090e10!important;
+}
+#locations .location-photo-open-v79 img{
+  display:block!important;
+  width:100%!important;
+  height:auto!important;
+  max-height:none!important;
+  aspect-ratio:auto!important;
+  object-fit:contain!important;
+}
+#locations .location-photo-delete-v184{
+  position:absolute!important;
+  top:9px!important;
+  right:9px!important;
+  z-index:4!important;
+  width:32px!important;
+  min-width:32px!important;
+  height:32px!important;
+  padding:0!important;
+  border:1px solid rgba(130,77,82,.75)!important;
+  border-radius:9px!important;
+  background:rgba(31,19,21,.90)!important;
+  color:#d08e94!important;
+  font-size:17px!important;
+  line-height:1!important;
+  backdrop-filter:blur(8px)!important;
+  -webkit-backdrop-filter:blur(8px)!important;
+}
+#locations .location-photo-delete-v184:hover{background:#321e21!important;border-color:#86535a!important;color:#efb0b5!important}
+
+/* Upload progress stays visible even while large images are being decoded/compressed. */
+#locations .location-upload-progress-v182{
+  position:sticky!important;
+  top:8px!important;
+  z-index:8!important;
+  margin:10px 12px 2px!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.25)!important;
+}
+.location-upload-toast-v184{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:99999;
+  width:min(360px,calc(100vw - 32px));
+  padding:12px 13px;
+  border:1px solid #3a4742;
+  border-radius:12px;
+  background:rgba(15,21,24,.97);
+  box-shadow:0 16px 42px rgba(0,0,0,.42);
+  opacity:0;
+  transform:translateY(10px);
+  pointer-events:none;
+  transition:.18s ease;
+  color:#dce3df;
+}
+.location-upload-toast-v184.show{opacity:1;transform:translateY(0)}
+.location-upload-toast-v184>div:first-child{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.location-upload-toast-v184 b{font-size:11px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.location-upload-toast-v184 span{font-size:10px;color:#9aa5a9;font-variant-numeric:tabular-nums;white-space:nowrap}
+.location-upload-toast-track-v184{height:5px;margin-top:9px;border-radius:999px;overflow:hidden;background:#252e32}
+.location-upload-toast-track-v184 i{display:block;width:0;height:100%;border-radius:inherit;background:var(--accent);transition:width .15s ease}
+.location-upload-toast-v184 small{display:block;margin-top:7px;font-size:10px;color:#98a3a7}
+.location-upload-toast-v184 small.ok{color:#9fc8aa}.location-upload-toast-v184 small.warn{color:#d6bd7d}
+
+/* Mac/desktop half-screen can fall under the phone width breakpoint.
+   Distinguish a fine-pointer desktop from a touch phone and keep the equipment card readable. */
+@media (max-width:768px) and (hover:hover) and (pointer:fine){
+  #equipment .equipment-row-head-v84{
+    display:grid!important;
+    grid-template-columns:24px 34px minmax(0,1fr) 38px!important;
+    grid-template-areas:
+      "check index name remove"
+      ". . qty remove"
+      ". . status remove"!important;
+    gap:8px 10px!important;
+    align-items:center!important;
+    padding:12px!important;
+  }
+  #equipment .equipment-check-v123{grid-area:check!important;justify-self:start!important}
+  #equipment .equipment-index-v84{grid-area:index!important;justify-self:start!important;text-align:left!important}
+  #equipment .equipment-name-v84{
+    grid-area:name!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(120px,.55fr)!important;
+    gap:8px!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+  #equipment .equipment-qty-v84{
+    grid-area:qty!important;
+    display:grid!important;
+    grid-template-columns:48px minmax(0,1fr)!important;
+    gap:8px!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+  #equipment .equipment-status-v84{
+    grid-area:status!important;
+    display:grid!important;
+    grid-template-columns:48px minmax(0,1fr)!important;
+    gap:8px!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+  }
+  #equipment .equipment-remove-v84{
+    grid-area:remove!important;
+    grid-column:auto!important;
+    align-self:stretch!important;
+    justify-self:stretch!important;
+    width:38px!important;
+    min-width:38px!important;
+    max-width:38px!important;
+  }
+  #equipment .equipment-detail-v84{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:9px!important;
+    padding:12px!important;
+  }
+}
+
+@media (max-width:768px){
+  .location-upload-toast-v184{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));width:calc(100vw - 24px)}
+}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -13236,7 +13459,7 @@ function cloudProjectPayloadV167(){
   return JSON.parse(JSON.stringify(project()));
 }
 function queueCloudSaveV167(){
-  if(!cloudReadyV167||cloudApplyingV167||!cloudClientV167)return;
+  if(!cloudReadyV167||cloudApplyingV167||!cloudClientV167)return false;
   clearTimeout(cloudSaveTimerV167);
   cloudSaveTimerV167=setTimeout(saveCloudNowV167,700);
 }
@@ -13244,7 +13467,7 @@ async function saveCloudNowV167(){
   if(!cloudReadyV167||cloudApplyingV167||!cloudClientV167)return;
   const data=cloudProjectPayloadV167();
   const serialized=JSON.stringify(data);
-  if(serialized===cloudLastPayloadV167){cloudStatusV167('클라우드 저장됨');return}
+  if(serialized===cloudLastPayloadV167){cloudStatusV167('클라우드 저장됨');return true}
   cloudStatusV167('클라우드 저장 중...');
   try{
     const {error}=await cloudClientV167.from('projects').upsert({
@@ -13257,9 +13480,11 @@ async function saveCloudNowV167(){
     if(error)throw error;
     cloudLastPayloadV167=serialized;
     cloudStatusV167('클라우드 저장됨');
+    return true;
   }catch(err){
     console.error('PREPRO cloud save failed',err);
     cloudStatusV167('로컬 저장됨 · 클라우드 오류');
+    return false;
   }
 }
 function applyCloudProjectV167(remoteProject){
@@ -13271,7 +13496,7 @@ function applyCloudProjectV167(remoteProject){
     if(idx>=0)store.projects[idx]=incoming;
     else store.projects=[incoming];
     store.activeId=incoming.id;
-    localStorage.setItem(STORE,JSON.stringify(store));
+    try{localStorage.setItem(STORE,JSON.stringify(store))}catch(err){console.warn('PREPRO local cache sync skipped',err)}
     cloudLastPayloadV167=JSON.stringify(incoming);
     activityBaselineV170=activityCloneV170(activityCleanV170(incoming));
     ensureSelected();
@@ -13327,9 +13552,18 @@ async function initCloudV167(){
   }
 }
 
+let localStorageWarningShownV182=false;
 function saveStore(){
   recordActivityV170();
-  localStorage.setItem(STORE,JSON.stringify(store));
+  try{
+    localStorage.setItem(STORE,JSON.stringify(store));
+  }catch(err){
+    console.warn('PREPRO local cache save failed',err);
+    if(!localStorageWarningShownV182){
+      localStorageWarningShownV182=true;
+      console.warn('PREPRO: 이미지가 많아 브라우저 로컬 저장공간이 부족할 수 있습니다. 클라우드 저장은 계속 시도합니다.');
+    }
+  }
   cloudStatusV167(cloudReadyV167?'저장 중...':'로컬 저장됨');
   renderStats();
   queueCloudSaveV167();
@@ -14573,6 +14807,40 @@ function loadStoryboardImageFile(file){
   });
 }
 
+
+function loadLocationImageFileV182(file,onProgress){
+  return new Promise((resolve,reject)=>{
+    if(!file||!/^image\//i.test(file.type||'')){reject(new Error('이미지 파일이 아닙니다.'));return}
+    const reader=new FileReader();
+    reader.onerror=()=>reject(reader.error||new Error('파일 읽기 실패'));
+    reader.onprogress=e=>{
+      if(e.lengthComputable&&typeof onProgress==='function')onProgress(Math.min(.72,(e.loaded/e.total)*.72),'읽는 중');
+    };
+    reader.onload=()=>{
+      if(typeof onProgress==='function')onProgress(.76,'이미지 처리 중');
+      const img=new Image();
+      img.onerror=()=>reject(new Error('이미지 해석 실패'));
+      img.onload=()=>{
+        try{
+          /* Location hunting photos are numerous. Keep useful detail while avoiding localStorage/cloud payload blow-ups. */
+          const maxW=1600,maxH=1200;
+          const scale=Math.min(1,maxW/img.naturalWidth,maxH/img.naturalHeight);
+          const w=Math.max(1,Math.round(img.naturalWidth*scale));
+          const h=Math.max(1,Math.round(img.naturalHeight*scale));
+          const c=document.createElement('canvas');c.width=w;c.height=h;
+          const ctx=c.getContext('2d');ctx.drawImage(img,0,0,w,h);
+          if(typeof onProgress==='function')onProgress(.92,'압축 중');
+          const data=c.toDataURL('image/jpeg',0.76);
+          if(typeof onProgress==='function')onProgress(1,'준비 완료');
+          resolve(data);
+        }catch(err){reject(err)}
+      };
+      img.src=reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 function openStoryImageModal(sh,index){
   if(!sh||!sh.image)return;
 
@@ -15142,7 +15410,7 @@ function renderSchedule(){
   const totalMins=assigned.reduce((a,s)=>a+scheduleSceneMinutesV69(s),0);
   const totalShots=assigned.reduce((a,s)=>a+(s.shots?.length||0),0);
 
-  if($('#unscheduledCount'))$('#unscheduledCount').textContent=`${unscheduled.length} scenes`;
+  if($('#unscheduledCount'))$('#unscheduledCount').textContent=`${unscheduled.length} 씬`;
   const summary=$('#scheduleSummary');
   if(summary)summary.innerHTML=`
     <div><b>${p.shootDays.length}</b><span>촬영 회차</span></div>
@@ -15483,10 +15751,15 @@ function renderLocations(){
       <div class="location-section-head-v79"><div><b>헌팅 이미지</b><span>${l.images.length}장</span></div>
         <label class="location-upload-v79">+ 이미지 추가<input type="file" accept="image/*" multiple data-loc-upload></label>
       </div>
+      <div class="location-upload-progress-v182" data-loc-upload-progress hidden>
+        <div><strong data-loc-upload-label>이미지 준비 중...</strong><em data-loc-upload-percent>0%</em></div>
+        <div class="location-upload-track-v182"><i data-loc-upload-bar></i></div>
+        <div class="location-upload-result-v182" data-loc-upload-result></div>
+      </div>
       <div class="location-photo-grid-v79">${l.images.length?l.images.map((im,i)=>`
         <article class="location-photo-v79" data-loc-image="${im.id}">
           <button type="button" class="location-photo-open-v79" data-loc-image-open="${im.id}"><img src="${im.image}" alt="헌팅 이미지"></button>
-          <div><input data-image-note value="${esc(im.note||'')}" placeholder="사진 메모 · 창 방향, 카메라 위치 등"><button type="button" data-image-del>×</button></div>
+          <button type="button" class="location-photo-delete-v184" data-image-del title="이미지 삭제" aria-label="이미지 삭제">×</button>
         </article>`).join(''):'<div class="location-photo-empty-v79">헌팅 사진을 추가하면 이곳에서 한눈에 비교할 수 있습니다.</div>'}</div>
     </section>
 
@@ -15534,10 +15807,90 @@ function renderLocations(){
   });
   const upload=box.querySelector('[data-loc-upload]');
   if(upload)upload.onchange=async e=>{
-    for(const file of [...e.target.files]){
-      try{const image=await loadStoryboardImageFile(file);l.images.push({id:uid(),image,note:''})}catch(err){}
+    const files=[...e.target.files];
+    if(!files.length)return;
+    const progress=box.querySelector('[data-loc-upload-progress]');
+    const label=box.querySelector('[data-loc-upload-label]');
+    const percent=box.querySelector('[data-loc-upload-percent]');
+    const bar=box.querySelector('[data-loc-upload-bar]');
+    const result=box.querySelector('[data-loc-upload-result]');
+    const uploadLabel=upload.closest('.location-upload-v79');
+    if(progress)progress.hidden=false;
+    if(uploadLabel)uploadLabel.classList.add('is-uploading-v182');
+
+    // V184: always-visible upload status toast. File decoding/compression can block
+    // repaints on large photos, so yield once before starting the heavy work.
+    let toast=document.getElementById('locationUploadToastV184');
+    if(!toast){
+      toast=document.createElement('div');
+      toast.id='locationUploadToastV184';
+      toast.className='location-upload-toast-v184';
+      toast.innerHTML='<div><b data-toast-label>이미지 업로드 준비 중...</b><span data-toast-percent>0%</span></div><div class="location-upload-toast-track-v184"><i data-toast-bar></i></div><small data-toast-result></small>';
+      document.body.appendChild(toast);
     }
-    save();renderLocations();
+    toast.classList.add('show');
+    const toastLabel=toast.querySelector('[data-toast-label]');
+    const toastPercent=toast.querySelector('[data-toast-percent]');
+    const toastBar=toast.querySelector('[data-toast-bar]');
+    const toastResult=toast.querySelector('[data-toast-result]');
+    if(toastResult)toastResult.textContent='';
+    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+    let ok=0,failed=0;
+    const setProgress=(fileIndex,part,stage,fileName)=>{
+      const total=Math.max(1,files.length);
+      const value=Math.max(0,Math.min(1,(fileIndex+part)/total));
+      const pct=Math.round(value*100);
+      const statusText=`${fileIndex+1}/${total} · ${stage} · ${fileName}`;
+      if(label)label.textContent=statusText;
+      if(percent)percent.textContent=`${pct}%`;
+      if(bar)bar.style.width=pct+'%';
+      if(toastLabel)toastLabel.textContent=statusText;
+      if(toastPercent)toastPercent.textContent=`${pct}%`;
+      if(toastBar)toastBar.style.width=pct+'%';
+    };
+    for(let i=0;i<files.length;i++){
+      const file=files[i];
+      try{
+        const image=await loadLocationImageFileV182(file,(part,stage)=>setProgress(i,part,stage,file.name));
+        l.images.push({id:uid(),image,note:''});
+        ok++;
+      }catch(err){
+        console.error('PREPRO location image upload failed',file?.name,err);
+        failed++;
+      }
+      setProgress(i,1,'처리 완료',file.name);
+    }
+    if(label)label.textContent=failed?`이미지 처리 완료 · 성공 ${ok} / 실패 ${failed}`:`이미지 ${ok}장 처리 완료 · 저장 중...`;
+    if(result){result.className='location-upload-result-v182';result.textContent='';}
+    let cloudSaved=true;
+    try{saveStore()}catch(err){console.error(err)}
+    if(cloudReadyV167){
+      if(label)label.textContent=`이미지 ${ok}장 처리 완료 · 클라우드 저장 중...`;
+      cloudSaved=await saveCloudNowV167();
+    }
+    if(bar)bar.style.width='100%';
+    if(percent)percent.textContent='100%';
+    if(toastBar)toastBar.style.width='100%';
+    if(toastPercent)toastPercent.textContent='100%';
+    if(result){
+      if(failed||cloudSaved===false){
+        result.classList.add('warn');
+        result.textContent=failed?`${failed}장은 첨부하지 못했습니다. 다른 이미지 형식/용량으로 다시 시도해주세요.`:'화면에는 추가됐지만 클라우드 저장에 실패했습니다. 네트워크 상태를 확인해주세요.';
+      }else{
+        result.classList.add('ok');
+        result.textContent=cloudReadyV167?'첨부 및 클라우드 저장 완료':'첨부 완료 · 현재 로컬 모드';
+      }
+    }
+    const doneText=failed?`이미지 첨부 완료 · ${ok}/${files.length}장`:`이미지 ${ok}장 첨부 완료`;
+    if(label)label.textContent=doneText;
+    if(toastLabel)toastLabel.textContent=doneText;
+    if(toastResult){
+      toastResult.textContent=failed?`${failed}장 실패 · 다시 시도해주세요.`:(cloudSaved===false?'클라우드 저장 실패 · 네트워크를 확인해주세요.':(cloudReadyV167?'클라우드 저장 완료':'첨부 완료'));
+      toastResult.className=(failed||cloudSaved===false)?'warn':'ok';
+    }
+    if(uploadLabel)uploadLabel.classList.remove('is-uploading-v182');
+    e.target.value='';
+    setTimeout(()=>{toast?.classList.remove('show');renderLocations()},1600);
   };
   box.querySelectorAll('[data-loc-image]').forEach(card=>{
     const im=l.images.find(x=>x.id===card.dataset.locImage);if(!im)return;
