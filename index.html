@@ -24787,5 +24787,336 @@ html[data-theme="light"] body #cast .cast-detail-v105{
   }
 }
 </style>
+
+
+<style id="prepro-v264-artprep-light-dark-unification">
+/* PREPRO V264 — targeted Art/Wardrobe/Props Light completion + Dark visual-system cleanup.
+   Deliberately color/type/geometry only: no grid/flex/width/position/scroll overrides. */
+
+/* =========================================================
+   A) ART / WARDROBE / PROPS — COMPLETE LIGHT THEME
+   ========================================================= */
+html[data-theme="light"] body #artprep{
+  --ap-bg:#F3F5F6;
+  --ap-panel:#F8FAFA;
+  --ap-card:#FFFFFF;
+  --ap-input:#F1F4F5;
+  --ap-line:#D5DCDF;
+  --ap-line-strong:#C3CDD0;
+  --ap-text:#1D2528;
+  --ap-sub:#657278;
+  --ap-muted:#8A969B;
+  --ap-sage:#607A6A;
+  --ap-sage-soft:#DFE8E3;
+  --ap-sage-line:#AFC1B6;
+}
+html[data-theme="light"] body #artprep .artprep-workspace-v200,
+html[data-theme="light"] body #artprep .artprep-work-head-v200,
+html[data-theme="light"] body #artprep .artprep-summary-v200{
+  background:transparent!important;
+  background-image:none!important;
+  color:var(--ap-text)!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] body #artprep .artprep-work-head-v200{
+  border-bottom-color:var(--ap-line)!important;
+}
+html[data-theme="light"] body #artprep .artprep-work-title-v200>b,
+html[data-theme="light"] body #artprep .artprep-category-head-v202 b,
+html[data-theme="light"] body #artprep .artprep-overview-title-v203{
+  color:var(--ap-text)!important;
+  -webkit-text-fill-color:var(--ap-text)!important;
+}
+html[data-theme="light"] body #artprep .artprep-work-title-v200>span,
+html[data-theme="light"] body #artprep .artprep-category-head-v202 small,
+html[data-theme="light"] body #artprep .artprep-overview-note-v203,
+html[data-theme="light"] body #artprep .artprep-overview-meta-v203 small{
+  color:var(--ap-sub)!important;
+  -webkit-text-fill-color:var(--ap-sub)!important;
+}
+
+/* Category/scene grouping shell — this was the large remaining dark area. */
+html[data-theme="light"] body #artprep .artprep-category-section-v202,
+html[data-theme="light"] body #artprep .artprep-layout-v200:not(.all-v202) .artprep-category-section-v202,
+html[data-theme="light"] body #artprep .artprep-layout-v200.all-v202 .artprep-category-section-v202{
+  background:var(--ap-panel)!important;
+  background-image:none!important;
+  border-color:var(--ap-line)!important;
+  color:var(--ap-text)!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] body #artprep .artprep-category-head-v202{
+  border-bottom-color:var(--ap-line)!important;
+}
+html[data-theme="light"] body #artprep .artprep-category-count-v202{
+  background:#E8EEEA!important;
+  border-color:#C6D2CB!important;
+  color:#4D6657!important;
+  -webkit-text-fill-color:#4D6657!important;
+}
+
+/* Editable cards */
+html[data-theme="light"] body #artprep .artprep-board-card-v200,
+html[data-theme="light"] body #artprep .artprep-card-v198{
+  background:var(--ap-card)!important;
+  background-image:none!important;
+  border-color:var(--ap-line)!important;
+  color:var(--ap-text)!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] body #artprep .artprep-board-card-v200:hover{
+  background:#FBFCFC!important;
+  border-color:#BEC9CC!important;
+}
+html[data-theme="light"] body #artprep .artprep-card-content-v200{
+  background:transparent!important;
+  color:var(--ap-text)!important;
+}
+html[data-theme="light"] body #artprep .artprep-card-image-v200,
+html[data-theme="light"] body #artprep .artprep-overview-image-v203{
+  background:#EEF2F3!important;
+  border-color:var(--ap-line)!important;
+}
+html[data-theme="light"] body #artprep .artprep-image-placeholder-v200,
+html[data-theme="light"] body #artprep .artprep-image-placeholder-v200 span{
+  color:#6E7B80!important;
+  -webkit-text-fill-color:#6E7B80!important;
+}
+html[data-theme="light"] body #artprep .artprep-image-placeholder-v200 small{
+  color:#8B969B!important;
+  -webkit-text-fill-color:#8B969B!important;
+}
+
+/* Card title + fields */
+html[data-theme="light"] body #artprep .artprep-name-v200{
+  background:transparent!important;
+  color:var(--ap-text)!important;
+  -webkit-text-fill-color:var(--ap-text)!important;
+  border-bottom-color:var(--ap-line-strong)!important;
+}
+html[data-theme="light"] body #artprep .artprep-name-v200:focus{
+  border-bottom-color:#91A79A!important;
+}
+html[data-theme="light"] body #artprep .artprep-card-content-v200 .artprep-field-v198>span{
+  color:#647278!important;
+  -webkit-text-fill-color:#647278!important;
+}
+html[data-theme="light"] body #artprep .artprep-card-content-v200 .artprep-field-v198 input,
+html[data-theme="light"] body #artprep .artprep-card-content-v200 .artprep-field-v198 select,
+html[data-theme="light"] body #artprep .artprep-note-v200 textarea{
+  background:var(--ap-input)!important;
+  border-color:var(--ap-line)!important;
+  color:var(--ap-text)!important;
+  -webkit-text-fill-color:var(--ap-text)!important;
+  box-shadow:none!important;
+  color-scheme:light!important;
+}
+html[data-theme="light"] body #artprep .artprep-card-content-v200 input::placeholder,
+html[data-theme="light"] body #artprep .artprep-card-content-v200 textarea::placeholder{
+  color:#939DA1!important;
+  -webkit-text-fill-color:#939DA1!important;
+  opacity:1!important;
+}
+
+/* Image upload / destructive controls */
+html[data-theme="light"] body #artprep .artprep-image-upload-v200{
+  background:#F5F7F7!important;
+  border-color:var(--ap-line)!important;
+  color:#5F6D72!important;
+  -webkit-text-fill-color:#5F6D72!important;
+}
+html[data-theme="light"] body #artprep .artprep-image-upload-v200:hover{
+  background:#E9EFEC!important;
+  border-color:#B8C7BE!important;
+  color:#405848!important;
+  -webkit-text-fill-color:#405848!important;
+}
+html[data-theme="light"] body #artprep .artprep-delete-v200,
+html[data-theme="light"] body #artprep .artprep-image-remove-v200{
+  background:rgba(255,255,255,.94)!important;
+  border-color:#D7C1C3!important;
+  color:#B15B61!important;
+  -webkit-text-fill-color:#B15B61!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] body #artprep .artprep-delete-v200:hover,
+html[data-theme="light"] body #artprep .artprep-image-remove-v200:hover{
+  background:#FFF1F2!important;
+  border-color:#DFAEB2!important;
+  color:#9F444B!important;
+  -webkit-text-fill-color:#9F444B!important;
+}
+
+/* Overlay chips remain readable on photos while becoming light on empty placeholders. */
+html[data-theme="light"] body #artprep .artprep-card-image-v200:not(.has-image) .artprep-kind-overlay-v200{
+  background:#E4ECE7!important;
+  border-color:#AFC1B6!important;
+  color:#405B49!important;
+  -webkit-text-fill-color:#405B49!important;
+}
+html[data-theme="light"] body #artprep .artprep-card-image-v200:not(.has-image) .artprep-scene-overlay-v200,
+html[data-theme="light"] body #artprep .artprep-card-image-v200:not(.has-image) .artprep-status-overlay-v200{
+  background:rgba(248,250,250,.94)!important;
+  border-color:#C9D2D5!important;
+  color:#607078!important;
+  -webkit-text-fill-color:#607078!important;
+}
+html[data-theme="light"] body #artprep .artprep-card-image-v200:not(.has-image) .artprep-status-overlay-v200.status-done{
+  background:#E5EEE8!important;border-color:#BCD0C2!important;color:#47634F!important;-webkit-text-fill-color:#47634F!important;
+}
+html[data-theme="light"] body #artprep .artprep-card-image-v200:not(.has-image) .artprep-status-overlay-v200.status-progress{
+  background:#F5E9D8!important;border-color:#DFC5A3!important;color:#966332!important;-webkit-text-fill-color:#966332!important;
+}
+
+/* Read-only overview cards */
+html[data-theme="light"] body #artprep .artprep-overview-card-v203{
+  background:var(--ap-card)!important;
+  border-color:var(--ap-line)!important;
+  color:var(--ap-text)!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] body #artprep .artprep-overview-image-v203{border-bottom-color:var(--ap-line)!important}
+html[data-theme="light"] body #artprep .artprep-overview-scenes-v203 span{
+  background:#E8EEEA!important;border-color:#C6D2CB!important;color:#4C6656!important;-webkit-text-fill-color:#4C6656!important;
+}
+html[data-theme="light"] body #artprep .artprep-overview-meta-v203{border-top-color:#E2E7E9!important}
+html[data-theme="light"] body #artprep .artprep-overview-meta-v203 b{color:#4B585D!important;-webkit-text-fill-color:#4B585D!important}
+html[data-theme="light"] body #artprep .artprep-empty-v200{
+  background:#F8FAFA!important;border-color:#CAD4D7!important;color:#68767C!important;
+}
+
+/* Top controls / summary */
+html[data-theme="light"] body #artprep .artprep-add-v200,
+html[data-theme="light"] body #artprep .artprep-add-v198{
+  background:#F8FAFA!important;border-color:var(--ap-line)!important;color:var(--ap-text)!important;
+}
+html[data-theme="light"] body #artprep .artprep-add-copy-v198 b{color:var(--ap-text)!important;-webkit-text-fill-color:var(--ap-text)!important}
+html[data-theme="light"] body #artprep .artprep-add-copy-v198 span{color:var(--ap-sub)!important;-webkit-text-fill-color:var(--ap-sub)!important}
+html[data-theme="light"] body #artprep .artprep-summary-v200 span,
+html[data-theme="light"] body #artprep .artprep-summary-v198 span{
+  background:#F8FAFA!important;border-color:var(--ap-line)!important;color:#69767B!important;-webkit-text-fill-color:#69767B!important;
+}
+html[data-theme="light"] body #artprep .artprep-summary-v200 span.done,
+html[data-theme="light"] body #artprep .artprep-summary-v198 span.done{
+  background:#E6EEE9!important;border-color:#BDD0C3!important;color:#4A6653!important;-webkit-text-fill-color:#4A6653!important;
+}
+
+/* =========================================================
+   B) DARK THEME — TYPOGRAPHY + COLOR TOKEN CONSISTENCY
+   ========================================================= */
+html[data-theme="dark"]{
+  --bg:#0B0F11!important;
+  --surface-0:#0B0F11!important;
+  --surface-1:#101518!important;
+  --surface-2:#151B1F!important;
+  --surface-3:#1A2125!important;
+  --surface-4:#20282D!important;
+  --panel:#151B1F!important;
+  --panel2:#1A2125!important;
+  --panel3:#20282D!important;
+  --input-bg:#101619!important;
+  --line:#2B353A!important;
+  --line-soft:#232C30!important;
+  --text:#E8EEEC!important;
+  --muted:#8D999E!important;
+  --accent:#9CB7A3!important;
+  --accent2:#D3DFD6!important;
+  --accent-bg:#1B2921!important;
+  --hover-bg:#192126!important;
+  --selected-bg:#1B2A21!important;
+}
+html[data-theme="dark"] body{color:var(--text)!important}
+html[data-theme="dark"] body .main .view > .header h2,
+html[data-theme="dark"] body .main .script-title-row h2{
+  color:var(--text)!important;-webkit-text-fill-color:var(--text)!important;
+  font-size:22px!important;line-height:1.2!important;font-weight:760!important;letter-spacing:-.035em!important;
+}
+html[data-theme="dark"] body .main .view > .header p{
+  color:var(--muted)!important;-webkit-text-fill-color:var(--muted)!important;
+  font-size:12px!important;line-height:1.5!important;
+}
+html[data-theme="dark"] body .panel-head b,
+html[data-theme="dark"] body .panel-head strong{font-size:11.5px!important;line-height:1.35!important;font-weight:720!important}
+html[data-theme="dark"] body .field label,
+html[data-theme="dark"] body .aivfx-field-v147 label,
+html[data-theme="dark"] body [class*="field-v"]>span{font-size:9.5px!important;line-height:1.35!important;font-weight:650!important}
+html[data-theme="dark"] body button,
+html[data-theme="dark"] body .btn-like,
+html[data-theme="dark"] body input,
+html[data-theme="dark"] body select,
+html[data-theme="dark"] body textarea{font-size:11px!important;line-height:1.35}
+html[data-theme="dark"] body button,
+html[data-theme="dark"] body .btn-like{font-weight:650}
+
+/* Shared dark surfaces and controls: one contrast hierarchy. */
+html[data-theme="dark"] body .card,
+html[data-theme="dark"] body .panel{background:var(--panel)!important;border-color:var(--line)!important;color:var(--text)!important}
+html[data-theme="dark"] body .panel-head{background:var(--surface-3)!important;border-color:var(--line)!important;color:var(--text)!important}
+html[data-theme="dark"] body .main input:not([type="checkbox"]):not([type="radio"]),
+html[data-theme="dark"] body .main select,
+html[data-theme="dark"] body .main textarea{
+  background:var(--input-bg)!important;border-color:var(--line)!important;color:var(--text)!important;-webkit-text-fill-color:var(--text)!important;box-shadow:none!important;color-scheme:dark!important;
+}
+html[data-theme="dark"] body .main input::placeholder,
+html[data-theme="dark"] body .main textarea::placeholder{color:#68757B!important;-webkit-text-fill-color:#68757B!important;opacity:1!important}
+html[data-theme="dark"] body .main button:not(.primary):not(.danger):not([class*="delete"]):not([class*="remove"]){
+  border-color:var(--line)!important;
+}
+html[data-theme="dark"] body .main button.primary{background:#607A6A!important;border-color:#718E7C!important;color:#FFFFFF!important;-webkit-text-fill-color:#FFFFFF!important}
+html[data-theme="dark"] body .main :is(button.danger,.icon-btn.danger,[class*="delete"],[class*="remove"]){
+  color:#D48F95!important;
+}
+
+/* Dark selected-state rhythm for major segmented controls. */
+html[data-theme="dark"] body :is(
+  #storyboard .story-view-toggle-v59,
+  #references .story-view-toggle-v59,
+  #artprep .story-view-toggle-v59
+) button.active{
+  background:#213128!important;color:#D3E0D6!important;-webkit-text-fill-color:#D3E0D6!important;box-shadow:inset 0 0 0 1px #405849!important;
+}
+
+/* Art-prep dark values now consume the same token hierarchy rather than drifting hexes. */
+html[data-theme="dark"] body #artprep .artprep-category-section-v202,
+html[data-theme="dark"] body #artprep .artprep-layout-v200:not(.all-v202) .artprep-category-section-v202,
+html[data-theme="dark"] body #artprep .artprep-layout-v200.all-v202 .artprep-category-section-v202{
+  background:var(--surface-1)!important;border-color:var(--line)!important;
+}
+html[data-theme="dark"] body #artprep .artprep-board-card-v200,
+html[data-theme="dark"] body #artprep .artprep-overview-card-v203{
+  background:var(--surface-2)!important;border-color:var(--line)!important;
+}
+html[data-theme="dark"] body #artprep .artprep-card-image-v200,
+html[data-theme="dark"] body #artprep .artprep-overview-image-v203{background:#0D1316!important;border-color:var(--line)!important}
+html[data-theme="dark"] body #artprep .artprep-card-content-v200 .artprep-field-v198 input,
+html[data-theme="dark"] body #artprep .artprep-card-content-v200 .artprep-field-v198 select,
+html[data-theme="dark"] body #artprep .artprep-note-v200 textarea{background:var(--input-bg)!important;border-color:var(--line)!important}
+</style>
+
+<style id="prepro-v265-artprep-csv-light-button">
+/* PREPRO V265 — Art prep CSV: clean Light secondary button */
+html[data-theme="light"] body #artprep #artPrepCsvV198{
+  opacity:1!important;
+  background:#FFFFFF!important;
+  color:#5B686E!important;
+  -webkit-text-fill-color:#5B686E!important;
+  border:1px solid #CBD4D7!important;
+  border-radius:9px!important;
+  box-shadow:none!important;
+  font-weight:700!important;
+  transition:background .15s ease,border-color .15s ease,color .15s ease!important;
+}
+html[data-theme="light"] body #artprep #artPrepCsvV198:hover{
+  background:#EEF2F2!important;
+  border-color:#B8C3C7!important;
+  color:#354248!important;
+  -webkit-text-fill-color:#354248!important;
+}
+html[data-theme="light"] body #artprep #artPrepCsvV198:focus-visible{
+  outline:2px solid rgba(96,122,106,.24)!important;
+  outline-offset:2px!important;
+  border-color:#9DB2A5!important;
+}
+</style>
 </body>
 </html>
