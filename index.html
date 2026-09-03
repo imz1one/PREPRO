@@ -16528,7 +16528,6 @@ function renderStoryboard(){
           <span><b>SIZE</b>${esc(sh.size||'—')}</span>
           <span><b>ANGLE</b>${esc(sh.angle||'—')}</span>
           <span><b>MOVING</b>${esc(movement)}</span>
-          <span><b>LENS</b>${esc(sh.lens||'—')}</span>
           <span><b>FOCAL</b>${esc(sh.focalLength||'—')}</span>
         </div>
 
@@ -20776,7 +20775,7 @@ class CanvasPdfDocV142{
     const videoW=Math.round(this.contentW*0.47);
     const infoW=this.contentW-cutW-videoW;
 
-    // VIDEO frame is always 16:9. The row height follows that frame instead of leaving unused vertical space.
+    // VIDEO frame is always 16:9.
     const videoPad=10;
     const frameW=videoW-videoPad*2;
     const frameH=frameW*9/16;
@@ -20793,10 +20792,10 @@ class CanvasPdfDocV142{
     c.strokeStyle='#aeb4b8';c.lineWidth=1;
     c.strokeRect(x,y,cutW,rowH);c.strokeRect(vx,y,videoW,rowH);c.strokeRect(ix,y,infoW,rowH);
 
+    // CUT column keeps only the simple cut number.
     c.fillStyle='#2d3336';c.font=this.font(21,800);c.textAlign='center';
     c.fillText(String(index+1),x+cutW/2,y+rowH/2-12);c.textAlign='left';
 
-    // Fixed 16:9 storyboard frame. Images use cover-crop so every VIDEO cell has the same cinematic ratio.
     const fx=vx+videoPad,fy=y+(rowH-frameH)/2;
     c.fillStyle='#f0f1f1';c.fillRect(fx,fy,frameW,frameH);
     c.strokeStyle='#c8cdd0';c.strokeRect(fx,fy,frameW,frameH);
@@ -20817,52 +20816,78 @@ class CanvasPdfDocV142{
       c.fillText('NO STORYBOARD IMAGE',fx+frameW/2,fy+frameH/2-8);c.textAlign='left';
     }
 
-    // Use the right-hand space aggressively: larger type, fewer tiny boxes.
-    const pad=15,tx=ix+pad,tw=infoW-pad*2;
-    let ty=y+15;
+    // V292 — mark only AI/VFX shots in the PDF image frame.
+    if(shot.vfx){
+      const badgeText='AI / VFX';
+      c.font=this.font(11,800);
+      const badgePadX=10;
+      const badgeH=28;
+      const badgeW=Math.ceil(c.measureText(badgeText).width)+badgePadX*2;
+      const badgeX=fx+frameW-badgeW-10;
+      const badgeY=fy+10;
 
-    c.fillStyle='#161a1c';c.font=this.font(21,800);
-    c.fillText(`${scene.number}-${index+1}`,tx,ty);
-    c.fillStyle='#555e63';c.font=this.font(15,800);
-    c.fillText(shot.size||'SHOT',tx+105,ty+2);
-    ty+=32;
+      c.save();
+      c.fillStyle='rgba(20,24,26,.86)';
+      c.fillRect(badgeX,badgeY,badgeW,badgeH);
+      c.strokeStyle='rgba(255,255,255,.42)';
+      c.lineWidth=1;
+      c.strokeRect(badgeX,badgeY,badgeW,badgeH);
+      c.fillStyle='#ffffff';
+      c.textAlign='center';
+      c.textBaseline='middle';
+      c.fillText(badgeText,badgeX+badgeW/2,badgeY+badgeH/2+1);
+      c.restore();
+      c.textAlign='left';
+      c.textBaseline='top';
+    }
+
+    const pad=15,tx=ix+pad,tw=infoW-pad*2;
+    let ty=y+18;
+
+    // Requested PDF hierarchy:
+    // Shot size | Angle
+    // Lens (focal length) | Moving
+    // Script excerpt
+    const movement=shot.movement==='Static'?'Fix':(shot.movement||'—');
+    const lensParts=[shot.lens||'',shot.focalLength?`(${shot.focalLength})`:'' ].filter(Boolean);
+    const lensFocal=lensParts.join(' ')||'—';
 
     const spec=[
+      ['SHOT SIZE',shot.size||'—'],
       ['ANGLE',shot.angle||'—'],
-      ['LENS / FL',shot.focalLength||shot.lens||'—'],
-      ['MOVE',shot.movement==='Static'?'Fix':(shot.movement||'—')],
-      ['SUPPORT',shot.support||'—'],
-      ['FPS',shot.fps||'—']
+      ['LENS (FL)',lensFocal],
+      ['MOVING',movement]
     ];
-    const colGap=8,boxW=(tw-colGap)/2,boxH=47;
+
+    const colGap=8,boxW=(tw-colGap)/2,boxH=55;
     for(let i=0;i<spec.length;i++){
       const [k,v]=spec[i],col=i%2,row=Math.floor(i/2);
-      const bx=tx+col*(boxW+colGap),by=ty+row*(boxH+6);
+      const bx=tx+col*(boxW+colGap),by=ty+row*(boxH+7);
       c.fillStyle='#f2f3f3';c.fillRect(bx,by,boxW,boxH);
       c.strokeStyle='#d5d9db';c.strokeRect(bx,by,boxW,boxH);
-      c.fillStyle='#747d82';c.font=this.font(10.5,800);c.fillText(k,bx+9,by+7);
+      c.fillStyle='#747d82';c.font=this.font(10.5,800);c.fillText(k,bx+9,by+8);
       c.fillStyle='#202629';c.font=this.font(15,700);
       const vline=wrapCanvasTextV141(c,String(v),boxW-18,c.font)[0]||'';
-      c.fillText(vline,bx+9,by+23);
+      c.fillText(vline,bx+9,by+27);
     }
-    ty+=3*(boxH+6)+4;
 
-    // Text sections are only drawn when they contain data, with clearly larger body text.
-    const sections=[
-      ['DESCRIPTION',shot.description||'',4],
-      ['SHOT INTENT',shot.storyIntent||'',3],
-      ['NOTE',shot.notes||'',3]
-    ].filter(([,text])=>String(text).trim());
+    ty+=2*(boxH+7)+10;
 
-    for(const [label,text,maxLines] of sections){
-      if(ty>y+rowH-42)break;
-      c.strokeStyle='#d3d7d9';c.beginPath();c.moveTo(tx,ty);c.lineTo(tx+tw,ty);c.stroke();ty+=9;
-      c.fillStyle='#747d82';c.font=this.font(10.5,800);c.fillText(label,tx,ty);ty+=16;
-      c.fillStyle='#282e31';c.font=this.font(14,500);
-      const lines=wrapCanvasTextV141(c,String(text),tw,c.font).slice(0,maxLines);
-      lines.forEach((line,i)=>c.fillText(line,tx,ty+i*20));
-      ty+=lines.length*20+5;
-    }
+    c.strokeStyle='#d3d7d9';
+    c.beginPath();c.moveTo(tx,ty);c.lineTo(tx+tw,ty);c.stroke();
+    ty+=11;
+
+    c.fillStyle='#747d82';
+    c.font=this.font(10.5,800);
+    c.fillText('SCRIPT',tx,ty);
+    ty+=19;
+
+    c.fillStyle='#282e31';
+    c.font=this.font(14,500);
+    const scriptText=(shot.scriptExcerpt||'').trim()||'대본 구간 미연결';
+    const maxScriptLines=Math.max(4,Math.floor((y+rowH-ty-14)/20));
+    const scriptLines=wrapCanvasTextV141(c,scriptText,tw,c.font).slice(0,maxScriptLines);
+    scriptLines.forEach((line,i)=>c.fillText(line,tx,ty+i*20));
 
     this.y+=rowH;
   }
