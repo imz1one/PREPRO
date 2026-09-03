@@ -20849,13 +20849,12 @@ class CanvasPdfDocV142{
     // Lens (focal length) | Moving
     // Script excerpt
     const movement=shot.movement==='Static'?'Fix':(shot.movement||'—');
-    const lensParts=[shot.lens||'',shot.focalLength?`(${shot.focalLength})`:'' ].filter(Boolean);
-    const lensFocal=lensParts.join(' ')||'—';
+    const focalOnly=shot.focalLength||'—';
 
     const spec=[
       ['SHOT SIZE',shot.size||'—'],
       ['ANGLE',shot.angle||'—'],
-      ['LENS (FL)',lensFocal],
+      ['FOCAL LENGTH',focalOnly],
       ['MOVING',movement]
     ];
 
