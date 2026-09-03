@@ -26128,5 +26128,87 @@ html[data-theme="light"] body #shots .shot-subject-menu-v297 label{color:#354248
 html[data-theme="light"] body #shots .shot-subject-menu-v297 label:hover{background:#EEF3F0!important}
 </style>
 
+
+<style id="prepro-v298-shot-subject-picker-fix">
+/* V298 — Fix character picker labels + oversized checkbox collision.
+   Legacy .shot-field-v56 input rules force every input to 100% × 36px,
+   so explicitly exempt the subject checkboxes. */
+#shots .shot-subject-menu-v297 label{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:9px!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:32px!important;
+  box-sizing:border-box!important;
+  padding:6px 8px!important;
+  overflow:visible!important;
+}
+
+#shots .shot-subject-menu-v297 label > span{
+  display:block!important;
+  flex:1 1 auto!important;
+  min-width:0!important;
+  width:auto!important;
+  color:var(--text,#d0d6d9)!important;
+  -webkit-text-fill-color:var(--text,#d0d6d9)!important;
+  font-size:10.5px!important;
+  line-height:1.35!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+#shots .shot-field-v56 .shot-subject-menu-v297 input[type="checkbox"],
+#shots .shot-subject-menu-v297 input[data-shot-subject]{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  box-sizing:border-box!important;
+  display:inline-grid!important;
+  place-content:center!important;
+  flex:0 0 16px!important;
+  width:16px!important;
+  min-width:16px!important;
+  max-width:16px!important;
+  height:16px!important;
+  min-height:16px!important;
+  max-height:16px!important;
+  margin:0!important;
+  padding:0!important;
+  border:1px solid #768188!important;
+  border-radius:5px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+
+#shots .shot-subject-menu-v297 input[data-shot-subject]:checked{
+  background:var(--accent,#607A6A)!important;
+  border-color:var(--accent,#607A6A)!important;
+}
+
+#shots .shot-subject-menu-v297 input[data-shot-subject]:checked::after{
+  content:""!important;
+  width:7px!important;
+  height:4px!important;
+  border-left:2px solid #fff!important;
+  border-bottom:2px solid #fff!important;
+  transform:rotate(-45deg) translateY(-1px)!important;
+}
+
+html[data-theme="light"] body #shots .shot-subject-menu-v297 label > span{
+  color:#354248!important;
+  -webkit-text-fill-color:#354248!important;
+}
+html[data-theme="light"] body #shots .shot-subject-menu-v297 input[data-shot-subject]{
+  background:#fff!important;
+  border-color:#89979D!important;
+}
+html[data-theme="light"] body #shots .shot-subject-menu-v297 input[data-shot-subject]:checked{
+  background:#607A6A!important;
+  border-color:#607A6A!important;
+}
+</style>
+
 </body>
 </html>
