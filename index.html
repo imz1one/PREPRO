@@ -13424,7 +13424,7 @@ html[data-theme="light"] .sidebar .nav button.active .nav-icon{color:#4D6B58!imp
       <p>샷리스트와 연결된 콘티 이미지와 연출 의도를 정리합니다.</p>
     </div>
     <div class="grow"></div>
-    <button id="storyPrintBtn" class="story-print-btn-v60">PDF 저장</button>
+    <button id="storyPrintBtn" type="button" class="story-print-btn-v60">PDF 저장</button>
     <div class="story-view-toggle-v59" role="group" aria-label="콘티 보기 방식">
       <button id="storyDetailViewBtn" class="active">상세 보기</button>
       <button id="storyOverviewBtn">한눈에 보기</button>
@@ -25730,6 +25730,154 @@ html[data-theme="light"] body #storyboard .story-content-label-v57{
     height:auto!important;
     max-height:none!important;
   }
+}
+</style>
+
+
+<script id="prepro-v278-pdf-export-activation">
+/* PREPRO V278 — restore/guarantee PDF export controls. */
+(function(){
+  function runPdfExportV278(type){
+    try{
+      if(type==='callsheet'){
+        if(typeof printCallSheetV73==='function') return printCallSheetV73();
+        throw new Error('콜시트 PDF 기능을 찾을 수 없습니다.');
+      }
+      if(typeof openPrintDocument==='function') return openPrintDocument(type);
+      throw new Error('PDF 저장 기능을 찾을 수 없습니다.');
+    }catch(err){
+      console.error('[PREPRO PDF]',err);
+      alert('PDF 저장 중 문제가 발생했습니다. 다시 시도해주세요.');
+    }
+  }
+
+  /* Capture-phase delegation survives rerenders and later DOM replacement. */
+  document.addEventListener('click',function(e){
+    const btn=e.target.closest('[data-print-view]');
+    if(!btn)return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    runPdfExportV278(btn.dataset.printView);
+  },true);
+
+  document.addEventListener('click',function(e){
+    const btn=e.target.closest('#exportSelectedEquipmentV136');
+    if(!btn)return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    try{
+      if(typeof saveEquipmentPdfV141==='function') saveEquipmentPdfV141(true);
+      else throw new Error('장비 PDF 기능을 찾을 수 없습니다.');
+    }catch(err){
+      console.error('[PREPRO PDF]',err);
+      alert('PDF 저장 중 문제가 발생했습니다. 다시 시도해주세요.');
+    }
+  },true);
+})();
+</script>
+<style id="prepro-v278-pdf-export-ui">
+/* Ensure export controls are visibly and interactively enabled. */
+#exports.view.active [data-print-view],
+#exports.view.active #exportSelectedEquipmentV136{
+  pointer-events:auto!important;
+  cursor:pointer!important;
+  opacity:1!important;
+  filter:none!important;
+}
+#exports.view.active [data-print-view]:disabled,
+#exports.view.active #exportSelectedEquipmentV136:disabled{
+  pointer-events:auto!important;
+  opacity:1!important;
+}
+</style>
+
+
+<script id="prepro-v279-pdf-button-fix">
+/* PREPRO V279 — Export page + Storyboard PDF button repair. */
+(function(){
+  function runPdfV279(type, selected){
+    try{
+      if(type === 'storyboard'){
+        if(typeof saveStoryboardPdfV141 === 'function'){
+          if(selected && typeof selectedScene === 'function' && !selectedScene()){
+            alert('먼저 씬을 선택하세요.');
+            return;
+          }
+          return saveStoryboardPdfV141(!!selected);
+        }
+      }
+      if(type === 'callsheet' && typeof printCallSheetV73 === 'function'){
+        return printCallSheetV73();
+      }
+      if(typeof openPrintDocument === 'function'){
+        return openPrintDocument(type);
+      }
+      throw new Error('PDF export function unavailable');
+    }catch(err){
+      console.error('[PREPRO PDF V279]', err);
+      alert('PDF 저장 중 문제가 발생했습니다. 다시 시도해주세요.');
+    }
+  }
+
+  /* Storyboard page PDF */
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('#storyPrintBtn');
+    if(!btn) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    runPdfV279('storyboard', true);
+  }, true);
+
+  /* Export page PDF controls — delegated so rerendering cannot break them. */
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('#exports [data-print-view]');
+    if(!btn) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    runPdfV279(btn.dataset.printView, false);
+  }, true);
+
+  /* Force accidental disabled state off on render/load. */
+  function activatePdfButtonsV279(){
+    document.querySelectorAll('#exports [data-print-view], #storyPrintBtn, #callSheetPrintBtn').forEach(function(btn){
+      btn.disabled = false;
+      btn.removeAttribute('aria-disabled');
+      btn.style.pointerEvents = 'auto';
+    });
+  }
+  activatePdfButtonsV279();
+  document.addEventListener('DOMContentLoaded', activatePdfButtonsV279);
+  setTimeout(activatePdfButtonsV279, 0);
+  setTimeout(activatePdfButtonsV279, 300);
+})();
+</script>
+
+<style id="prepro-v279-pdf-button-ui-fix">
+/* Actual export page id is #exports. Make PDF actions visibly active in both themes. */
+#exports [data-print-view],
+#exports #exportSelectedEquipmentV136,
+#storyboard #storyPrintBtn,
+#callsheet #callSheetPrintBtn{
+  pointer-events:auto!important;
+  cursor:pointer!important;
+  opacity:1!important;
+  filter:none!important;
+  visibility:visible!important;
+}
+
+#exports [data-print-view].primary,
+#storyboard #storyPrintBtn,
+#callsheet #callSheetPrintBtn{
+  color:var(--btn-primary-text, #0b120e)!important;
+  -webkit-text-fill-color:var(--btn-primary-text, #0b120e)!important;
+}
+
+#exports [data-print-view]:disabled,
+#storyboard #storyPrintBtn:disabled,
+#callsheet #callSheetPrintBtn:disabled{
+  pointer-events:auto!important;
+  cursor:pointer!important;
+  opacity:1!important;
 }
 </style>
 
