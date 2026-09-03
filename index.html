@@ -25535,5 +25535,147 @@ html[data-theme="light"] body #storyboard .story-content-label-v57{
 }
 </style>
 
+
+<style id="prepro-v275-shotlist-responsive">
+/* PREPRO V275 — Shot List responsive layout.
+   Keep the desktop card intact, then progressively reflow instead of squeezing columns. */
+
+/* Wide desktop */
+@media (min-width:1181px){
+  #shots .shot-card-v56{
+    grid-template-columns:28px 48px minmax(190px,.9fr) minmax(205px,.95fr) minmax(360px,1.7fr) 34px!important;
+    grid-template-areas:"drag number camera lens content actions"!important;
+  }
+  #shots .shot-drag-v56{grid-area:drag!important}
+  #shots .shot-number-v56{grid-area:number!important}
+  #shots .shot-group-camera-v56{grid-area:camera!important}
+  #shots .shot-group-lens-v56{grid-area:lens!important}
+  #shots .shot-group-content-v56{grid-area:content!important}
+  #shots .shot-actions-v56{grid-area:actions!important}
+}
+
+/* Half-window / medium desktop:
+   camera + lens stay on row 1, script/description gets the full second row. */
+@media (min-width:821px) and (max-width:1180px){
+  #shots .shot-group-content-v56{padding-right:0!important}
+  #shots .shot-card-v56{
+    display:grid!important;
+    grid-template-columns:24px 42px minmax(220px,1fr) minmax(220px,1fr) 34px!important;
+    grid-template-areas:
+      "drag number camera lens actions"
+      "drag number content content actions"!important;
+    gap:12px!important;
+    align-items:stretch!important;
+    padding:12px!important;
+  }
+  #shots .shot-drag-v56{grid-area:drag!important}
+  #shots .shot-number-v56{grid-area:number!important}
+  #shots .shot-group-camera-v56{grid-area:camera!important;min-width:0!important}
+  #shots .shot-group-lens-v56{grid-area:lens!important;min-width:0!important}
+  #shots .shot-group-content-v56{grid-area:content!important;min-width:0!important}
+  #shots .shot-actions-v56{grid-area:actions!important;min-width:0!important}
+
+  #shots .shot-script-head-v56{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:10px!important;
+  }
+  #shots .shot-script-pick-v56{
+    flex:0 0 auto!important;
+    width:auto!important;
+    min-width:92px!important;
+    white-space:nowrap!important;
+    writing-mode:horizontal-tb!important;
+    word-break:keep-all!important;
+  }
+  #shots .shot-script-excerpt-v56,
+  #shots .shot-description-v56{
+    width:100%!important;
+    min-width:0!important;
+    min-height:72px!important;
+    writing-mode:horizontal-tb!important;
+    word-break:normal!important;
+    overflow-wrap:break-word!important;
+  }
+  #shots .shot-content-footer-v56{
+    display:grid!important;
+    grid-template-columns:max-content minmax(180px,1fr)!important;
+    gap:8px!important;
+  }
+  #shots .shot-notes-v56{min-width:0!important;width:100%!important}
+}
+
+/* Narrow workspace: one-column card instead of crushing form controls. */
+@media (max-width:820px){
+  #shots .shot-group-content-v56{padding-right:0!important}
+  #shots .shot-card-v56{
+    display:grid!important;
+    grid-template-columns:24px 42px minmax(0,1fr) 34px!important;
+    grid-template-areas:
+      "drag number camera actions"
+      "drag number lens actions"
+      "drag number content actions"!important;
+    gap:10px!important;
+    padding:10px!important;
+    align-items:stretch!important;
+  }
+  #shots .shot-drag-v56{grid-area:drag!important}
+  #shots .shot-number-v56{grid-area:number!important}
+  #shots .shot-group-camera-v56{grid-area:camera!important;min-width:0!important}
+  #shots .shot-group-lens-v56{grid-area:lens!important;min-width:0!important}
+  #shots .shot-group-content-v56{grid-area:content!important;min-width:0!important}
+  #shots .shot-actions-v56{grid-area:actions!important}
+
+  #shots .shot-script-head-v56{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:8px!important;
+  }
+  #shots .shot-script-pick-v56{
+    flex:0 0 auto!important;
+    width:auto!important;
+    min-width:88px!important;
+    white-space:nowrap!important;
+    writing-mode:horizontal-tb!important;
+    word-break:keep-all!important;
+  }
+  #shots .shot-script-excerpt-v56,
+  #shots .shot-description-v56,
+  #shots .shot-notes-v56{
+    width:100%!important;
+    min-width:0!important;
+    writing-mode:horizontal-tb!important;
+    word-break:normal!important;
+    overflow-wrap:break-word!important;
+  }
+  #shots .shot-content-footer-v56{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+  }
+  #shots .shot-vfx-v56{width:max-content!important}
+}
+
+/* Very narrow: number/drag become a compact header and fields use the full card width. */
+@media (max-width:560px){
+  #shots .shot-card-v56{
+    grid-template-columns:24px minmax(0,1fr) 34px!important;
+    grid-template-areas:
+      "drag number actions"
+      "camera camera camera"
+      "lens lens lens"
+      "content content content"!important;
+  }
+  #shots .shot-number-v56{
+    flex-direction:row!important;
+    justify-content:flex-start!important;
+    gap:10px!important;
+    min-height:34px!important;
+  }
+}
+</style>
+
 </body>
 </html>
