@@ -15752,7 +15752,7 @@ let artPrepViewV199='scene';
 let artPrepSceneV199='';
 function artPrepKeyV198(category,text){return `${category}::${String(text||'').trim().toLocaleLowerCase('ko-KR')}`}
 function ensureArtPrepStoreV198(){const p=project();if(!p.resourcePrepV198||typeof p.resourcePrepV198!=='object'||Array.isArray(p.resourcePrepV198))p.resourcePrepV198={};return p.resourcePrepV198}
-function artPrepDefaultsV198(){return {assignee:'',status:'미정',sourceType:'미정',qty:1,cost:'',note:'',imageUrl:'',imagePath:''}}
+function artPrepDefaultsV198(){return {assignee:'',status:'미정',sourceType:'미정',qty:1,cost:'',note:'',imageUrl:'',imagePath:'',imageCollapsed:false}}
 function artPrepDetailV198(key){const st=ensureArtPrepStoreV198();if(!st[key]||typeof st[key]!=='object')st[key]=artPrepDefaultsV198();st[key]={...artPrepDefaultsV198(),...st[key]};return st[key]}
 function collectArtPrepGroupsV198(category=artPrepTabV198){
   const p=project(),map=new Map(),allow=category==='All'?new Set(ART_PREP_CATS_V198):new Set([category]);
@@ -15768,6 +15768,11 @@ function collectArtPrepGroupsV198(category=artPrepTabV198){
   return [...map.values()].sort((a,b)=>String(a.scenes[0]?.number||'').localeCompare(String(b.scenes[0]?.number||''),'ko',{numeric:true})||(order[a.category]??9)-(order[b.category]??9)||a.text.localeCompare(b.text,'ko'));
 }
 function artPrepCategoryLabelV198(cat){return ({All:'전체',Props:'소품',Wardrobe:'의상',Art:'미술'})[cat]||cat}
+function artPrepAssigneeOptionsV266(selected=''){
+  const names=[...registeredCastNames()].sort((a,b)=>a.localeCompare(b,'ko'));
+  const value=String(selected||'');
+  return ['<option value="">해당 없음</option>',...names.map(name=>`<option value="${esc(name)}" ${name===value?'selected':''}>${esc(castMetaV105(name).role||name)}</option>`)].join('');
+}
 function artPrepStatusCountsV198(groups){const out={완료:0,'진행 중':0,미정:0};groups.forEach(g=>{const s=artPrepDetailV198(g.key).status||'미정';out[s]=(out[s]||0)+1});return out}
 function migrateArtPrepKeyV198(oldKey,newKey){if(oldKey===newKey)return;const st=ensureArtPrepStoreV198();if(st[oldKey]){st[newKey]={...artPrepDefaultsV198(),...st[oldKey],...(st[newKey]||{})};delete st[oldKey]}}
 function renderArtPrepV198(){
@@ -15802,7 +15807,7 @@ function renderArtPrepV198(){
     if([...sceneSel.options].some(o=>o.value===prev))sceneSel.value=prev;else if(activeScene)sceneSel.value=activeScene.id;
   }
 
-  const groups=collectArtPrepGroupsV198(),counts=artPrepStatusCountsV198(groups),qty=groups.reduce((a,g)=>a+Math.max(0,Number(artPrepDetailV198(g.key).qty||0)),0);
+  const groups=collectArtPrepGroupsV198(),qty=groups.reduce((a,g)=>a+Math.max(0,Number(artPrepDetailV198(g.key).qty||0)),0),assignedCount=groups.filter(g=>String(artPrepDetailV198(g.key).assignee||'').trim()).length;
   const title=$('#artPrepViewTitleV200'),meta=$('#artPrepViewMetaV200');
   if(artPrepViewV199==='scene'&&activeScene){
     if(title)title.textContent=`${activeScene.number} · ${activeScene.meta?.location||activeScene.title||'씬'}`;
@@ -15813,25 +15818,26 @@ function renderArtPrepV198(){
   }else{
     if(title)title.textContent='씬을 선택하세요';if(meta)meta.textContent='';
   }
-  if(sum)sum.innerHTML=`<span><b>${artPrepCategoryLabelV198(artPrepTabV198)}</b> ${groups.length}개</span><span>총 수량 <b>${qty}</b></span><span class="done">완료 <b>${counts['완료']||0}</b></span><span>진행 중 <b>${counts['진행 중']||0}</b></span>`;
+  if(sum)sum.innerHTML=`<span><b>${artPrepCategoryLabelV198(artPrepTabV198)}</b> ${groups.length}개</span><span>총 수량 <b>${qty}</b></span><span>인물 지정 <b>${assignedCount}</b></span>`;
 
   let visibleGroups=groups;
   if(artPrepViewV199==='scene')visibleGroups=activeScene?groups.filter(g=>g.scenes.some(x=>x.id===activeScene.id)):[];
   if(!visibleGroups.length){grid.innerHTML=`<div class="artprep-empty-v198 artprep-empty-v200">${artPrepViewV199==='scene'&&activeScene?`이 씬에 등록된 ${artPrepTabV198==='All'?'미술 · 의상 · 소품':artPrepCategoryLabelV198(artPrepTabV198)} 항목이 없습니다.`:`대본 분석에 등록된 ${artPrepTabV198==='All'?'미술 · 의상 · 소품':artPrepCategoryLabelV198(artPrepTabV198)} 항목이 없습니다.`}<br><span>위에서 직접 추가하거나 대본 분석에서 항목을 등록하세요.</span></div>`;return}
 
-  const cardHtmlV200=g=>{const d=artPrepDetailV198(g.key);const status=d.status||'미정';const sceneBadge=g.scenes.map(s=>s.number).filter(Boolean).join(' · ');return `<article class="artprep-card-v198 artprep-board-card-v200" data-artprep-key="${esc(g.key)}">
-    <div class="artprep-card-image-v200 ${d.imageUrl?'has-image':''}">
+  const cardHtmlV200=g=>{const d=artPrepDetailV198(g.key);const assignee=d.assignee||'';const sceneBadge=g.scenes.map(s=>s.number).filter(Boolean).join(' · ');const imageCollapsed=!d.imageUrl;return `<article class="artprep-card-v198 artprep-board-card-v200" data-artprep-key="${esc(g.key)}">
+    <div class="artprep-card-image-v200 ${d.imageUrl?'has-image':''} ${imageCollapsed?'is-collapsed-v267':''}">
       ${d.imageUrl?`<img src="${esc(d.imageUrl)}" alt="${esc(g.text)}">`:`<div class="artprep-image-placeholder-v200"><span>IMAGE</span><small>레퍼런스 이미지 추가</small></div>`}
       <span class="artprep-kind-v198 artprep-kind-overlay-v200">${artPrepCategoryLabelV198(g.category)}</span>
       ${sceneBadge?`<span class="artprep-scene-overlay-v200">${esc(sceneBadge)}</span>`:''}
-      <span class="artprep-status-overlay-v200 status-${status==='완료'?'done':status==='진행 중'?'progress':'todo'}">${esc(status)}</span>
+      <span class="artprep-status-overlay-v200 ${assignee?'status-done':'status-todo'}">${assignee?esc(castMetaV105(assignee).role||assignee):'해당 없음'}</span>
+      ${!d.imageUrl?`<button type="button" class="artprep-image-collapse-v267" data-artprep-image-collapse aria-expanded="${imageCollapsed?'false':'true'}">${imageCollapsed?'이미지 펼치기':'이미지 접기'}</button>`:''}
       <button type="button" class="icon-btn danger artprep-delete-v198 artprep-delete-v200" data-artprep-delete title="항목 삭제" aria-label="항목 삭제">×</button>
       ${d.imageUrl?`<button type="button" class="icon-btn danger artprep-image-remove-v198 artprep-image-remove-v200" data-artprep-image-remove title="이미지 삭제" aria-label="이미지 삭제">×</button>`:''}
     </div>
     <div class="artprep-card-content-v200">
       <input class="artprep-name-v200" data-artprep-name value="${esc(g.text)}" aria-label="항목명">
       <div class="artprep-quick-fields-v200">
-        <label class="artprep-field-v198"><span>준비 상태</span><select data-artprep-field="status"><option>미정</option><option>진행 중</option><option>완료</option></select></label>
+        <label class="artprep-field-v198"><span>인물</span><select data-artprep-field="assignee">${artPrepAssigneeOptionsV266(assignee)}</select></label>
         <label class="artprep-field-v198"><span>준비 방식</span><select data-artprep-field="sourceType"><option>미정</option><option>보유</option><option>구매</option><option>대여</option><option>제작</option><option>협찬</option></select></label>
         <label class="artprep-field-v198"><span>수량</span><input data-artprep-field="qty" type="number" min="0" step="1" value="${esc(d.qty)}"></label>
         <label class="artprep-field-v198"><span>비용</span><input data-artprep-field="cost" inputmode="numeric" value="${esc(d.cost||'')}" placeholder="예: 50,000"></label>
@@ -15840,16 +15846,16 @@ function renderArtPrepV198(){
       <label class="artprep-image-upload-v200">${d.imageUrl?'이미지 변경':'+ 이미지 추가'}<input type="file" accept="image/*" data-artprep-image></label>
     </div>
   </article>`};
-  const aggregateCardHtmlV203=g=>{const d=artPrepDetailV198(g.key);const status=d.status||'미정';const scenes=g.scenes.map(s=>s.number).filter(Boolean);return `<article class="artprep-overview-card-v203">
+  const aggregateCardHtmlV203=g=>{const d=artPrepDetailV198(g.key);const assignee=d.assignee||'';const scenes=g.scenes.map(s=>s.number).filter(Boolean);return `<article class="artprep-overview-card-v203">
     <div class="artprep-overview-image-v203 ${d.imageUrl?'has-image':''}">
       ${d.imageUrl?`<img src="${esc(d.imageUrl)}" alt="${esc(g.text)}">`:`<div class="artprep-image-placeholder-v200"><span>IMAGE</span><small>씬별 보기에서 이미지 추가</small></div>`}
       <span class="artprep-kind-v198 artprep-kind-overlay-v200">${artPrepCategoryLabelV198(g.category)}</span>
-      <span class="artprep-status-overlay-v200 status-${status==='완료'?'done':status==='진행 중'?'progress':'todo'}">${esc(status)}</span>
+      <span class="artprep-status-overlay-v200 ${assignee?'status-done':'status-todo'}">${assignee?esc(castMetaV105(assignee).role||assignee):'해당 없음'}</span>
     </div>
     <div class="artprep-overview-body-v203">
       <div class="artprep-overview-title-v203">${esc(g.text)}</div>
       <div class="artprep-overview-scenes-v203">${scenes.length?scenes.map(n=>`<span>${esc(n)}</span>`).join(''):'<span>씬 미지정</span>'}</div>
-      <div class="artprep-overview-meta-v203"><span><small>준비 방식</small><b>${esc(d.sourceType||'미정')}</b></span><span><small>수량</small><b>${esc(d.qty??1)}</b></span>${d.cost?`<span><small>비용</small><b>${esc(d.cost)}</b></span>`:''}</div>
+      <div class="artprep-overview-meta-v203"><span><small>인물</small><b>${assignee?esc(castMetaV105(assignee).role||assignee):'해당 없음'}</b></span><span><small>준비 방식</small><b>${esc(d.sourceType||'미정')}</b></span><span><small>수량</small><b>${esc(d.qty??1)}</b></span>${d.cost?`<span><small>비용</small><b>${esc(d.cost)}</b></span>`:''}</div>
       ${d.note?`<p class="artprep-overview-note-v203">${esc(d.note)}</p>`:''}
     </div>
   </article>`};
@@ -15867,16 +15873,27 @@ function renderArtPrepV198(){
   if(artPrepViewV199==='all')return;
   grid.querySelectorAll('[data-artprep-key]').forEach(card=>{
     const oldKey=card.dataset.artprepKey,g=groups.find(x=>x.key===oldKey);if(!g)return;const d=artPrepDetailV198(oldKey);
-    const status=card.querySelector('[data-artprep-field="status"]'),source=card.querySelector('[data-artprep-field="sourceType"]');if(status)status.value=d.status||'미정';if(source)source.value=d.sourceType||'미정';
-    card.querySelectorAll('[data-artprep-field]').forEach(el=>el.oninput=()=>{const k=el.dataset.artprepField;d[k]=k==='qty'?Math.max(0,Number(el.value||0)):el.value;save();if(k==='status')renderArtPrepV198()});
-    const name=card.querySelector('[data-artprep-name]');if(name)name.onchange=()=>{const v=name.value.trim();if(!v){name.value=g.text;return}if(v===g.text)return;g.items.forEach(({item})=>item.text=v);const nk=artPrepKeyV198(g.category,v);migrateArtPrepKeyV198(oldKey,nk);g.items.forEach(({scene})=>syncBreakdownStrings(scene));save();renderArtPrepV198();renderBreakdown()};
-    const del=card.querySelector('[data-artprep-delete]');if(del)del.onclick=()=>{if(!confirm(`“${g.text}” 항목을 연결된 모든 씬의 대본 분석에서도 삭제할까요?`))return;g.items.forEach(({scene,item})=>{scene.breakdownItems=(scene.breakdownItems||[]).filter(x=>x.id!==item.id);syncBreakdownStrings(scene)});const st=ensureArtPrepStoreV198();const path=st[oldKey]?.imagePath;if(path)removeMediaStoragePathV197(path);delete st[oldKey];save();renderArtPrepV198();renderBreakdown()};
-    const imageInput=card.querySelector('[data-artprep-image]');if(imageInput)imageInput.onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{cloudStatusV167('이미지 저장 중...');const data=await loadStoryboardImageFile(f);const stored=await uploadMediaDataUrlV197(data,'artprep',encodeURIComponent(oldKey),'image');if(d.imagePath&&d.imagePath!==stored.path)await removeMediaStoragePathV197(d.imagePath);d.imageUrl=stored.url;d.imagePath=stored.path;save();renderArtPrepV198()}catch(err){console.error(err);alert(`이미지 저장 실패 · ${err?.message||err}`);cloudStatusV167('이미지 저장 실패')}};
-    const rm=card.querySelector('[data-artprep-image-remove]');if(rm)rm.onclick=async e=>{e.stopPropagation();if(d.imagePath)await removeMediaStoragePathV197(d.imagePath);d.imageUrl='';d.imagePath='';save();renderArtPrepV198()};
+    const assignee=card.querySelector('[data-artprep-field="assignee"]'),source=card.querySelector('[data-artprep-field="sourceType"]');if(assignee)assignee.value=d.assignee||'';if(source)source.value=d.sourceType||'미정';
+    card.querySelectorAll('[data-artprep-field]').forEach(el=>el.oninput=()=>{const k=el.dataset.artprepField;d[k]=k==='qty'?Math.max(0,Number(el.value||0)):el.value;save();if(k==='assignee')renderArtPrepKeepScrollV269()});
+    const name=card.querySelector('[data-artprep-name]');if(name)name.onchange=()=>{const v=name.value.trim();if(!v){name.value=g.text;return}if(v===g.text)return;g.items.forEach(({item})=>item.text=v);const nk=artPrepKeyV198(g.category,v);migrateArtPrepKeyV198(oldKey,nk);g.items.forEach(({scene})=>syncBreakdownStrings(scene));save();renderArtPrepKeepScrollV269();renderBreakdown()};
+    const del=card.querySelector('[data-artprep-delete]');if(del)del.onclick=()=>{if(!confirm(`“${g.text}” 항목을 연결된 모든 씬의 대본 분석에서도 삭제할까요?`))return;g.items.forEach(({scene,item})=>{scene.breakdownItems=(scene.breakdownItems||[]).filter(x=>x.id!==item.id);syncBreakdownStrings(scene)});const st=ensureArtPrepStoreV198();const path=st[oldKey]?.imagePath;if(path)removeMediaStoragePathV197(path);delete st[oldKey];save();renderArtPrepKeepScrollV269();renderBreakdown()};
+    const collapse=card.querySelector('[data-artprep-image-collapse]');if(collapse)collapse.onclick=e=>{e.preventDefault();e.stopPropagation();const imageBox=card.querySelector('.artprep-card-image-v200');if(!imageBox)return;const collapsed=imageBox.classList.toggle('is-collapsed-v267');collapse.textContent=collapsed?'이미지 펼치기':'이미지 접기';collapse.setAttribute('aria-expanded',collapsed?'false':'true')};
+    const imageInput=card.querySelector('[data-artprep-image]');if(imageInput)imageInput.onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{cloudStatusV167('이미지 저장 중...');const data=await loadStoryboardImageFile(f);const stored=await uploadMediaDataUrlV197(data,'artprep',encodeURIComponent(oldKey),'image');if(d.imagePath&&d.imagePath!==stored.path)await removeMediaStoragePathV197(d.imagePath);d.imageUrl=stored.url;d.imagePath=stored.path;d.imageCollapsed=false;save();renderArtPrepKeepScrollV269()}catch(err){console.error(err);alert(`이미지 저장 실패 · ${err?.message||err}`);cloudStatusV167('이미지 저장 실패')}};
+    const rm=card.querySelector('[data-artprep-image-remove]');if(rm)rm.onclick=async e=>{e.stopPropagation();if(d.imagePath)await removeMediaStoragePathV197(d.imagePath);d.imageUrl='';d.imagePath='';d.imageCollapsed=true;save();renderArtPrepKeepScrollV269()};
   });
 }
-function addArtPrepItemV198(){const p=project(),input=$('#artPrepAddNameV198'),sceneId=$('#artPrepAddSceneV198')?.value,cat=$('#artPrepAddCategoryV201')?.value||'Props',text=(input?.value||'').trim();if(!text)return input?.focus();const scene=(p.scenes||[]).find(s=>s.id===sceneId);if(!scene)return alert('연결할 씬을 먼저 선택하세요.');ensureBreakdownItems(scene);if(!scene.breakdownItems.some(x=>x.category===cat&&String(x.text||'').trim()===text))scene.breakdownItems.push({id:uid(),category:cat,text,lineId:null,source:'resource-v198'});syncBreakdownStrings(scene);if(input)input.value='';save();renderArtPrepV198();if(selectedScene()?.id===scene.id)renderBreakdown()}
-function exportArtPrepCsvV198(){const p=project(),rows=[['분류','항목','연결 씬','상태','준비 방식','수량','비용','메모']];ART_PREP_CATS_V198.forEach(cat=>collectArtPrepGroupsV198(cat).forEach(g=>{const d=artPrepDetailV198(g.key);rows.push([artPrepCategoryLabelV198(cat),g.text,g.scenes.map(s=>s.number).join(', '),d.status||'',d.sourceType||'',d.qty??'',d.cost||'',d.note||''])}));const csv='\ufeff'+rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`${(p.title||'PREPRO').replace(/[\\/:*?"<>|]/g,'_')}_미술_의상_소품.csv`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},300)}
+
+function renderArtPrepKeepScrollV269(){
+  const ws=document.querySelector('.workspace');
+  const y=ws?ws.scrollTop:0;
+  renderArtPrepV198();
+  if(ws){
+    ws.scrollTop=y;
+    requestAnimationFrame(()=>{ws.scrollTop=y});
+  }
+}
+function addArtPrepItemV198(){const p=project(),input=$('#artPrepAddNameV198'),sceneId=$('#artPrepAddSceneV198')?.value,cat=$('#artPrepAddCategoryV201')?.value||'Props',text=(input?.value||'').trim();if(!text)return input?.focus();const scene=(p.scenes||[]).find(s=>s.id===sceneId);if(!scene)return alert('연결할 씬을 먼저 선택하세요.');ensureBreakdownItems(scene);if(!scene.breakdownItems.some(x=>x.category===cat&&String(x.text||'').trim()===text))scene.breakdownItems.push({id:uid(),category:cat,text,lineId:null,source:'resource-v198'});syncBreakdownStrings(scene);if(input)input.value='';save();renderArtPrepKeepScrollV269();if(selectedScene()?.id===scene.id)renderBreakdown()}
+function exportArtPrepCsvV198(){const p=project(),rows=[['분류','항목','연결 씬','인물','준비 방식','수량','비용','메모']];ART_PREP_CATS_V198.forEach(cat=>collectArtPrepGroupsV198(cat).forEach(g=>{const d=artPrepDetailV198(g.key);rows.push([artPrepCategoryLabelV198(cat),g.text,g.scenes.map(s=>s.number).join(', '),d.assignee||'',d.sourceType||'',d.qty??'',d.cost||'',d.note||''])}));const csv='\ufeff'+rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`${(p.title||'PREPRO').replace(/[\\/:*?"<>|]/g,'_')}_미술_의상_소품.csv`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},300)}
 
 function renderShots(){
   const p=project();
@@ -16500,11 +16517,12 @@ function renderStoryboard(){
         </div>
       </div>
 
-      <div class="story-image-v57 ${sh.image?'has-image':''}" ${sh.image?`data-story-image-open-area data-story-shot-id="${sh.id}" data-story-shot-index="${i}"`:''}>
+      <div class="story-image-v57 ${sh.image?'has-image':'story-image-collapsed-v271'}" ${sh.image?`data-story-image-open-area data-story-shot-id="${sh.id}" data-story-shot-index="${i}"`:''}>
         ${sh.image
           ? `<img src="${sh.image}" alt="${esc(s.number)}-${i+1} 콘티" data-story-image-open>`
           : `<div class="story-image-empty-v57"><span>▧</span><div>16:9 콘티 이미지</div></div>`
         }
+        ${!sh.image?`<button type="button" class="story-empty-toggle-v271" data-story-empty-toggle aria-expanded="false">이미지 펼치기</button>`:''}
         <div class="story-image-actions-v57">
           ${sh.image?`<button type="button" class="story-image-btn-v57" data-story-enlarge data-story-shot-id="${sh.id}" data-story-shot-index="${i}">확대</button>`:''}
           <label class="story-image-btn-v57 story-native-upload-v62">
@@ -16538,9 +16556,13 @@ function renderStoryboard(){
           <div class="story-script-v57">${excerpt?esc(excerpt):'샷리스트에서 대본 구간을 연결하세요.'}</div>
         </div>
 
-        <div class="story-content-block-v57">
+        <div class="story-content-block-v57 story-description-block-v272 ${description?'':'is-collapsed-v272'}">
           <div class="story-content-label-v57">SHOT DESCRIPTION</div>
-          <div class="story-description-v57 ${description?'':'empty'}">${description?esc(description):'샷리스트에 촬영 내용을 입력하세요.'}</div>
+          ${description
+            ? `<div class="story-description-v57">${esc(description)}</div>`
+            : `<button type="button" class="story-description-toggle-v272" data-story-description-toggle aria-expanded="false">SHOT DESCRIPTION 펼치기</button>
+               <div class="story-description-v57 empty">샷리스트에 촬영 내용을 입력하세요.</div>`
+          }
         </div>
 
         <div class="story-content-block-v57">
@@ -16562,6 +16584,30 @@ function renderStoryboard(){
   grid.querySelectorAll('[data-story]').forEach(card=>{
     const sh=s.shots.find(x=>x.id===card.dataset.story);
     if(!sh)return;
+
+    const descToggle=card.querySelector('[data-story-description-toggle]');
+    if(descToggle){
+      descToggle.onclick=e=>{
+        e.preventDefault();e.stopPropagation();
+        const block=card.querySelector('.story-description-block-v272');
+        if(!block)return;
+        const collapsed=block.classList.toggle('is-collapsed-v272');
+        descToggle.textContent=collapsed?'SHOT DESCRIPTION 펼치기':'SHOT DESCRIPTION 접기';
+        descToggle.setAttribute('aria-expanded',collapsed?'false':'true');
+      };
+    }
+
+    const emptyToggle=card.querySelector('[data-story-empty-toggle]');
+    if(emptyToggle){
+      emptyToggle.onclick=e=>{
+        e.preventDefault();e.stopPropagation();
+        const imageBox=card.querySelector('.story-image-v57');
+        if(!imageBox)return;
+        const collapsed=imageBox.classList.toggle('story-image-collapsed-v271');
+        emptyToggle.textContent=collapsed?'이미지 펼치기':'이미지 접기';
+        emptyToggle.setAttribute('aria-expanded',collapsed?'false':'true');
+      };
+    }
 
     const file=card.querySelector('[data-story-file]');
     if(file){
@@ -17393,6 +17439,12 @@ html[data-theme="light"] body #aivfx button[data-ai-pick-script]{
   }
 }
 </style>
+
+<style id="prepro-v266-artprep-character-assignment">
+/* PREPRO V266 — Art/Wardrobe/Props: '준비 상태' replaced by Cast-linked '인물'. */
+</style>
+
+
 </body></html>`;
 }
 function printCallSheetV73(){
@@ -25118,5 +25170,333 @@ html[data-theme="light"] body #artprep #artPrepCsvV198:focus-visible{
   border-color:#9DB2A5!important;
 }
 </style>
+
+<style id="prepro-v268-sidebar-and-artprep-image-collapse-live">
+/* PREPRO V268 — LIVE APP fixes. This block is in the real document, not a print template. */
+@media (min-width:901px){
+  html,body{height:100%!important;min-height:100%!important;overflow:hidden!important}
+  .app{height:100vh!important;min-height:0!important;max-height:100vh!important;overflow:hidden!important}
+  .sidebar{
+    position:sticky!important;
+    top:0!important;
+    align-self:start!important;
+    height:100vh!important;
+    min-height:0!important;
+    max-height:100vh!important;
+    overflow:hidden!important;
+  }
+  .sidebar .nav{
+    flex:1 1 auto!important;
+    min-height:0!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    overscroll-behavior:contain!important;
+    scrollbar-gutter:stable!important;
+  }
+  .main{height:100vh!important;min-height:0!important;max-height:100vh!important;overflow:hidden!important}
+  .workspace{min-height:0!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior:contain!important}
+}
+
+/* Empty Art/Wardrobe/Props image well: explicit collapse / expand control. */
+#artprep .artprep-card-image-v200{transition:min-height .16s ease,height .16s ease,aspect-ratio .16s ease!important}
+#artprep .artprep-image-collapse-v267{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  position:absolute!important;
+  right:48px!important;
+  bottom:11px!important;
+  z-index:20!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:auto!important;
+  min-width:74px!important;
+  min-height:30px!important;
+  height:30px!important;
+  padding:0 10px!important;
+  border-radius:8px!important;
+  font-size:9px!important;
+  font-weight:750!important;
+  line-height:1!important;
+  box-shadow:none!important;
+  cursor:pointer!important;
+}
+html[data-theme="light"] body #artprep .artprep-image-collapse-v267{
+  background:#FFFFFF!important;
+  border:1px solid #C7D1D4!important;
+  color:#5D6B71!important;
+  -webkit-text-fill-color:#5D6B71!important;
+}
+html[data-theme="light"] body #artprep .artprep-image-collapse-v267:hover{
+  background:#EAF0EF!important;
+  border-color:#AFC0B7!important;
+  color:#385143!important;
+  -webkit-text-fill-color:#385143!important;
+}
+html[data-theme="dark"] body #artprep .artprep-image-collapse-v267{
+  background:var(--surface-3)!important;
+  border:1px solid var(--line)!important;
+  color:var(--muted)!important;
+  -webkit-text-fill-color:var(--muted)!important;
+}
+html[data-theme="dark"] body #artprep .artprep-image-collapse-v267:hover{
+  background:var(--hover-bg)!important;
+  color:var(--text)!important;
+  -webkit-text-fill-color:var(--text)!important;
+}
+#artprep .artprep-card-image-v200.is-collapsed-v267{
+  min-height:54px!important;
+  height:54px!important;
+  aspect-ratio:auto!important;
+  overflow:hidden!important;
+}
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-image-placeholder-v200,
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-scene-overlay-v200,
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-status-overlay-v200{
+  display:none!important;
+}
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-kind-overlay-v200,
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-delete-v200,
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-image-collapse-v267{
+  top:50%!important;
+  bottom:auto!important;
+  transform:translateY(-50%)!important;
+}
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-kind-overlay-v200{left:12px!important}
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-image-collapse-v267{right:48px!important}
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-delete-v200{right:10px!important}
+</style>
+
+
+<style id="prepro-v269-artprep-scroll-and-section-bg-fix">
+/* PREPRO V269 — Art/Wardrobe/Props only.
+   1) Use the same single workspace scrollbar as the rest of the app.
+   2) Remove the light filled category-section shell while retaining card surfaces. */
+@media (min-width:901px){
+  #artprep.view.active{
+    overflow:visible!important;
+    overflow-x:visible!important;
+    overflow-y:visible!important;
+    max-height:none!important;
+    height:auto!important;
+  }
+}
+
+html[data-theme="light"] body #artprep .artprep-category-section-v202,
+html[data-theme="light"] body #artprep .artprep-layout-v200:not(.all-v202) .artprep-category-section-v202,
+html[data-theme="light"] body #artprep .artprep-layout-v200.all-v202 .artprep-category-section-v202{
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] body #artprep .artprep-category-head-v202{
+  background:transparent!important;
+}
+</style>
+
+
+
+<style id="prepro-v270-unified-horizontal-scene-panels">
+/* PREPRO V270 — one exact horizontal scene-card size across scene-driven pages.
+   Layout structure is untouched; only the navigator cards and their internal type geometry are normalized. */
+#breakdown #breakSceneList .scene-btn,
+#shots #shotSceneList .scene-btn,
+#storyboard #storySceneList .scene-btn,
+#references #refSceneList .scene-btn,
+#aivfx #aivfxSceneNavV206 .scene-btn,
+#artprep .artprep-scene-chip-v205{
+  box-sizing:border-box!important;
+  flex:0 0 150px!important;
+  width:150px!important;
+  min-width:150px!important;
+  max-width:150px!important;
+  height:54px!important;
+  min-height:54px!important;
+  max-height:54px!important;
+  padding:8px 10px!important;
+  border-radius:10px!important;
+  margin:0!important;
+}
+
+#breakdown #breakSceneList,
+#shots #shotSceneList,
+#storyboard #storySceneList,
+#references #refSceneList,
+#aivfx #aivfxSceneNavV206,
+#artprep .artprep-scene-nav-track-v205{
+  gap:8px!important;
+  align-items:stretch!important;
+}
+
+#breakdown #breakSceneList .scene-no,
+#shots #shotSceneList .scene-no,
+#storyboard #storySceneList .scene-no,
+#references #refSceneList .scene-no,
+#aivfx #aivfxSceneNavV206 .scene-no,
+#artprep .artprep-scene-chip-v205 b{
+  font-size:11px!important;
+  line-height:1.1!important;
+  font-weight:800!important;
+}
+
+#breakdown #breakSceneList .scene-name,
+#shots #shotSceneList .scene-name,
+#storyboard #storySceneList .scene-name,
+#references #refSceneList .scene-name,
+#aivfx #aivfxSceneNavV206 .scene-name,
+#artprep .artprep-scene-chip-v205 span{
+  font-size:9px!important;
+  line-height:1.25!important;
+  max-width:130px!important;
+  margin-top:0!important;
+}
+
+/* Keep every page identical at narrower widths as well. */
+@media (max-width:1100px) and (min-width:701px){
+  #breakdown #breakSceneList .scene-btn,
+  #shots #shotSceneList .scene-btn,
+  #storyboard #storySceneList .scene-btn,
+  #references #refSceneList .scene-btn,
+  #aivfx #aivfxSceneNavV206 .scene-btn,
+  #artprep .artprep-scene-chip-v205{
+    flex-basis:132px!important;
+    width:132px!important;
+    min-width:132px!important;
+    max-width:132px!important;
+    height:54px!important;
+    min-height:54px!important;
+    max-height:54px!important;
+  }
+}
+@media (max-width:700px){
+  #breakdown #breakSceneList .scene-btn,
+  #shots #shotSceneList .scene-btn,
+  #storyboard #storySceneList .scene-btn,
+  #references #refSceneList .scene-btn,
+  #aivfx #aivfxSceneNavV206 .scene-btn,
+  #artprep .artprep-scene-chip-v205{
+    flex-basis:118px!important;
+    width:118px!important;
+    min-width:118px!important;
+    max-width:118px!important;
+    height:50px!important;
+    min-height:50px!important;
+    max-height:50px!important;
+    padding:7px 9px!important;
+  }
+}
+</style>
+
+<style id="prepro-v271-auto-collapse-empty-images">
+/* PREPRO V271 — Empty image areas start compact in Storyboard and Art/Wardrobe/Props. */
+#storyboard .story-image-v57.story-image-collapsed-v271{
+  min-height:58px!important;
+  height:58px!important;
+  aspect-ratio:auto!important;
+  position:relative!important;
+  overflow:hidden!important;
+}
+#storyboard .story-image-v57.story-image-collapsed-v271 .story-image-empty-v57{
+  display:none!important;
+}
+#storyboard .story-image-v57.story-image-collapsed-v271 .story-image-actions-v57{
+  position:absolute!important;
+  right:10px!important;
+  bottom:10px!important;
+  z-index:3!important;
+}
+#storyboard .story-empty-toggle-v271{
+  position:absolute!important;
+  left:10px!important;
+  bottom:10px!important;
+  z-index:4!important;
+  min-height:30px!important;
+  padding:5px 10px!important;
+  border:1px solid var(--line)!important;
+  border-radius:8px!important;
+  background:var(--surface-2)!important;
+  color:var(--muted)!important;
+  font:inherit!important;
+  font-size:10.5px!important;
+  font-weight:650!important;
+  cursor:pointer!important;
+}
+#storyboard .story-image-v57:not(.story-image-collapsed-v271) .story-empty-toggle-v271{
+  top:10px!important;
+  bottom:auto!important;
+}
+html[data-theme="light"] body #storyboard .story-empty-toggle-v271{
+  background:#FFFFFF!important;
+  border-color:#C6D0D4!important;
+  color:#536167!important;
+}
+</style>
+
+
+<style id="prepro-v272-empty-collapse-fix">
+/* V272 — Empty Art/Wardrobe/Props images are genuinely compact on first render. */
+#artprep .artprep-card-image-v200.is-collapsed-v267{
+  height:58px!important;
+  min-height:58px!important;
+  max-height:58px!important;
+  aspect-ratio:auto!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-image-placeholder-v200{
+  display:none!important;
+}
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-kind-overlay-v200{
+  top:50%!important;
+  transform:translateY(-50%)!important;
+}
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-scene-overlay-v200{
+  top:50%!important;
+  transform:translateY(-50%)!important;
+}
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-status-overlay-v200{
+  display:none!important;
+}
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-image-collapse-v267{
+  top:50%!important;
+  right:52px!important;
+  bottom:auto!important;
+  transform:translateY(-50%)!important;
+}
+#artprep .artprep-card-image-v200.is-collapsed-v267 .artprep-delete-v200{
+  top:50%!important;
+  right:10px!important;
+  bottom:auto!important;
+  transform:translateY(-50%)!important;
+}
+
+/* V272 — Empty storyboard SHOT DESCRIPTION starts compact. */
+#storyboard .story-description-block-v272.is-collapsed-v272{
+  min-height:0!important;
+}
+#storyboard .story-description-block-v272.is-collapsed-v272 .story-description-v57{
+  display:none!important;
+}
+#storyboard .story-description-toggle-v272{
+  width:100%!important;
+  min-height:34px!important;
+  margin-top:6px!important;
+  border:1px solid var(--line)!important;
+  border-radius:8px!important;
+  background:var(--surface-2)!important;
+  color:var(--muted)!important;
+  font:inherit!important;
+  font-size:10.5px!important;
+  font-weight:650!important;
+  cursor:pointer!important;
+}
+html[data-theme="light"] body #storyboard .story-description-toggle-v272{
+  background:#F4F6F7!important;
+  border-color:#C9D2D6!important;
+  color:#59666C!important;
+}
+</style>
+
 </body>
 </html>
