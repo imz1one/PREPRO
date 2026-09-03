@@ -13851,14 +13851,14 @@ html[data-theme="light"] .sidebar .nav button.active .nav-icon{color:#4D6B58!imp
       <article class="export-card-v130">
         <div class="export-card-top-v130"><span class="export-index-v130">01</span><span class="export-type-v130">A4 세로 · PDF</span></div>
         <div class="export-card-copy-v130"><h3>대본 분석표</h3><p>씬별 출연·소품·의상·미술·VFX/AI 등 제작 요소를 정리합니다.</p></div>
-        <div class="export-card-actions-v130"><button data-print-view="breakdown" class="primary">PDF 저장</button></div>
+        <div class="export-card-actions-v130"><button type="button" data-print-view="breakdown" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('breakdown');}">PDF 저장</button></div>
       </article>
 
       <article class="export-card-v130">
         <div class="export-card-top-v130"><span class="export-index-v130">02</span><span class="export-type-v130">A4 가로 · PDF · CSV</span></div>
         <div class="export-card-copy-v130"><h3>샷리스트</h3><p>샷 사이즈, 렌즈, 카메라 무빙, 촬영 메모를 포함한 전체 샷 설계입니다.</p></div>
         <div class="export-card-actions-v130">
-          <button data-print-view="shots" class="primary">PDF 저장</button>
+          <button type="button" data-print-view="shots" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('shots');}">PDF 저장</button>
           <button id="exportShotsCSV2">CSV</button>
         </div>
       </article>
@@ -13866,39 +13866,39 @@ html[data-theme="light"] .sidebar .nav button.active .nav-icon{color:#4D6B58!imp
       <article class="export-card-v130">
         <div class="export-card-top-v130"><span class="export-index-v130">03</span><span class="export-type-v130">A4 세로 · PDF</span></div>
         <div class="export-card-copy-v130"><h3>콘티</h3><p>콘티 이미지와 연결된 샷 정보, 촬영 의도를 씬별 문서로 출력합니다.</p></div>
-        <div class="export-card-actions-v130"><button data-print-view="storyboard" class="primary">PDF 저장</button></div>
+        <div class="export-card-actions-v130"><button type="button" data-print-view="storyboard" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('storyboard');}">PDF 저장</button></div>
       </article>
 
       <article class="export-card-v130">
         <div class="export-card-top-v130"><span class="export-index-v130">04</span><span class="export-type-v130">A4 가로 · PDF</span></div>
         <div class="export-card-copy-v130"><h3>촬영 일정표</h3><p>회차별 촬영 날짜와 배정된 씬을 전체 일정표 형태로 정리합니다.</p></div>
-        <div class="export-card-actions-v130"><button data-print-view="schedule" class="primary">PDF 저장</button></div>
+        <div class="export-card-actions-v130"><button type="button" data-print-view="schedule" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('schedule');}">PDF 저장</button></div>
       </article>
 
       <article class="export-card-v130">
         <div class="export-card-top-v130"><span class="export-index-v130">05</span><span class="export-type-v130">A4 가로 · PDF</span></div>
         <div class="export-card-copy-v130"><h3>콜시트</h3><p>촬영 기본 정보, 주요 연락처, 시간표, 식사와 공지를 현장 공유용 A4 PDF로 저장합니다.</p></div>
-        <div class="export-card-actions-v130"><button data-print-view="callsheet" class="primary">PDF 저장</button></div>
+        <div class="export-card-actions-v130"><button type="button" data-print-view="callsheet" class="primary" onclick="if(typeof printCallSheetV73==='function'){printCallSheetV73();}">PDF 저장</button></div>
       </article>
       <article class="export-card-v130">
         <div class="export-card-top-v130"><span class="export-index-v130">06</span><span class="export-type-v130">A4 세로 · PDF</span></div>
         <div class="export-card-copy-v130"><h3>로케이션 리스트</h3><p>주소, 연락처, 촬영 조건, 연결 씬과 헌팅 메모를 로케이션별로 정리합니다.</p></div>
-        <div class="export-card-actions-v130"><button data-print-view="locations" class="primary">PDF 저장</button></div>
+        <div class="export-card-actions-v130"><button type="button" data-print-view="locations" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('locations');}">PDF 저장</button></div>
       </article>
 
       <article class="export-card-v130">
         <div class="export-card-top-v130"><span class="export-index-v130">07</span><span class="export-type-v130">A4 가로 · PDF</span></div>
         <div class="export-card-copy-v130"><h3>장비 리스트</h3><p>장비 분류·수량·구분·대여처·반출·반납 시간을 현장 반출표 형태로 정리합니다.</p></div>
         <div class="export-card-actions-v130">
-          <button data-print-view="equipment" class="primary">전체 PDF 저장</button>
-          <button id="exportSelectedEquipmentV136" type="button">선택 PDF 저장</button>
+          <button type="button" data-print-view="equipment" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('equipment');}">전체 PDF 저장</button>
+          <button id="exportSelectedEquipmentV136" type="button" onclick="if(typeof saveEquipmentPdfV141==='function'){saveEquipmentPdfV141(true);}">선택 PDF 저장</button>
         </div>
       </article>
 
       <article class="export-card-v130">
         <div class="export-card-top-v130"><span class="export-index-v130">08</span><span class="export-type-v130">A4 세로 · PDF</span></div>
         <div class="export-card-copy-v130"><h3>출연진 리스트</h3><p>배우, 연락처, 등장 씬, 콜타임, 의상·분장과 캐릭터 메모를 인물별로 정리합니다.</p></div>
-        <div class="export-card-actions-v130"><button data-print-view="cast" class="primary">PDF 저장</button></div>
+        <div class="export-card-actions-v130"><button type="button" data-print-view="cast" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('cast');}">PDF 저장</button></div>
       </article>
     </div>
 
@@ -16272,7 +16272,10 @@ function printableStoryboardDoc(){
 
 function printCurrentStoryboard(){
   if(!selectedScene())return alert('먼저 씬을 선택하세요.');
-  return saveStoryboardPdfV141(true);
+  return saveStoryboardPdfV141(true).catch(err=>{
+    console.error('[PREPRO storyboard PDF]',err);
+    alert('콘티 PDF 생성 중 오류가 발생했습니다.\\n\\n'+(err?.message||String(err)));
+  });
 }
 
 function storyboardViewMode(){
@@ -20428,12 +20431,68 @@ function wrapCanvasTextV141(ctx,text,maxWidth,font){
   return lines.length?lines:[''];
 }
 function loadCanvasImageV142(src){
-  return new Promise(resolve=>{
+  return new Promise(async resolve=>{
     if(!src)return resolve(null);
-    const img=new Image();
-    img.onload=()=>resolve(img);
-    img.onerror=()=>resolve(null);
-    img.src=src;
+
+    if(typeof src==='object'){
+      src=src.data||src.image||src.url||src.src||'';
+    }
+    src=String(src||'').trim();
+    if(!src)return resolve(null);
+
+    const loadSafeImage=dataSrc=>new Promise(done=>{
+      const img=new Image();
+      let settled=false;
+      const finish=value=>{
+        if(settled)return;
+        settled=true;
+        clearTimeout(timer);
+        img.onload=null;
+        img.onerror=null;
+        done(value);
+      };
+      const timer=setTimeout(()=>finish(null),6000);
+      img.onload=()=>finish(img);
+      img.onerror=()=>finish(null);
+      try{
+        img.src=dataSrc;
+        if(img.complete && img.naturalWidth>0)finish(img);
+      }catch(err){
+        finish(null);
+      }
+    });
+
+    try{
+      // Data URLs are already canvas-safe.
+      if(/^data:image\//i.test(src)){
+        return resolve(await loadSafeImage(src));
+      }
+
+      // Blob/object URLs and remote cloud URLs must be fetched first.
+      // Drawing a remote <img> directly can taint Safari's canvas and later
+      // make toBlob()/toDataURL() throw "The operation is insecure".
+      if(/^blob:/i.test(src) || /^https?:\/\//i.test(src)){
+        const response=await fetch(src,{mode:'cors',credentials:'omit',cache:'force-cache'});
+        if(!response.ok)throw new Error('image fetch failed');
+        const blob=await response.blob();
+        if(!/^image\//i.test(blob.type||''))throw new Error('not image');
+
+        const dataUrl=await new Promise((res,rej)=>{
+          const reader=new FileReader();
+          reader.onload=()=>res(String(reader.result||''));
+          reader.onerror=()=>rej(reader.error||new Error('image read failed'));
+          reader.readAsDataURL(blob);
+        });
+        return resolve(await loadSafeImage(dataUrl));
+      }
+
+      // file:// and unknown URL schemes are intentionally skipped so they
+      // cannot taint the PDF canvas in Safari.
+      return resolve(null);
+    }catch(err){
+      console.warn('[PREPRO PDF image skipped]',err,src.slice(0,120));
+      return resolve(null);
+    }
   });
 }
 
@@ -20885,18 +20944,64 @@ class CanvasPdfDocV142{
     this.y+=rowH;
   }
 
-  download(label){
-    const images=this.pages.map(c=>({
-      width:c.width,height:c.height,
-      bytes:dataUrlToBytesV142(c.toDataURL('image/jpeg',0.94))
-    }));
+  async download(label){
+    const images=[];
+    for(const c of this.pages){
+      let jpegBlob=null;
+      try{
+        jpegBlob=await new Promise(resolve=>{
+          let done=false;
+          const timer=setTimeout(()=>{if(!done){done=true;resolve(null)}},8000);
+          c.toBlob(blob=>{
+            if(done)return;
+            done=true;clearTimeout(timer);resolve(blob||null);
+          },'image/jpeg',0.90);
+        });
+      }catch(err){
+        jpegBlob=null;
+      }
+
+      if(jpegBlob){
+        const ab=await jpegBlob.arrayBuffer();
+        images.push({width:c.width,height:c.height,bytes:new Uint8Array(ab)});
+      }else{
+        try{
+          images.push({
+            width:c.width,height:c.height,
+            bytes:dataUrlToBytesV142(c.toDataURL('image/jpeg',0.88))
+          });
+        }catch(err){
+          console.warn('[PREPRO PDF page fallback]',err);
+          const safe=document.createElement('canvas');
+          safe.width=c.width;safe.height=c.height;
+          const sx=safe.getContext('2d');
+          sx.fillStyle='#fff';sx.fillRect(0,0,safe.width,safe.height);
+          sx.fillStyle='#222';
+          sx.font='700 28px -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif';
+          sx.fillText('PREPRO · STORYBOARD',64,64);
+          sx.font='400 18px -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif';
+          sx.fillText('이미지를 불러오지 못한 페이지입니다.',64,112);
+          images.push({
+            width:safe.width,height:safe.height,
+            bytes:dataUrlToBytesV142(safe.toDataURL('image/jpeg',0.88))
+          });
+        }
+      }
+    }
+
+    if(!images.length)throw new Error('PDF page rendering failed');
+
     const bytes=buildPdfFromJpegsV142(images,this.orientation);
     const blob=new Blob([bytes],{type:'application/pdf'});
+    const url=URL.createObjectURL(blob);
     const a=document.createElement('a');
-    a.href=URL.createObjectURL(blob);
+    a.href=url;
     a.download=`${pdfSafeFilenameV142(project().title||'PREPRO')}_${pdfSafeFilenameV142(label)}.pdf`;
-    document.body.appendChild(a);a.click();a.remove();
-    setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+    a.style.display='none';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),10000);
   }
 }
 
@@ -20999,7 +21104,7 @@ async function saveStoryboardPdfV141(selectedOnly=false){
     }
   }
 
-  doc.download(selectedOnly?'선택씬_콘티':'콘티');
+  await doc.download(selectedOnly?'선택씬_콘티':'콘티');
 }
 
 async function saveSchedulePdfV141(){
@@ -21119,7 +21224,12 @@ async function saveCallSheetPdfV141(){
 function openPrintDocument(type){
   if(type==='breakdown')return saveBreakdownPdfV141();
   if(type==='shots')return saveShotlistPdfV141();
-  if(type==='storyboard')return saveStoryboardPdfV141(false);
+  if(type==='storyboard'){
+    return saveStoryboardPdfV141(false).catch(err=>{
+      console.error('[PREPRO storyboard PDF]',err);
+      alert('콘티 PDF 생성 중 오류가 발생했습니다.\\n\\n'+(err?.message||String(err)));
+    });
+  }
   if(type==='schedule')return saveSchedulePdfV141();
   if(type==='locations')return saveLocationsPdfV141();
   if(type==='equipment')return saveEquipmentPdfV141(false);
@@ -25733,153 +25843,33 @@ html[data-theme="light"] body #storyboard .story-content-label-v57{
 }
 </style>
 
-
-<script id="prepro-v278-pdf-export-activation">
-/* PREPRO V278 — restore/guarantee PDF export controls. */
-(function(){
-  function runPdfExportV278(type){
-    try{
-      if(type==='callsheet'){
-        if(typeof printCallSheetV73==='function') return printCallSheetV73();
-        throw new Error('콜시트 PDF 기능을 찾을 수 없습니다.');
-      }
-      if(typeof openPrintDocument==='function') return openPrintDocument(type);
-      throw new Error('PDF 저장 기능을 찾을 수 없습니다.');
-    }catch(err){
-      console.error('[PREPRO PDF]',err);
-      alert('PDF 저장 중 문제가 발생했습니다. 다시 시도해주세요.');
-    }
-  }
-
-  /* Capture-phase delegation survives rerenders and later DOM replacement. */
-  document.addEventListener('click',function(e){
-    const btn=e.target.closest('[data-print-view]');
-    if(!btn)return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    runPdfExportV278(btn.dataset.printView);
-  },true);
-
-  document.addEventListener('click',function(e){
-    const btn=e.target.closest('#exportSelectedEquipmentV136');
-    if(!btn)return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    try{
-      if(typeof saveEquipmentPdfV141==='function') saveEquipmentPdfV141(true);
-      else throw new Error('장비 PDF 기능을 찾을 수 없습니다.');
-    }catch(err){
-      console.error('[PREPRO PDF]',err);
-      alert('PDF 저장 중 문제가 발생했습니다. 다시 시도해주세요.');
-    }
-  },true);
-})();
-</script>
-<style id="prepro-v278-pdf-export-ui">
-/* Ensure export controls are visibly and interactively enabled. */
-#exports.view.active [data-print-view],
-#exports.view.active #exportSelectedEquipmentV136{
+<style id="prepro-v282-pdf-buttons-active-only">
+#exports button[data-print-view],
+#exports #exportSelectedEquipmentV136,
+#storyboard #storyPrintBtn{
   pointer-events:auto!important;
   cursor:pointer!important;
   opacity:1!important;
-  filter:none!important;
-}
-#exports.view.active [data-print-view]:disabled,
-#exports.view.active #exportSelectedEquipmentV136:disabled{
-  pointer-events:auto!important;
-  opacity:1!important;
 }
 </style>
-
-
-<script id="prepro-v279-pdf-button-fix">
-/* PREPRO V279 — Export page + Storyboard PDF button repair. */
+<script id="prepro-v282-pdf-disabled-guard">
 (function(){
-  function runPdfV279(type, selected){
-    try{
-      if(type === 'storyboard'){
-        if(typeof saveStoryboardPdfV141 === 'function'){
-          if(selected && typeof selectedScene === 'function' && !selectedScene()){
-            alert('먼저 씬을 선택하세요.');
-            return;
-          }
-          return saveStoryboardPdfV141(!!selected);
-        }
-      }
-      if(type === 'callsheet' && typeof printCallSheetV73 === 'function'){
-        return printCallSheetV73();
-      }
-      if(typeof openPrintDocument === 'function'){
-        return openPrintDocument(type);
-      }
-      throw new Error('PDF export function unavailable');
-    }catch(err){
-      console.error('[PREPRO PDF V279]', err);
-      alert('PDF 저장 중 문제가 발생했습니다. 다시 시도해주세요.');
-    }
-  }
-
-  /* Storyboard page PDF */
-  document.addEventListener('click', function(e){
-    const btn = e.target.closest('#storyPrintBtn');
-    if(!btn) return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    runPdfV279('storyboard', true);
-  }, true);
-
-  /* Export page PDF controls — delegated so rerendering cannot break them. */
-  document.addEventListener('click', function(e){
-    const btn = e.target.closest('#exports [data-print-view]');
-    if(!btn) return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    runPdfV279(btn.dataset.printView, false);
-  }, true);
-
-  /* Force accidental disabled state off on render/load. */
-  function activatePdfButtonsV279(){
-    document.querySelectorAll('#exports [data-print-view], #storyPrintBtn, #callSheetPrintBtn').forEach(function(btn){
-      btn.disabled = false;
+  function enablePdfButtonsV282(){
+    document.querySelectorAll('#exports button[data-print-view], #exports #exportSelectedEquipmentV136, #storyboard #storyPrintBtn').forEach(function(btn){
+      btn.disabled=false;
+      btn.removeAttribute('disabled');
       btn.removeAttribute('aria-disabled');
-      btn.style.pointerEvents = 'auto';
     });
   }
-  activatePdfButtonsV279();
-  document.addEventListener('DOMContentLoaded', activatePdfButtonsV279);
-  setTimeout(activatePdfButtonsV279, 0);
-  setTimeout(activatePdfButtonsV279, 300);
+  enablePdfButtonsV282();
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',enablePdfButtonsV282,{once:true});
+  }
+  window.addEventListener('load',enablePdfButtonsV282,{once:true});
+  new MutationObserver(enablePdfButtonsV282).observe(document.documentElement,{
+    subtree:true,childList:true,attributes:true,attributeFilter:['disabled','aria-disabled']
+  });
 })();
 </script>
-
-<style id="prepro-v279-pdf-button-ui-fix">
-/* Actual export page id is #exports. Make PDF actions visibly active in both themes. */
-#exports [data-print-view],
-#exports #exportSelectedEquipmentV136,
-#storyboard #storyPrintBtn,
-#callsheet #callSheetPrintBtn{
-  pointer-events:auto!important;
-  cursor:pointer!important;
-  opacity:1!important;
-  filter:none!important;
-  visibility:visible!important;
-}
-
-#exports [data-print-view].primary,
-#storyboard #storyPrintBtn,
-#callsheet #callSheetPrintBtn{
-  color:var(--btn-primary-text, #0b120e)!important;
-  -webkit-text-fill-color:var(--btn-primary-text, #0b120e)!important;
-}
-
-#exports [data-print-view]:disabled,
-#storyboard #storyPrintBtn:disabled,
-#callsheet #callSheetPrintBtn:disabled{
-  pointer-events:auto!important;
-  cursor:pointer!important;
-  opacity:1!important;
-}
-</style>
-
 </body>
 </html>
