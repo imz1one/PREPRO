@@ -15901,6 +15901,22 @@ function renderArtPrepKeepScrollV269(){
 function addArtPrepItemV198(){const p=project(),input=$('#artPrepAddNameV198'),sceneId=$('#artPrepAddSceneV198')?.value,cat=$('#artPrepAddCategoryV201')?.value||'Props',text=(input?.value||'').trim();if(!text)return input?.focus();const scene=(p.scenes||[]).find(s=>s.id===sceneId);if(!scene)return alert('연결할 씬을 먼저 선택하세요.');ensureBreakdownItems(scene);if(!scene.breakdownItems.some(x=>x.category===cat&&String(x.text||'').trim()===text))scene.breakdownItems.push({id:uid(),category:cat,text,lineId:null,source:'resource-v198'});syncBreakdownStrings(scene);if(input)input.value='';save();renderArtPrepKeepScrollV269();if(selectedScene()?.id===scene.id)renderBreakdown()}
 function exportArtPrepCsvV198(){const p=project(),rows=[['분류','항목','연결 씬','인물','준비 방식','수량','비용','메모']];ART_PREP_CATS_V198.forEach(cat=>collectArtPrepGroupsV198(cat).forEach(g=>{const d=artPrepDetailV198(g.key);rows.push([artPrepCategoryLabelV198(cat),g.text,g.scenes.map(s=>s.number).join(', '),d.assignee||'',d.sourceType||'',d.qty??'',d.cost||'',d.note||''])}));const csv='\ufeff'+rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`${(p.title||'PREPRO').replace(/[\\/:*?"<>|]/g,'_')}_미술_의상_소품.csv`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},300)}
 
+function shotSubjectsV297(sh){
+  if(!sh)return [];
+  if(!Array.isArray(sh.subjects)){
+    const legacy=String(sh.subject||'').trim();
+    sh.subjects=legacy?legacy.split(',').map(v=>v.trim()).filter(Boolean):[];
+  }
+  sh.subjects=[...new Set(sh.subjects.map(v=>String(v||'').trim()).filter(Boolean))];
+  return sh.subjects;
+}
+function shotSubjectOptionsV297(scene,sh){
+  const selected=shotSubjectsV297(sh);
+  const sceneNames=dialogueCastForScene(scene);
+  const all=[...registeredCastNames()];
+  return [...new Set([...sceneNames,...selected,...all])];
+}
+
 function renderShots(){
   const p=project();
   renderSceneList('#shotSceneList');
@@ -15924,6 +15940,7 @@ function renderShots(){
   }
 
   s.shots=s.shots||[];
+  s.shots.forEach(shotSubjectsV297);
   if(title)title.textContent=`${s.number} · ${s.meta?.location||s.title||'씬'}`;
 
   const time=sceneTimeKey(s.meta?.time);
@@ -15955,6 +15972,18 @@ function renderShots(){
 
       <section class="shot-group-v56 shot-group-camera-v56">
         <div class="shot-group-title-v56">CAMERA</div>
+
+        <div class="shot-field-v56 shot-subject-field-v297">
+          <label>인물</label>
+          <details class="shot-subject-picker-v297">
+            <summary data-shot-subject-summary>${shotSubjectsV297(sh).length?esc(shotSubjectsV297(sh).join(', ')):'인물 선택'}</summary>
+            <div class="shot-subject-menu-v297">
+              ${shotSubjectOptionsV297(s,sh).length
+                ? shotSubjectOptionsV297(s,sh).map(name=>`<label><input type="checkbox" data-shot-subject value="${esc(name)}" ${shotSubjectsV297(sh).includes(name)?'checked':''}><span>${esc(name)}</span></label>`).join('')
+                : '<span class="shot-subject-empty-v297">등록된 출연진이 없습니다.</span>'}
+            </div>
+          </details>
+        </div>
 
         <div class="shot-field-v56">
           <label>Shot Size</label>
@@ -16043,6 +16072,16 @@ function renderShots(){
       sh.vfx=e.target.checked;
       save();renderStoryboard();
     };
+
+    card.querySelectorAll('[data-shot-subject]').forEach(box=>{
+      box.onchange=()=>{
+        sh.subjects=[...card.querySelectorAll('[data-shot-subject]:checked')].map(x=>x.value);
+        const summary=card.querySelector('[data-shot-subject-summary]');
+        if(summary)summary.textContent=sh.subjects.length?sh.subjects.join(', '):'인물 선택';
+        save();
+        renderStoryboard();
+      };
+    });
 
     card.querySelectorAll('[data-k]').forEach(el=>{
       el.oninput=()=>{
@@ -18930,7 +18969,7 @@ function bindCoreActionButtonsV158(){
     if(!s){alert('대본 씬을 먼저 선택하세요.');return}
     s.shots=s.shots||[];
     const prev=s.shots[s.shots.length-1];
-    s.shots.push({id:uid(),done:false,size:'',angle:'Eye Level',lens:prev?.lens||'',focalLength:'',movement:'Fix',fps:prev?.fps||'24',support:prev?.support||'Tripod',vfx:false,scriptExcerpt:'',scriptLineIds:[],description:'',notes:'',status:'Planned',image:''});
+    s.shots.push({id:uid(),done:false,subjects:[],size:'',angle:'Eye Level',lens:prev?.lens||'',focalLength:'',movement:'Fix',fps:prev?.fps||'24',support:prev?.support||'Tripod',vfx:false,scriptExcerpt:'',scriptLineIds:[],description:'',notes:'',status:'Planned',image:''});
     saveStore();renderShots();
   };
   const loc=$('#addLocation');
@@ -26049,5 +26088,45 @@ html[data-theme="light"] body #storyboard .story-content-label-v57{
   });
 })();
 </script>
+
+<style id="prepro-v297-shot-subject-picker">
+#shots .shot-subject-picker-v297{position:relative;width:100%}
+#shots .shot-subject-picker-v297>summary{
+  min-height:38px;box-sizing:border-box;padding:9px 34px 9px 11px;
+  display:flex;align-items:center;position:relative;
+  border:1px solid var(--line,#303940);border-radius:8px;
+  background:var(--input,#101519);color:var(--text,#d0d6d9);
+  font-size:11px;line-height:1.35;cursor:pointer;list-style:none;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+#shots .shot-subject-picker-v297>summary::-webkit-details-marker{display:none}
+#shots .shot-subject-picker-v297>summary::after{
+  content:'⌄';position:absolute;right:11px;top:50%;transform:translateY(-52%);
+  color:var(--muted,#7d898f);font-size:13px
+}
+#shots .shot-subject-picker-v297[open]>summary::after{content:'⌃'}
+#shots .shot-subject-menu-v297{
+  position:absolute;z-index:80;left:0;right:0;top:calc(100% + 5px);
+  max-height:190px;overflow:auto;padding:6px;
+  border:1px solid var(--line,#303940);border-radius:9px;
+  background:var(--panel,#13191d);box-shadow:0 12px 30px rgba(0,0,0,.22)
+}
+#shots .shot-subject-menu-v297 label{
+  min-height:32px;padding:6px 7px;display:flex;align-items:center;gap:8px;
+  border-radius:7px;cursor:pointer;color:var(--text,#d0d6d9);font-size:10.5px
+}
+#shots .shot-subject-menu-v297 label:hover{background:rgba(120,140,128,.10)}
+#shots .shot-subject-menu-v297 input{width:15px;height:15px;flex:0 0 auto}
+#shots .shot-subject-empty-v297{display:block;padding:8px;color:var(--muted,#7d898f);font-size:10px}
+html[data-theme="light"] body #shots .shot-subject-picker-v297>summary{
+  background:#F8FAFA!important;color:#354248!important;border-color:#C9D3D7!important
+}
+html[data-theme="light"] body #shots .shot-subject-menu-v297{
+  background:#FFFFFF!important;border-color:#D5DCDF!important;box-shadow:0 10px 26px rgba(35,47,52,.12)
+}
+html[data-theme="light"] body #shots .shot-subject-menu-v297 label{color:#354248!important}
+html[data-theme="light"] body #shots .shot-subject-menu-v297 label:hover{background:#EEF3F0!important}
+</style>
+
 </body>
 </html>
