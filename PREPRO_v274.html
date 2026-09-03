@@ -16010,18 +16010,6 @@ function renderShots(){
             VFX / AI
           </label>
 
-          <div class="shot-footer-field-v56">
-            <span>FPS</span>
-            <input data-k="fps" value="${esc(sh.fps||'24')}" placeholder="24">
-          </div>
-
-          <div class="shot-footer-field-v56">
-            <span>상태</span>
-            <select data-k="status">
-              ${[['Planned','계획'],['Ready','촬영 준비'],['Shot','촬영 완료'],['Hold','보류']].map(([v,l])=>`<option value="${v}" ${sh.status===v?'selected':''}>${l}</option>`).join('')}
-            </select>
-          </div>
-
           <input class="shot-notes-v56" data-k="notes" value="${esc(sh.notes||'')}" placeholder="촬영 메모">
         </div>
       </section>
@@ -16513,7 +16501,6 @@ function renderStoryboard(){
         </div>
         <div class="story-card-status-v57">
           ${sh.vfx?'<span class="story-vfx-badge-v57">VFX / AI</span>':''}
-          <span class="story-status-badge-v57">${esc(statusLabel)}</span>
         </div>
       </div>
 
@@ -20008,6 +19995,31 @@ img,video,canvas{max-width:100%}
   .sidebar .nav{padding-left:8px!important;padding-right:8px!important}
   .sidebar .nav button{padding-left:9px!important;padding-right:9px!important;gap:8px!important}
   .sidebar .nav-label{padding-left:8px!important}
+}
+</style>
+
+<style id="prepro-v273-shot-footer-cleanup">
+/* PREPRO V273 — Shot List: remove FPS / status controls and let VFX + notes use the row cleanly. */
+#shots .shot-content-footer-v56{
+  display:grid!important;
+  grid-template-columns:max-content minmax(0,1fr)!important;
+  grid-template-areas:"vfx notes"!important;
+  gap:8px!important;
+  align-items:end!important;
+  width:100%!important;
+}
+#shots .shot-vfx-v56{grid-area:vfx!important;}
+#shots .shot-notes-v56{
+  grid-area:notes!important;
+  grid-column:auto!important;
+  width:100%!important;
+  min-width:0!important;
+}
+@media (max-width:900px){
+  #shots .shot-content-footer-v56{
+    grid-template-columns:1fr!important;
+    grid-template-areas:"vfx" "notes"!important;
+  }
 }
 </style>
 </head>
@@ -25495,6 +25507,31 @@ html[data-theme="light"] body #storyboard .story-description-toggle-v272{
   background:#F4F6F7!important;
   border-color:#C9D2D6!important;
   color:#59666C!important;
+}
+</style>
+
+
+<style id="prepro-v274-storyboard-light-text-cleanup">
+/* PREPRO V274 — Storyboard: remove status pill, strengthen Light-mode metadata/value contrast. */
+html[data-theme="light"] body #storyboard .story-overview-meta-v63 span{
+  color:#5F6D73!important;
+  -webkit-text-fill-color:#5F6D73!important;
+}
+html[data-theme="light"] body #storyboard .story-overview-meta-v63 span b{
+  color:#445158!important;
+  -webkit-text-fill-color:#445158!important;
+}
+html[data-theme="light"] body #storyboard .story-description-v57{
+  color:#55636A!important;
+  -webkit-text-fill-color:#55636A!important;
+}
+html[data-theme="light"] body #storyboard .story-description-v57.empty{
+  color:#879399!important;
+  -webkit-text-fill-color:#879399!important;
+}
+html[data-theme="light"] body #storyboard .story-content-label-v57{
+  color:#657278!important;
+  -webkit-text-fill-color:#657278!important;
 }
 </style>
 
