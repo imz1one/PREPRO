@@ -20891,44 +20891,52 @@ class CanvasPdfDocV142{
     this.y+=rowH;
   }
 
-  async blockingPageV166(scene,img,index){
+  async blockingPageV166(scene,img,index,slot=0,totalOnPage=1){
     const c=this.ctx;
     const x=this.margin;
-    const top=this.y+8;
     const note=ensureSceneBlockingV66(scene).note||'';
-    const title=img?.title||`블로킹 ${index+1}`;
-    const src=img?.data||img?.image||'';
 
+    // V294 — two blocking images share one A4 page.
+    // The page header/section is drawn by saveStoryboardPdfV141; this function
+    // only draws the image slot itself.
+    const pageBottom=this.h-this.margin;
+    const gap=18;
+    const startY=this.y+8;
+    const available=pageBottom-startY;
+    const slotH=totalOnPage>1 ? (available-gap)/2 : available;
+    const top=startY + slot*(slotH+gap);
+
+    const title=img?.title||`블로킹 ${index+1}`;
     c.fillStyle='#1f2528';
-    c.font=this.font(17,800);
+    c.font=this.font(14,800);
     c.fillText(title,x,top);
 
-    const noteTop=top+32;
-    let imageTop=noteTop;
-    if(note){
+    let imageTop=top+25;
+    // Keep the scene-level blocking note only with the first image on the page.
+    if(note && slot===0){
       c.fillStyle='#747d82';
-      c.font=this.font(10,800);
-      c.fillText('BLOCKING NOTE',x,noteTop);
+      c.font=this.font(9,800);
+      c.fillText('BLOCKING NOTE',x,imageTop);
       c.fillStyle='#303639';
-      c.font=this.font(13,400);
-      const lines=wrapCanvasTextV141(c,note,this.contentW,c.font).slice(0,4);
-      lines.forEach((line,i)=>c.fillText(line,x,noteTop+18+i*20));
-      imageTop=noteTop+30+lines.length*20;
+      c.font=this.font(11,400);
+      const lines=wrapCanvasTextV141(c,note,this.contentW,c.font).slice(0,2);
+      lines.forEach((line,i)=>c.fillText(line,x,imageTop+15+i*16));
+      imageTop+=23+lines.length*16;
     }
 
-    const availH=this.h-this.margin-imageTop;
     const frameW=this.contentW;
-    const frameH=Math.max(240,availH);
+    const frameH=Math.max(120,top+slotH-imageTop);
     c.fillStyle='#f3f3f1';
     c.fillRect(x,imageTop,frameW,frameH);
     c.strokeStyle='#c5cace';
     c.lineWidth=1;
     c.strokeRect(x,imageTop,frameW,frameH);
 
+    const src=img?.data||img?.image||'';
     if(src){
       const loaded=await loadCanvasImageV142(src);
       if(loaded){
-        const pad=14;
+        const pad=10;
         const aw=frameW-pad*2,ah=frameH-pad*2;
         const scale=Math.min(aw/loaded.width,ah/loaded.height);
         const dw=loaded.width*scale,dh=loaded.height*scale;
@@ -20936,7 +20944,7 @@ class CanvasPdfDocV142{
       }
     }
 
-    this.y=this.h-this.margin;
+    this.y=top+slotH;
   }
 
   async blockingRowV161(scene,img,index){
@@ -21109,20 +21117,27 @@ async function saveStoryboardPdfV141(selectedOnly=false){
     await doc.storyboardTableHeaderV161();
 
     if(blocking.images.length){
-      // Blocking is a scene-level planning document, so keep it on dedicated page(s)
-      // instead of mixing it into the storyboard cut table.
-      for(let i=0;i<blocking.images.length;i++){
+      // V294 — place blocking images two per A4 page.
+      for(let i=0;i<blocking.images.length;i+=2){
         if(i===0){
-          // The scene header page becomes a dedicated blocking page.
           doc.y=doc.margin+68;
           doc.ctx.fillStyle='#fff';
           doc.ctx.fillRect(doc.margin,doc.y,doc.contentW,doc.h-doc.y-doc.margin);
-          doc.section(`${s.number} · BLOCKING`, `${s.meta?.location||s.title||'씬'} · 동선 / 카메라 배치`);
         }else{
           doc.newPage();
-          doc.section(`${s.number} · BLOCKING ${i+1}`, `${s.meta?.location||s.title||'씬'} · 동선 / 카메라 배치`);
         }
-        await doc.blockingPageV166(s,blocking.images[i],i);
+
+        doc.section(
+          `${s.number} · BLOCKING${i?` ${i+1}-${Math.min(i+2,blocking.images.length)}`:''}`,
+          `${s.meta?.location||s.title||'씬'} · 동선 / 카메라 배치`
+        );
+
+        const pair=blocking.images.slice(i,i+2);
+        const pairStartY=doc.y;
+        for(let j=0;j<pair.length;j++){
+          doc.y=pairStartY;
+          await doc.blockingPageV166(s,pair[j],i+j,j,pair.length);
+        }
       }
 
       // Storyboard cuts always begin on a fresh page after blocking.
