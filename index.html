@@ -16545,7 +16545,7 @@ function renderStoryboard(){
       <div class="story-card-head-v57" draggable="true" data-story-drag-handle title="드래그해서 샷 순서 변경">
         <div class="story-shot-id-v57">
           <b>${esc(s.number)}-${i+1}</b>
-          <span class="story-shot-badge-v57">${esc(sh.size||'SHOT')}</span>
+          <span class="story-shot-badge-v57">${esc([...(Array.isArray(sh.subjects)?sh.subjects:[]),sh.size||'SHOT'].filter(Boolean).join(' · '))}</span>
         </div>
         <div class="story-card-status-v57">
           ${sh.vfx?'<span class="story-vfx-badge-v57">VFX / AI</span>':''}
@@ -16570,6 +16570,7 @@ function renderStoryboard(){
 
       <div class="story-card-body-v57">
         <div class="story-overview-meta-v63">
+          <span class="story-overview-subject-v299"><b>인물</b>${esc((Array.isArray(sh.subjects)?sh.subjects:[]).join(', ')||'—')}</span>
           <span><b>SIZE</b>${esc(sh.size||'—')}</span>
           <span><b>ANGLE</b>${esc(sh.angle||'—')}</span>
           <span><b>MOVING</b>${esc(movement)}</span>
@@ -16577,6 +16578,7 @@ function renderStoryboard(){
         </div>
 
         <div class="story-tech-grid-v57">
+          <div class="story-tech-v57 story-tech-subject-v299"><span>인물</span><b>${esc((Array.isArray(sh.subjects)?sh.subjects:[]).join(', ')||'—')}</b></div>
           <div class="story-tech-v57"><span>ANGLE</span><b>${esc(sh.angle||'—')}</b></div>
           <div class="story-tech-v57"><span>MOVING</span><b>${esc(movement)}</b></div>
           <div class="story-tech-v57"><span>FOCAL</span><b>${esc(sh.focalLength||'—')}</b></div>
@@ -20963,8 +20965,11 @@ class CanvasPdfDocV142{
     const movement=shot.movement==='Static'?'Fix':(shot.movement||'—');
     const focalOnly=shot.focalLength||'—';
 
+    const pdfSubjects=(Array.isArray(shot.subjects)?shot.subjects:[]).join(', ');
+    const shotSizeWithSubject=[pdfSubjects,shot.size||'—'].filter(Boolean).join(' · ');
+
     const spec=[
-      ['SHOT SIZE',shot.size||'—'],
+      ['SHOT SIZE',shotSizeWithSubject],
       ['ANGLE',shot.angle||'—'],
       ['FOCAL LENGTH',focalOnly],
       ['MOVING',movement]
@@ -26207,6 +26212,16 @@ html[data-theme="light"] body #shots .shot-subject-menu-v297 input[data-shot-sub
 html[data-theme="light"] body #shots .shot-subject-menu-v297 input[data-shot-subject]:checked{
   background:#607A6A!important;
   border-color:#607A6A!important;
+}
+</style>
+
+
+<style id="prepro-v299-storyboard-subjects">
+#storyboard .story-overview-meta-v63 .story-overview-subject-v299{
+  grid-column:1 / -1!important;
+}
+#storyboard .story-tech-subject-v299{
+  grid-column:1 / -1!important;
 }
 </style>
 
