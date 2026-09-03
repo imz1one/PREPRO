@@ -13405,7 +13405,7 @@ html[data-theme="light"] .sidebar .nav button.active .nav-icon{color:#4D6B58!imp
       <div class="table-wrap shot-table-compat-v53">
         <table class="shot-table">
           <thead><tr>
-            <th></th><th>완료</th><th>#</th><th>샷 사이즈</th><th>앵글</th><th>렌즈</th><th>초점거리</th><th>카메라 무빙</th><th>FPS</th><th>Support</th><th>VFX</th><th>내용</th><th>메모</th><th>상태</th><th></th>
+            <th></th><th>완료</th><th>#</th><th>샷 사이즈</th><th>앵글</th><th>렌즈</th><th>초점거리</th><th>카메라 무빙</th><th>FPS</th><th>Support</th><th>AI/VFX</th><th>내용</th><th>메모</th><th>상태</th><th></th>
           </tr></thead>
           <tbody id="shotTable"></tbody>
         </table>
@@ -13870,24 +13870,30 @@ html[data-theme="light"] .sidebar .nav button.active .nav-icon{color:#4D6B58!imp
       </article>
 
       <article class="export-card-v130">
-        <div class="export-card-top-v130"><span class="export-index-v130">04</span><span class="export-type-v130">A4 가로 · PDF</span></div>
+        <div class="export-card-top-v130"><span class="export-index-v130">04</span><span class="export-type-v130">A4 가로 + 세로 · PDF</span></div>
+        <div class="export-card-copy-v130"><h3>샷리스트 + 콘티</h3><p>샷리스트 전체 뒤에 콘티 전체를 이어 붙여 하나의 PDF로 저장합니다.</p></div>
+        <div class="export-card-actions-v130"><button type="button" data-print-view="shots-storyboard" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('shots-storyboard');}">통합 PDF 저장</button></div>
+      </article>
+
+      <article class="export-card-v130">
+        <div class="export-card-top-v130"><span class="export-index-v130">05</span><span class="export-type-v130">A4 가로 · PDF</span></div>
         <div class="export-card-copy-v130"><h3>촬영 일정표</h3><p>회차별 촬영 날짜와 배정된 씬을 전체 일정표 형태로 정리합니다.</p></div>
         <div class="export-card-actions-v130"><button type="button" data-print-view="schedule" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('schedule');}">PDF 저장</button></div>
       </article>
 
       <article class="export-card-v130">
-        <div class="export-card-top-v130"><span class="export-index-v130">05</span><span class="export-type-v130">A4 가로 · PDF</span></div>
+        <div class="export-card-top-v130"><span class="export-index-v130">06</span><span class="export-type-v130">A4 가로 · PDF</span></div>
         <div class="export-card-copy-v130"><h3>콜시트</h3><p>촬영 기본 정보, 주요 연락처, 시간표, 식사와 공지를 현장 공유용 A4 PDF로 저장합니다.</p></div>
         <div class="export-card-actions-v130"><button type="button" data-print-view="callsheet" class="primary" onclick="if(typeof printCallSheetV73==='function'){printCallSheetV73();}">PDF 저장</button></div>
       </article>
       <article class="export-card-v130">
-        <div class="export-card-top-v130"><span class="export-index-v130">06</span><span class="export-type-v130">A4 세로 · PDF</span></div>
+        <div class="export-card-top-v130"><span class="export-index-v130">07</span><span class="export-type-v130">A4 세로 · PDF</span></div>
         <div class="export-card-copy-v130"><h3>로케이션 리스트</h3><p>주소, 연락처, 촬영 조건, 연결 씬과 헌팅 메모를 로케이션별로 정리합니다.</p></div>
         <div class="export-card-actions-v130"><button type="button" data-print-view="locations" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('locations');}">PDF 저장</button></div>
       </article>
 
       <article class="export-card-v130">
-        <div class="export-card-top-v130"><span class="export-index-v130">07</span><span class="export-type-v130">A4 가로 · PDF</span></div>
+        <div class="export-card-top-v130"><span class="export-index-v130">08</span><span class="export-type-v130">A4 가로 · PDF</span></div>
         <div class="export-card-copy-v130"><h3>장비 리스트</h3><p>장비 분류·수량·구분·대여처·반출·반납 시간을 현장 반출표 형태로 정리합니다.</p></div>
         <div class="export-card-actions-v130">
           <button type="button" data-print-view="equipment" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('equipment');}">전체 PDF 저장</button>
@@ -13896,7 +13902,7 @@ html[data-theme="light"] .sidebar .nav button.active .nav-icon{color:#4D6B58!imp
       </article>
 
       <article class="export-card-v130">
-        <div class="export-card-top-v130"><span class="export-index-v130">08</span><span class="export-type-v130">A4 세로 · PDF</span></div>
+        <div class="export-card-top-v130"><span class="export-index-v130">09</span><span class="export-type-v130">A4 세로 · PDF</span></div>
         <div class="export-card-copy-v130"><h3>출연진 리스트</h3><p>배우, 연락처, 등장 씬, 콜타임, 의상·분장과 캐릭터 메모를 인물별로 정리합니다.</p></div>
         <div class="export-card-actions-v130"><button type="button" data-print-view="cast" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('cast');}">PDF 저장</button></div>
       </article>
@@ -13904,7 +13910,7 @@ html[data-theme="light"] .sidebar .nav button.active .nav-icon{color:#4D6B58!imp
 
     <div class="export-note-v130">
       <span>PDF 저장</span>
-      <p>버튼을 누르면 Safari 인쇄창 없이 실제 <b>A4 PDF 파일</b>이 바로 저장됩니다. 샷리스트·콘티·촬영 일정·콜시트·장비표는 가로, 나머지는 세로입니다.</p>
+      <p>버튼을 누르면 Safari 인쇄창 없이 실제 <b>A4 PDF 파일</b>이 바로 저장됩니다. 샷리스트·촬영 일정·콜시트·장비표는 가로, 콘티는 세로이며, 샷리스트 + 콘티 통합 PDF는 두 방향을 그대로 이어 붙입니다.</p>
     </div>
   </div>
 </section>
@@ -17447,6 +17453,7 @@ html[data-theme="light"] body #aivfx button[data-ai-pick-script]{
 </style>
 
 
+<!-- PREPRO V296 — combined Shot List + Storyboard PDF; AI/VFX shotlist header -->
 </body></html>`;
 }
 function printCallSheetV73(){
@@ -20508,6 +20515,69 @@ function loadCanvasImageV142(src){
   });
 }
 
+
+// PREPRO V296 — build a single PDF from canvas pages with mixed A4 orientations.
+function buildPdfFromMixedJpegsV296(images){
+  const enc=new TextEncoder();
+  const objCount=2+images.length*3;
+  const bodies=new Array(objCount+1);
+  bodies[1]=[enc.encode('<< /Type /Catalog /Pages 2 0 R >>')];
+  bodies[2]=[enc.encode(`<< /Type /Pages /Kids [${images.map((_,i)=>`${3+i*3} 0 R`).join(' ')}] /Count ${images.length} >>`)];
+  images.forEach((img,i)=>{
+    const landscape=img.orientation==='landscape';
+    const pageW=landscape?841.89:595.28, pageH=landscape?595.28:841.89;
+    const pageObj=3+i*3,contentObj=pageObj+1,imageObj=pageObj+2;
+    bodies[pageObj]=[enc.encode(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageW.toFixed(2)} ${pageH.toFixed(2)}] /Resources << /XObject << /Im0 ${imageObj} 0 R >> >> /Contents ${contentObj} 0 R >>`)];
+    const content=`q\n${pageW.toFixed(2)} 0 0 ${pageH.toFixed(2)} 0 0 cm\n/Im0 Do\nQ\n`;
+    const cb=enc.encode(content);
+    bodies[contentObj]=[enc.encode(`<< /Length ${cb.length} >>\nstream\n`),cb,enc.encode('endstream')];
+    bodies[imageObj]=[enc.encode(`<< /Type /XObject /Subtype /Image /Width ${img.width} /Height ${img.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${img.bytes.length} >>\nstream\n`),img.bytes,enc.encode('\nendstream')];
+  });
+  const chunks=[enc.encode('%PDF-1.4\n%PREPRO\n')],offsets=new Array(objCount+1).fill(0);
+  let pos=chunks[0].length;
+  for(let i=1;i<=objCount;i++){
+    offsets[i]=pos;
+    const a=enc.encode(`${i} 0 obj\n`),b=enc.encode('\nendobj\n');
+    chunks.push(a);pos+=a.length;
+    for(const part of bodies[i]){chunks.push(part);pos+=part.length}
+    chunks.push(b);pos+=b.length;
+  }
+  const xrefPos=pos;
+  let xref=`xref\n0 ${objCount+1}\n0000000000 65535 f \n`;
+  for(let i=1;i<=objCount;i++)xref+=String(offsets[i]).padStart(10,'0')+' 00000 n \n';
+  xref+=`trailer\n<< /Size ${objCount+1} /Root 1 0 R >>\nstartxref\n${xrefPos}\n%%EOF`;
+  chunks.push(enc.encode(xref));
+  return concatBytesV142(chunks);
+}
+
+async function canvasPagesToJpegsV296(pages,orientation){
+  const images=[];
+  for(const c of pages){
+    let jpegBlob=null;
+    try{
+      jpegBlob=await new Promise(resolve=>{
+        let done=false;
+        const timer=setTimeout(()=>{if(!done){done=true;resolve(null)}},8000);
+        c.toBlob(blob=>{if(done)return;done=true;clearTimeout(timer);resolve(blob||null)},'image/jpeg',0.90);
+      });
+    }catch(err){jpegBlob=null}
+    if(jpegBlob){
+      const ab=await jpegBlob.arrayBuffer();
+      images.push({width:c.width,height:c.height,bytes:new Uint8Array(ab),orientation});
+    }else{
+      images.push({width:c.width,height:c.height,bytes:dataUrlToBytesV142(c.toDataURL('image/jpeg',0.88)),orientation});
+    }
+  }
+  return images;
+}
+
+function downloadPdfBytesV296(bytes,label){
+  const blob=new Blob([bytes],{type:'application/pdf'}),url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`${pdfSafeFilenameV142(project().title||'PREPRO')}_${pdfSafeFilenameV142(label)}.pdf`;a.style.display='none';
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);
+}
+
 class CanvasPdfDocV142{
   constructor(title,orientation='portrait'){
     this.title=title;
@@ -21090,7 +21160,7 @@ async function saveShotlistPdfV141(){
     sh.movement==='Static'?'Fix':(sh.movement||''),sh.fps||'',sh.support||'',
     sh.vfx?'Y':'',sh.description||'',sh.notes||''
   ])));
-  doc.table(['CUT','SIZE','ANGLE','LENS','FL','MOVE','FPS','SUPPORT','VFX','DESCRIPTION','NOTES'],
+  doc.table(['CUT','SIZE','ANGLE','LENS','FL','MOVE','FPS','SUPPORT','AI/VFX','DESCRIPTION','NOTES'],
     rows,[.07,.07,.09,.09,.06,.09,.055,.09,.05,.225,.155],
     {fontSize:12,headerFontSize:11,lineHeight:20,pad:8,boldFirst:true});
   doc.download('샷리스트');
@@ -21160,6 +21230,53 @@ async function saveStoryboardPdfV141(selectedOnly=false){
   }
 
   await doc.download(selectedOnly?'선택씬_콘티':'콘티');
+}
+
+
+// PREPRO V296 — Shot List first (landscape), then Storyboard (portrait) in one PDF.
+async function saveShotlistStoryboardPdfV296(){
+  const p=project();
+  const shotDoc=new CanvasPdfDocV142('샷리스트','landscape');
+  const shotRows=[];
+  p.scenes.forEach(s=>(s.shots||[]).forEach((sh,i)=>shotRows.push([
+    `${s.number}-${i+1}`,sh.size||'',sh.angle||'',sh.lens||'',sh.focalLength||'',
+    sh.movement==='Static'?'Fix':(sh.movement||''),sh.fps||'',sh.support||'',
+    sh.vfx?'Y':'',sh.description||'',sh.notes||''
+  ])));
+  shotDoc.table(['CUT','SIZE','ANGLE','LENS','FL','MOVE','FPS','SUPPORT','AI/VFX','DESCRIPTION','NOTES'],
+    shotRows,[.07,.07,.09,.09,.06,.09,.055,.09,.05,.225,.155],
+    {fontSize:12,headerFontSize:11,lineHeight:20,pad:8,boldFirst:true});
+
+  const storyboardDoc=new CanvasPdfDocV142('콘티','portrait');
+  storyboardDoc.pages=[];storyboardDoc.pageNo=0;storyboardDoc.canvas=null;storyboardDoc.ctx=null;storyboardDoc.y=storyboardDoc.margin;
+  const printable=p.scenes.filter(s=>(s.shots?.length||0)||(ensureSceneBlockingV66(s).images?.length||0));
+  for(const s of printable){
+    const shots=s.shots||[],blocking=ensureSceneBlockingV66(s);
+    storyboardDoc.newPage();
+    storyboardDoc.section(`${s.number} · ${s.meta?.location||s.title||'씬'}`,`${sceneTimeKey(s.meta?.time)||''} · ${shots.length} SHOTS${blocking.images.length?` · ${blocking.images.length} BLOCKING`:''}`);
+    await storyboardDoc.storyboardTableHeaderV161();
+    if(blocking.images.length){
+      for(let i=0;i<blocking.images.length;i+=2){
+        if(i===0){
+          storyboardDoc.y=storyboardDoc.margin+68;
+          storyboardDoc.ctx.fillStyle='#fff';
+          storyboardDoc.ctx.fillRect(storyboardDoc.margin,storyboardDoc.y,storyboardDoc.contentW,storyboardDoc.h-storyboardDoc.y-storyboardDoc.margin);
+        }else storyboardDoc.newPage();
+        storyboardDoc.section(`${s.number} · BLOCKING${i?` ${i+1}-${Math.min(i+2,blocking.images.length)}`:''}`,`${s.meta?.location||s.title||'씬'} · 동선 / 카메라 배치`);
+        const pair=blocking.images.slice(i,i+2),pairStartY=storyboardDoc.y;
+        for(let j=0;j<pair.length;j++){storyboardDoc.y=pairStartY;await storyboardDoc.blockingPageV166(s,pair[j],i+j,j,pair.length)}
+      }
+      if(shots.length){
+        storyboardDoc.newPage();
+        storyboardDoc.section(`${s.number} · ${s.meta?.location||s.title||'씬'}`,`${sceneTimeKey(s.meta?.time)||''} · ${shots.length} SHOTS`);
+        await storyboardDoc.storyboardTableHeaderV161();
+      }
+    }
+    for(let i=0;i<shots.length;i++)await storyboardDoc.storyboardRowV161(shots[i],s,i);
+  }
+  const images=[...(await canvasPagesToJpegsV296(shotDoc.pages,'landscape')),...(await canvasPagesToJpegsV296(storyboardDoc.pages,'portrait'))];
+  if(!images.length)throw new Error('PDF page rendering failed');
+  downloadPdfBytesV296(buildPdfFromMixedJpegsV296(images),'샷리스트+콘티');
 }
 
 async function saveSchedulePdfV141(){
@@ -21283,6 +21400,12 @@ function openPrintDocument(type){
     return saveStoryboardPdfV141(false).catch(err=>{
       console.error('[PREPRO storyboard PDF]',err);
       alert('콘티 PDF 생성 중 오류가 발생했습니다.\\n\\n'+(err?.message||String(err)));
+    });
+  }
+  if(type==='shots-storyboard'){
+    return saveShotlistStoryboardPdfV296().catch(err=>{
+      console.error('[PREPRO shotlist + storyboard PDF]',err);
+      alert('샷리스트 + 콘티 PDF 생성 중 오류가 발생했습니다.\n\n'+(err?.message||String(err)));
     });
   }
   if(type==='schedule')return saveSchedulePdfV141();
