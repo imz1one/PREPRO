@@ -20770,7 +20770,6 @@ class CanvasPdfDocV142{
     this.y+=h;
   }
   async storyboardRowV161(shot,scene,index){
-    const c=this.ctx;
     const cutW=72;
     const videoW=Math.round(this.contentW*0.47);
     const infoW=this.contentW-cutW-videoW;
@@ -20781,10 +20780,14 @@ class CanvasPdfDocV142{
     const frameH=frameW*9/16;
     const rowH=Math.max(250,Math.round(frameH+videoPad*2));
 
+    // V295 — a row that moves to the next PDF page must draw on the NEW canvas.
+    // Previously the context was captured before newPage(), so the first cut after
+    // a page break could be painted back onto the previous page and overlap a cut.
     if(this.y+rowH>this.h-this.margin){
       this.newPage();
       await this.storyboardTableHeaderV161();
     }
+    const c=this.ctx;
 
     const x=this.margin,y=this.y,vx=x+cutW,ix=vx+videoW;
 
