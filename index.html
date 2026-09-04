@@ -28044,5 +28044,35 @@ html[data-theme="light"] body #lineEditModal #lineSaveBtn{
 }
 </style>
 
+
+<style id="prepro-v327-script-breakdown-type-unify">
+/* V327: half-window typography only
+   - page title: Breakdown is source of truth
+   - lower scene title: Script is source of truth */
+@media (min-width:781px) and (max-width:1600px){
+  /* Main page titles — match Breakdown */
+  #script .page-head h1,
+  #script .page-title,
+  #script h1,
+  #breakdown .page-head h1,
+  #breakdown .page-title,
+  #breakdown h1{
+    font-size:26px!important;
+    line-height:1.12!important;
+    font-weight:800!important;
+    letter-spacing:-.035em!important;
+  }
+
+  /* Lower scene-panel titles — match Script */
+  #script .script-scene-title-v27,
+  #breakdown #breakScriptTitle{
+    font-size:14px!important;
+    line-height:1.3!important;
+    font-weight:800!important;
+    letter-spacing:-.02em!important;
+  }
+}
+</style>
+
 </body>
 </html>
