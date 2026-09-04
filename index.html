@@ -26690,5 +26690,380 @@ html[data-theme="light"] body #shots .shot-subject-menu-v297 input[data-shot-sub
 }
 </style>
 
+
+<style id="prepro-v310-shotlist-half-compact">
+/* V310 — Shot List half-window only */
+@media (min-width:769px) and (max-width:1180px){
+  #shots .shot-card-v56{grid-template-columns:20px 34px minmax(170px,1fr) minmax(170px,1fr) 30px!important;gap:8px!important;padding:9px!important;border-radius:10px!important}
+  #shots .shot-group-v56{padding:9px!important}
+  #shots .shot-group-title-v56{margin-bottom:8px!important;font-size:9px!important}
+  #shots .shot-field-v56{gap:4px!important}
+  #shots .shot-field-v56 label{font-size:8.5px!important}
+  #shots .shot-field-v56 input,#shots .shot-field-v56 select{min-height:32px!important;height:32px!important;padding-top:5px!important;padding-bottom:5px!important;font-size:10.5px!important}
+  #shots .shot-script-pick-v56{min-width:84px!important;min-height:30px!important;height:30px!important;font-size:9px!important}
+  #shots .shot-script-excerpt-v56,#shots .shot-description-v56,#shots .shot-notes-v56{min-height:58px!important;padding:8px!important;font-size:10.5px!important}
+  #shots .shot-content-footer-v56{gap:7px!important;margin-top:7px!important}
+  #shots .shot-number-v56 b{font-size:12px!important}
+  #shots .shot-actions-v56 button{width:28px!important;height:28px!important;min-width:28px!important;min-height:28px!important}
+}
+</style>
+
+<style id="prepro-v311-shotlist-half-real-compact">
+/* V311 — actual Shot List half-window breakpoint */
+@media (min-width:821px) and (max-width:1180px){
+  #shots .shot-card-v56{
+    grid-template-columns:20px 34px minmax(0,1fr) minmax(0,1fr) 30px!important;
+    grid-template-areas:
+      "drag number camera lens actions"
+      "drag number content content actions"!important;
+    gap:7px!important;
+    padding:8px!important;
+    align-items:start!important;
+  }
+
+  #shots .shot-drag-v56,
+  #shots .shot-number-v56,
+  #shots .shot-actions-v56{
+    align-self:stretch!important;
+  }
+
+  #shots .shot-group-v56{
+    padding:8px!important;
+    gap:6px!important;
+    border-radius:8px!important;
+  }
+
+  #shots .shot-group-camera-v56,
+  #shots .shot-group-lens-v56{
+    min-height:0!important;
+    height:auto!important;
+  }
+
+  #shots .shot-group-title-v56{
+    margin:0 0 5px!important;
+    min-height:0!important;
+    line-height:1.2!important;
+  }
+
+  #shots .shot-field-v56{
+    margin:0!important;
+    gap:3px!important;
+  }
+
+  #shots .shot-field-v56 label{
+    margin:0!important;
+    line-height:1.2!important;
+  }
+
+  #shots .shot-field-v56 input:not([type="checkbox"]),
+  #shots .shot-field-v56 select{
+    height:30px!important;
+    min-height:30px!important;
+    padding:4px 8px!important;
+  }
+
+  #shots .shot-subject-picker-v297 > summary{
+    height:30px!important;
+    min-height:30px!important;
+    padding:4px 8px!important;
+  }
+
+  #shots .shot-group-content-v56{
+    padding:8px!important;
+    gap:6px!important;
+  }
+
+  #shots .shot-script-head-v56{
+    margin:0!important;
+    min-height:30px!important;
+  }
+
+  #shots .shot-script-pick-v56{
+    height:28px!important;
+    min-height:28px!important;
+    padding:4px 9px!important;
+  }
+
+  #shots .shot-script-excerpt-v56,
+  #shots .shot-description-v56,
+  #shots .shot-notes-v56{
+    min-height:48px!important;
+    height:48px!important;
+    padding:7px 8px!important;
+    resize:vertical!important;
+  }
+
+  #shots .shot-content-footer-v56{
+    margin-top:0!important;
+    gap:6px!important;
+  }
+
+  #shots .shot-number-v56{
+    padding:6px 2px!important;
+  }
+
+  #shots .shot-actions-v56{
+    padding-top:2px!important;
+  }
+}
+</style>
+
+
+<style id="prepro-v312-shot-card-outer-compact">
+/* V312 — half-window: shrink the SHOT CARD itself, not just its controls. */
+@media (min-width:821px) and (max-width:1180px){
+  #shots .shot-card-v56{
+    width:min(100%,860px)!important;
+    max-width:860px!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    box-sizing:border-box!important;
+  }
+
+  /* Keep the content area compact so the smaller outer card does not grow vertically. */
+  #shots .shot-group-content-v56{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    column-gap:8px!important;
+    row-gap:7px!important;
+  }
+
+  #shots .shot-group-content-v56 .shot-script-v56,
+  #shots .shot-group-content-v56 .shot-description-wrap-v56{
+    min-width:0!important;
+  }
+
+  #shots .shot-group-content-v56 .shot-content-footer-v56{
+    grid-column:1/-1!important;
+  }
+
+  #shots .shot-script-excerpt-v56,
+  #shots .shot-description-v56,
+  #shots .shot-notes-v56{
+    min-height:44px!important;
+    height:44px!important;
+  }
+}
+</style>
+
+
+<style id="prepro-v313-shotlist-half-redesign">
+/* V313 — Shot List half-window redesign:
+   smaller card + denser two-column field layout, only at 821–1180px. */
+@media (min-width:821px) and (max-width:1180px){
+
+  #shots .shot-card-v56{
+    width:min(100%,740px)!important;
+    max-width:740px!important;
+    margin:0 auto 10px!important;
+    grid-template-columns:14px 34px minmax(0,1fr) minmax(0,1fr) 28px!important;
+    grid-template-areas:
+      "drag number camera lens actions"
+      "drag number content content actions"!important;
+    gap:6px!important;
+    padding:7px!important;
+    border-radius:10px!important;
+    box-sizing:border-box!important;
+  }
+
+  #shots .shot-drag-v56{
+    grid-area:drag!important;
+    width:14px!important;
+    padding:0!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    opacity:.55!important;
+  }
+
+  #shots .shot-number-v56{
+    grid-area:number!important;
+    width:34px!important;
+    min-width:34px!important;
+    padding:7px 0!important;
+    border-radius:7px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:10px!important;
+  }
+
+  #shots .shot-number-v56 b{
+    font-size:11px!important;
+  }
+
+  #shots .shot-number-v56 input[type="checkbox"]{
+    width:15px!important;
+    height:15px!important;
+    min-width:15px!important;
+  }
+
+  #shots .shot-actions-v56{
+    grid-area:actions!important;
+    width:28px!important;
+    padding-top:1px!important;
+  }
+
+  #shots .shot-actions-v56 button{
+    width:26px!important;
+    height:26px!important;
+    min-width:26px!important;
+    min-height:26px!important;
+    border-radius:7px!important;
+  }
+
+  #shots .shot-group-v56{
+    min-width:0!important;
+    padding:8px!important;
+    border-radius:8px!important;
+  }
+
+  /* CAMERA: 2 x 2 fields */
+  #shots .shot-group-camera-v56{
+    grid-area:camera!important;
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:6px 7px!important;
+    align-content:start!important;
+  }
+
+  /* LENS / SUPPORT: two columns; support takes full row */
+  #shots .shot-group-lens-v56{
+    grid-area:lens!important;
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:6px 7px!important;
+    align-content:start!important;
+  }
+
+  #shots .shot-group-camera-v56 .shot-group-title-v56,
+  #shots .shot-group-lens-v56 .shot-group-title-v56{
+    grid-column:1/-1!important;
+    margin:0 0 1px!important;
+    font-size:9px!important;
+    letter-spacing:.045em!important;
+  }
+
+  #shots .shot-group-lens-v56 .shot-field-v56:last-child{
+    grid-column:1/-1!important;
+  }
+
+  #shots .shot-field-v56{
+    min-width:0!important;
+    gap:3px!important;
+  }
+
+  #shots .shot-field-v56 label{
+    font-size:7.8px!important;
+    line-height:1.15!important;
+  }
+
+  #shots .shot-field-v56 input:not([type="checkbox"]),
+  #shots .shot-field-v56 select,
+  #shots .shot-subject-picker-v297 > summary{
+    width:100%!important;
+    height:28px!important;
+    min-height:28px!important;
+    padding:3px 7px!important;
+    border-radius:7px!important;
+    font-size:9.5px!important;
+    box-sizing:border-box!important;
+  }
+
+  /* Content: script and description side-by-side */
+  #shots .shot-group-content-v56{
+    grid-area:content!important;
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    grid-template-rows:auto 52px auto!important;
+    gap:5px 7px!important;
+    padding:8px!important;
+    align-items:start!important;
+  }
+
+  #shots .shot-script-head-v56{
+    grid-column:1!important;
+    grid-row:1!important;
+    min-height:25px!important;
+    margin:0!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:6px!important;
+  }
+
+  #shots .shot-description-label-v56{
+    grid-column:2!important;
+    grid-row:1!important;
+    align-self:center!important;
+    margin:0!important;
+    line-height:25px!important;
+  }
+
+  #shots .shot-script-excerpt-v56{
+    grid-column:1!important;
+    grid-row:2!important;
+  }
+
+  #shots .shot-description-v56{
+    grid-column:2!important;
+    grid-row:2!important;
+  }
+
+  #shots .shot-script-excerpt-v56,
+  #shots .shot-description-v56{
+    width:100%!important;
+    min-width:0!important;
+    height:52px!important;
+    min-height:52px!important;
+    padding:7px 8px!important;
+    border-radius:7px!important;
+    font-size:9.5px!important;
+    line-height:1.35!important;
+    box-sizing:border-box!important;
+  }
+
+  #shots .shot-script-pick-v56{
+    width:auto!important;
+    min-width:76px!important;
+    height:25px!important;
+    min-height:25px!important;
+    padding:3px 7px!important;
+    border-radius:6px!important;
+    font-size:8px!important;
+  }
+
+  #shots .shot-content-footer-v56{
+    grid-column:1/-1!important;
+    grid-row:3!important;
+    display:grid!important;
+    grid-template-columns:max-content minmax(0,1fr)!important;
+    gap:6px!important;
+    align-items:center!important;
+    margin:0!important;
+  }
+
+  #shots .shot-vfx-v56{
+    min-height:28px!important;
+    height:28px!important;
+    padding:0 7px!important;
+    border-radius:7px!important;
+    font-size:8.5px!important;
+  }
+
+  #shots .shot-notes-v56{
+    width:100%!important;
+    min-width:0!important;
+    height:28px!important;
+    min-height:28px!important;
+    padding:4px 8px!important;
+    border-radius:7px!important;
+    font-size:9.5px!important;
+    box-sizing:border-box!important;
+  }
+}
+</style>
+
 </body>
 </html>
