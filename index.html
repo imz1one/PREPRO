@@ -16354,6 +16354,8 @@ function updateStoryboardViewMode(){
   if(detail)detail.classList.toggle('active',mode==='detail');
   if(overview)overview.classList.toggle('active',mode==='overview');
   if(blocking)blocking.classList.toggle('active',mode==='blocking');
+  const storyboardRoot=$('#storyboard');
+  if(storyboardRoot)storyboardRoot.classList.toggle('story-overview-mode-v317',mode==='overview');
 }
 
 
@@ -16483,6 +16485,52 @@ function renderStoryboardBlocking(scene,grid){
   if(note)note.oninput=()=>{blocking.note=note.value;save();};
 }
 
+
+function renderStoryboardOverviewAllV315(p,grid,title,meta,progress){
+  const rows=[];
+  (p.scenes||[]).forEach(scene=>{
+    (scene.shots||[]).forEach((sh,i)=>{
+      rows.push({scene,sh,index:i});
+    });
+  });
+
+  const imageCount=rows.filter(x=>!!x.sh.image).length;
+  if(title)title.textContent='전체 콘티 보드';
+  if(meta)meta.textContent=`${imageCount} images · ${(p.scenes||[]).length} scenes`;
+  if(progress)progress.textContent='';
+
+  grid.className='story-grid-v57 overview story-overview-all-v315';
+  grid.innerHTML=rows.length?rows.map(({scene,sh,index})=>{
+    const subjects=(Array.isArray(sh.subjects)?sh.subjects:[]).join(', ');
+    const badge=[subjects,sh.size||''].filter(Boolean).join(' · ');
+    return `<article class="story-overview-all-card-v315 ${sh.image?'has-image':''}" data-story-overview-v315="${sh.id}">
+      <button type="button" class="story-overview-all-image-v315" ${sh.image?'data-story-overview-open-v315':''}
+        aria-label="${esc(scene.number)}-${index+1} 콘티 확대">
+        ${sh.image
+          ? `<img src="${sh.image}" alt="${esc(scene.number)}-${index+1} 콘티">`
+          : `<div class="story-overview-all-empty-v315">NO IMAGE</div>`}
+        <span class="story-overview-all-cut-v315">${esc(scene.number)}-${index+1}</span>
+        ${badge?`<span class="story-overview-all-badge-v315">${esc(badge)}</span>`:''}
+      </button>
+    </article>`;
+  }).join(''):`<div class="story-empty-v57"><b>콘티가 없습니다.</b>샷리스트에서 샷을 먼저 추가하세요.</div>`;
+
+  grid.querySelectorAll('[data-story-overview-open-v315]').forEach(btn=>{
+    btn.onclick=e=>{
+      e.preventDefault();e.stopPropagation();
+      const card=btn.closest('[data-story-overview-v315]');
+      const item=rows.find(x=>x.sh.id===card?.dataset.storyOverviewV315);
+      if(item?.sh?.image){
+        openBlockingImageV66(
+          item.sh.image,
+          `${item.scene.number}-${item.index+1}`,
+          [item.scene.meta?.location||item.scene.title||'', item.sh.size||''].filter(Boolean).join(' · ')
+        );
+      }
+    };
+  });
+}
+
 function renderStoryboard(){
   const p=project();
   renderSceneList('#storySceneList');
@@ -16495,6 +16543,11 @@ function renderStoryboard(){
   const meta=$('#storySceneMeta');
   const progress=$('#storySceneProgress');
   updateStoryboardViewMode();
+
+  if(storyboardViewMode()==='overview'){
+    renderStoryboardOverviewAllV315(p,grid,title,meta,progress);
+    return;
+  }
 
   if(!s){
     if(title)title.textContent='씬을 선택하세요';
@@ -27062,6 +27115,380 @@ html[data-theme="light"] body #shots .shot-subject-menu-v297 input[data-shot-sub
     font-size:9.5px!important;
     box-sizing:border-box!important;
   }
+}
+</style>
+
+
+<style id="prepro-v314-storyboard-half-two-up-script">
+/* V314 — Storyboard:
+   1) Overview always shows script excerpt.
+   2) Half-window detail view uses two cards per row, like overview.
+   Scope only to storyboard. */
+
+/* Overview: force the first content block (script excerpt) visible. */
+#storyboard .story-grid-v57.overview .story-content-block-v57:first-of-type{
+  display:block!important;
+}
+#storyboard .story-grid-v57.overview .story-content-block-v57:first-of-type .story-content-label-v57{
+  display:block!important;
+  margin-bottom:3px!important;
+}
+#storyboard .story-grid-v57.overview .story-content-block-v57:first-of-type .story-script-v57{
+  display:-webkit-box!important;
+  min-height:0!important;
+  max-height:36px!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  overflow:hidden!important;
+  white-space:normal!important;
+  -webkit-line-clamp:2!important;
+  -webkit-box-orient:vertical!important;
+  font-size:8.5px!important;
+  line-height:1.4!important;
+}
+
+/* Half-window: detail mode also stays two-up. */
+@media (min-width:769px) and (max-width:1180px){
+  #storyboard .story-grid-v57:not(.overview){
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important;
+  }
+
+  /* Compact detail cards enough to fit naturally in two columns. */
+  #storyboard .story-grid-v57:not(.overview) .story-card-head-v57{
+    min-height:38px!important;
+    padding:7px 9px!important;
+  }
+
+  #storyboard .story-grid-v57:not(.overview) .story-card-body-v57{
+    padding:8px!important;
+    gap:7px!important;
+  }
+
+  #storyboard .story-grid-v57:not(.overview) .story-tech-grid-v57{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:5px!important;
+  }
+
+  #storyboard .story-grid-v57:not(.overview) .story-tech-v57{
+    padding:6px 7px!important;
+  }
+
+  #storyboard .story-grid-v57:not(.overview) .story-script-v57{
+    min-height:42px!important;
+    max-height:72px!important;
+    padding:7px 8px!important;
+  }
+
+  #storyboard .story-grid-v57:not(.overview) .story-intent-v57{
+    min-height:58px!important;
+    padding:7px 8px!important;
+  }
+}
+
+/* Truly narrow/mobile remains single-column. */
+@media (max-width:768px){
+  #storyboard .story-grid-v57{
+    grid-template-columns:1fr!important;
+  }
+}
+</style>
+
+
+<style id="prepro-v315-storyboard-overview-gallery-ref-half">
+/* V315 — Storyboard overview becomes a clean all-scenes image board. */
+#storyboard .story-grid-v57.story-overview-all-v315{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr))!important;
+  gap:10px!important;
+  padding:12px!important;
+}
+#storyboard .story-overview-all-card-v315{
+  min-width:0!important;
+  overflow:hidden!important;
+  border:1px solid var(--line-soft)!important;
+  border-radius:10px!important;
+  background:var(--surface)!important;
+}
+#storyboard .story-overview-all-image-v315{
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  aspect-ratio:16/9!important;
+  min-height:0!important;
+  padding:0!important;
+  overflow:hidden!important;
+  border:0!important;
+  border-radius:0!important;
+  background:var(--surface-2)!important;
+  box-shadow:none!important;
+  cursor:zoom-in!important;
+}
+#storyboard .story-overview-all-image-v315 img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+}
+#storyboard .story-overview-all-empty-v315{
+  width:100%!important;
+  height:100%!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  color:var(--muted)!important;
+  font-size:8px!important;
+  letter-spacing:.08em!important;
+}
+#storyboard .story-overview-all-cut-v315,
+#storyboard .story-overview-all-badge-v315{
+  position:absolute!important;
+  top:7px!important;
+  z-index:2!important;
+  min-height:22px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  padding:3px 7px!important;
+  border-radius:6px!important;
+  background:rgba(18,24,27,.88)!important;
+  border:1px solid rgba(255,255,255,.14)!important;
+  color:#f0f3f4!important;
+  font-size:8px!important;
+  font-weight:750!important;
+  line-height:1!important;
+  backdrop-filter:blur(6px)!important;
+  -webkit-backdrop-filter:blur(6px)!important;
+}
+#storyboard .story-overview-all-cut-v315{left:7px!important}
+#storyboard .story-overview-all-badge-v315{
+  right:7px!important;
+  left:auto!important;
+  max-width:58%!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+html[data-theme="light"] body #storyboard .story-overview-all-card-v315{
+  background:#fff!important;
+  border-color:#D5DCDF!important;
+}
+
+/* Reference scene view: half-window gets two cards per row, matching storyboard. */
+@media (min-width:769px) and (max-width:1180px){
+  #references .ref-grid-v67.scene-v67{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important;
+  }
+  #references .ref-grid-v67.scene-v67 .ref-card-v67{
+    min-width:0!important;
+    width:auto!important;
+    max-width:none!important;
+  }
+
+  #storyboard .story-grid-v57.story-overview-all-v315{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+@media (max-width:768px){
+  #references .ref-grid-v67.scene-v67,
+  #storyboard .story-grid-v57.story-overview-all-v315{
+    grid-template-columns:1fr!important;
+  }
+}
+</style>
+
+
+<style id="prepro-v316-light-overlay-badges">
+/* V316 — Light mode: image overlay badges should also be light, not dark. */
+
+/* Storyboard all-scenes overview: top-left CUT and top-right subject/size badges. */
+html[data-theme="light"] body #storyboard .story-overview-all-cut-v315,
+html[data-theme="light"] body #storyboard .story-overview-all-badge-v315{
+  background:rgba(255,255,255,.92)!important;
+  border:1px solid #C9D2D6!important;
+  color:#46545B!important;
+  -webkit-text-fill-color:#46545B!important;
+  box-shadow:0 1px 4px rgba(28,39,44,.08)!important;
+  backdrop-filter:blur(6px)!important;
+  -webkit-backdrop-filter:blur(6px)!important;
+}
+
+/* Reference image overlays: category/title at left and scene tags at right. */
+html[data-theme="light"] body #references .ref-image-v67 :is(
+  .ref-category-badge-v67,
+  .ref-scene-badge-v67,
+  .ref-overlay-v67,
+  .ref-category-v67,
+  .ref-scenes-v67
+){
+  background:rgba(255,255,255,.92)!important;
+  border-color:#C9D2D6!important;
+  color:#46545B!important;
+  -webkit-text-fill-color:#46545B!important;
+  box-shadow:0 1px 4px rgba(28,39,44,.08)!important;
+  backdrop-filter:blur(6px)!important;
+  -webkit-backdrop-filter:blur(6px)!important;
+}
+
+/* Catch the actual overlay children used by the current reference renderer. */
+html[data-theme="light"] body #references .ref-image-v67 > span,
+html[data-theme="light"] body #references .ref-card-v67 .ref-image-v67 > div > span{
+  background:rgba(255,255,255,.92)!important;
+  border:1px solid #C9D2D6!important;
+  color:#46545B!important;
+  -webkit-text-fill-color:#46545B!important;
+  box-shadow:0 1px 4px rgba(28,39,44,.08)!important;
+}
+</style>
+
+
+<style id="prepro-v317-storyboard-ref-cleanup">
+/* V317 — requested storyboard/reference cleanup only. */
+
+/* 1) Storyboard overview: remove the scene navigator entirely. */
+#storyboard.story-overview-mode-v317 .story-scenes-v57{
+  display:none!important;
+}
+#storyboard.story-overview-mode-v317 .story-layout-v57{
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:auto!important;
+}
+#storyboard.story-overview-mode-v317 .story-workspace-v57{
+  grid-column:1!important;
+  grid-row:1!important;
+}
+
+/* 2) Storyboard Blocking: half-window should show two blocking cards, not a vertical single stack. */
+@media (min-width:769px) and (max-width:1180px){
+  #storyboard .story-grid-v57.blocking .story-blocking-grid-v66,
+  #storyboard .story-blocking-grid-v66{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:10px!important;
+    align-items:start!important;
+  }
+  #storyboard .story-blocking-card-v66{
+    min-width:0!important;
+    width:auto!important;
+    max-width:none!important;
+  }
+  #storyboard .story-blocking-image-v66{
+    width:100%!important;
+    aspect-ratio:16/9!important;
+    height:auto!important;
+    min-height:0!important;
+    overflow:hidden!important;
+  }
+  #storyboard .story-blocking-image-v66 img{
+    width:100%!important;
+    height:100%!important;
+    object-fit:contain!important;
+  }
+}
+@media (max-width:768px){
+  #storyboard .story-blocking-grid-v66{
+    grid-template-columns:1fr!important;
+  }
+}
+
+/* 3) Reference scene view: Image Change button should be light in Light mode. */
+html[data-theme="light"] body #references .ref-actions-v67 .ref-change-v67{
+  background:#FFFFFF!important;
+  background-image:none!important;
+  border:1px solid #C7D0D4!important;
+  color:#46545B!important;
+  -webkit-text-fill-color:#46545B!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] body #references .ref-actions-v67 .ref-change-v67:hover{
+  background:#F1F4F5!important;
+  border-color:#AEBBC0!important;
+  color:#2F3D43!important;
+  -webkit-text-fill-color:#2F3D43!important;
+}
+
+/* 4) Reference whole-board overlays:
+      left category, right scene tags, and bottom-left movie/title all become light. */
+html[data-theme="light"] body #references .ref-board-image-v193 .ref-category-badge-v67,
+html[data-theme="light"] body #references .ref-board-image-v193 .ref-scene-badge-v67,
+html[data-theme="light"] body #references .ref-board-image-v193 .ref-board-title-v193{
+  background:rgba(255,255,255,.93)!important;
+  background-image:none!important;
+  border:1px solid #C9D2D6!important;
+  color:#46545B!important;
+  -webkit-text-fill-color:#46545B!important;
+  box-shadow:0 1px 4px rgba(28,39,44,.08)!important;
+  backdrop-filter:blur(6px)!important;
+  -webkit-backdrop-filter:blur(6px)!important;
+}
+</style>
+
+
+<style id="prepro-v318-blocking-width-ref-title">
+/* V318 — Storyboard blocking uses the full workspace width. */
+#storyboard .story-grid-v57.blocking{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+}
+#storyboard .story-grid-v57.blocking .story-blocking-v66{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+}
+#storyboard .story-grid-v57.blocking .story-blocking-grid-v66{
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  display:grid!important;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr))!important;
+  gap:12px!important;
+}
+#storyboard .story-grid-v57.blocking .story-blocking-card-v66{
+  width:auto!important;
+  max-width:none!important;
+  min-width:0!important;
+}
+
+/* Half-window: two blocking cards per row. */
+@media (min-width:769px) and (max-width:1180px){
+  #storyboard .story-grid-v57.blocking .story-blocking-grid-v66{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+@media (max-width:768px){
+  #storyboard .story-grid-v57.blocking .story-blocking-grid-v66{
+    grid-template-columns:1fr!important;
+  }
+}
+
+/* Reference board title: no light pill/background.
+   Keep the original bottom gradient and make only the title text bright. */
+html[data-theme="light"] body #references .ref-board-image-v193 .ref-board-title-v193{
+  background:linear-gradient(transparent,rgba(5,8,9,.72))!important;
+  background-color:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  color:#F4F7F7!important;
+  -webkit-text-fill-color:#F4F7F7!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+
+/* Top-left category / top-right scene badges stay light. */
+html[data-theme="light"] body #references .ref-board-image-v193 .ref-category-badge-v67,
+html[data-theme="light"] body #references .ref-board-image-v193 .ref-scene-badge-v67{
+  background:rgba(255,255,255,.93)!important;
+  border:1px solid #C9D2D6!important;
+  color:#46545B!important;
+  -webkit-text-fill-color:#46545B!important;
+  box-shadow:0 1px 4px rgba(28,39,44,.08)!important;
 }
 </style>
 
