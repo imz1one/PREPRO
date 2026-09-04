@@ -27959,5 +27959,90 @@ html[data-theme="light"] body #lineEditModal #lineSaveBtn{
 }
 </style>
 
+
+<style id="prepro-v324-script-half-final-polish">
+/* V324 — Script half-window: only requested polish */
+@media (min-width:781px) and (max-width:1600px){
+  /* remove the remaining background behind the horizontal scene cards */
+  #script .script-scenes-v27,
+  #script .script-scenes-v27.unified-left-panel-v110,
+  #script .script-scenes-v27 > .panel-body,
+  #script #sceneList,
+  #script #sceneList.script-scene-list-v27,
+  html[data-theme="light"] body #script .script-scenes-v27,
+  html[data-theme="light"] body #script .script-scenes-v27 > .panel-body,
+  html[data-theme="light"] body #script #sceneList{
+    background:transparent!important;
+    background-color:transparent!important;
+    background-image:none!important;
+    box-shadow:none!important;
+  }
+
+  /* S#1 / S#2 ... number color: match Breakdown */
+  html[data-theme="light"] body #script #sceneList .scene-no{
+    color:#536167!important;
+    -webkit-text-fill-color:#536167!important;
+  }
+  html[data-theme="light"] body #script #sceneList .scene-btn.active .scene-no{
+    color:#536167!important;
+    -webkit-text-fill-color:#536167!important;
+  }
+}
+</style>
+
+<style id="prepro-v326-breakdown-match-script">
+/* V326 — correction: SCRIPT is the visual source of truth.
+   Only make Breakdown's lower scene panel match Script, not the other way around. */
+@media (min-width:781px) and (max-width:1600px){
+
+  /* Keep Script lower scene panel exactly as its existing design. */
+  #script .script-stage-v27,
+  #script .script-stage-toolbar{
+    /* intentionally no visual override */
+  }
+
+  /* Breakdown lower scene panel adopts Script's panel/header treatment. */
+  #breakdown .break-script-stage-v32{
+    border:1px solid var(--line-soft)!important;
+    background:#101317!important;
+    border-radius:12px!important;
+    overflow:hidden!important;
+  }
+
+  #breakdown .break-stage-head-v32{
+    height:47px!important;
+    min-height:47px!important;
+    padding:0 14px!important;
+    display:flex!important;
+    align-items:center!important;
+    gap:10px!important;
+    border-bottom:1px solid var(--line-soft)!important;
+    background:#12161a!important;
+  }
+
+  #breakdown #breakScriptTitle{
+    font-size:11.5px!important;
+    font-weight:700!important;
+    color:#cdd2d7!important;
+    -webkit-text-fill-color:#cdd2d7!important;
+  }
+
+  html[data-theme="light"] body #breakdown .break-script-stage-v32{
+    background:#FFFFFF!important;
+    border-color:#D5DCDF!important;
+  }
+
+  html[data-theme="light"] body #breakdown .break-stage-head-v32{
+    background:#F8FAFA!important;
+    border-color:#D5DCDF!important;
+  }
+
+  html[data-theme="light"] body #breakdown #breakScriptTitle{
+    color:#2F3A3F!important;
+    -webkit-text-fill-color:#2F3A3F!important;
+  }
+}
+</style>
+
 </body>
 </html>
