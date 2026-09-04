@@ -15457,7 +15457,7 @@ function renderScript(){
     const active=s.id===p.selectedSceneId;
     const tk=sceneTimeKey(s.meta?.time);
     const label=tk==='DAY'?'낮':tk==='NIGHT'?'밤':tk==='DAWN'?'새벽':tk==='LATE DAY'?'해질녘':(s.meta?.time||'');
-    return `<button class="${active?'active':''}" data-script-scene="${s.id}">
+    return `<button class="scene-btn scene-row-unified ${active?'active':''}" data-script-scene="${s.id}">
       <span class="scene-no">${esc(s.number||'')}</span>
       <span class="scene-name">${esc(s.meta?.location||s.title||s.header||'')}</span>
       ${label?`<span class="scene-time ${tk==='NIGHT'?'night':tk==='LATE DAY'?'late-day':tk==='DAWN'?'dawn':''}">${esc(label)}</span>`:''}
@@ -27489,6 +27489,473 @@ html[data-theme="light"] body #references .ref-board-image-v193 .ref-scene-badge
   color:#46545B!important;
   -webkit-text-fill-color:#46545B!important;
   box-shadow:0 1px 4px rgba(28,39,44,.08)!important;
+}
+</style>
+<style id="prepro-v320-script-export-lineedit">
+/* V320 — only requested fixes:
+   1) Script half-window scene rail matches other pages.
+   2) Export/Delivery text readable in Light mode.
+   3) Line edit popup fully Light in Light mode. */
+
+/* 1) SCRIPT: user's Mac half-window is wider than the old 1180px breakpoint.
+   Use the same compact horizontal scene-card rail up through 1600px. */
+@media (min-width:781px) and (max-width:1600px){
+  #script .script-reader-layout{
+    display:block!important;
+    grid-template-columns:none!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+
+  #script .script-scenes-v27,
+  #script .script-scenes-v27.unified-left-panel-v110{
+    position:static!important;
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    margin:0 0 12px!important;
+    padding:0!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    overflow:visible!important;
+  }
+
+  #script .script-scenes-v27>.panel-head{
+    display:none!important;
+  }
+
+  #script .script-scenes-v27>.panel-body{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    height:auto!important;
+    max-height:none!important;
+    margin:0!important;
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+    overflow:visible!important;
+  }
+
+  #script #sceneList,
+  #script #sceneList.script-scene-list-v27{
+    display:flex!important;
+    flex-direction:row!important;
+    flex-wrap:nowrap!important;
+    align-items:stretch!important;
+    gap:8px!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    height:auto!important;
+    margin:0!important;
+    padding:2px 0 8px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+  }
+
+  #script #sceneList .scene-btn,
+  #script #sceneList .scene-row-unified{
+    flex:0 0 150px!important;
+    width:150px!important;
+    min-width:150px!important;
+    max-width:150px!important;
+    height:54px!important;
+    min-height:54px!important;
+    max-height:54px!important;
+    margin:0!important;
+    padding:7px 9px!important;
+    border-radius:9px!important;
+    box-sizing:border-box!important;
+  }
+
+  #script #sceneList .scene-no{
+    font-size:10.5px!important;
+  }
+  #script #sceneList .scene-name{
+    font-size:9px!important;
+  }
+  #script #sceneList .scene-time{
+    font-size:8px!important;
+  }
+
+  #script .script-stage-v27{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+}
+
+/* 2) EXPORT / DELIVERY — restore readable Light-mode typography. */
+html[data-theme="light"] body #exports,
+html[data-theme="light"] body #exports .export-workspace-v130,
+html[data-theme="light"] body #exports .export-card-v130{
+  color:#1D2528!important;
+}
+
+html[data-theme="light"] body #exports .export-section-head-v130 h3,
+html[data-theme="light"] body #exports .export-card-copy-v130 h3{
+  color:#2C383D!important;
+  -webkit-text-fill-color:#2C383D!important;
+  opacity:1!important;
+}
+
+html[data-theme="light"] body #exports .export-section-head-v130 p,
+html[data-theme="light"] body #exports .export-card-copy-v130 p,
+html[data-theme="light"] body #exports .export-note-v130 p{
+  color:#667379!important;
+  -webkit-text-fill-color:#667379!important;
+  opacity:1!important;
+}
+
+html[data-theme="light"] body #exports .export-section-head-v130 > div > span,
+html[data-theme="light"] body #exports .export-index-v130{
+  color:#728087!important;
+  -webkit-text-fill-color:#728087!important;
+  opacity:1!important;
+}
+
+html[data-theme="light"] body #exports .export-type-v130{
+  color:#66747A!important;
+  -webkit-text-fill-color:#66747A!important;
+  border-color:#AEBBC0!important;
+  background:#F8FAFA!important;
+  opacity:1!important;
+}
+
+html[data-theme="light"] body #exports .export-note-v130 > span{
+  color:#45545A!important;
+  -webkit-text-fill-color:#45545A!important;
+  opacity:1!important;
+}
+
+/* 3) LINE EDIT MODAL — complete Light mode. */
+html[data-theme="light"] body #lineEditModal .line-edit-dialog{
+  background:#FFFFFF!important;
+  border:1px solid #C9D2D6!important;
+  color:#1D2528!important;
+  box-shadow:0 24px 70px rgba(39,51,56,.20)!important;
+}
+
+html[data-theme="light"] body #lineEditModal .raw-edit-head{
+  background:#F8FAFA!important;
+  border-color:#D5DCDF!important;
+}
+html[data-theme="light"] body #lineEditModal .raw-edit-head h3{
+  color:#1D2528!important;
+  -webkit-text-fill-color:#1D2528!important;
+}
+html[data-theme="light"] body #lineEditModal .raw-edit-head p{
+  color:#6B777D!important;
+  -webkit-text-fill-color:#6B777D!important;
+}
+html[data-theme="light"] body #lineEditModal .raw-edit-close{
+  background:#FFFFFF!important;
+  border:1px solid #C9D2D6!important;
+  color:#657278!important;
+  -webkit-text-fill-color:#657278!important;
+  box-shadow:none!important;
+}
+
+html[data-theme="light"] body #lineEditModal .line-edit-body{
+  background:#FFFFFF!important;
+  color:#1D2528!important;
+}
+html[data-theme="light"] body #lineEditModal .line-edit-body label>span,
+html[data-theme="light"] body #lineEditModal .line-part-head b{
+  color:#4F5E64!important;
+  -webkit-text-fill-color:#4F5E64!important;
+}
+html[data-theme="light"] body #lineEditModal .line-edit-body label>span small,
+html[data-theme="light"] body #lineEditModal .line-part-head span{
+  color:#7B878C!important;
+  -webkit-text-fill-color:#7B878C!important;
+}
+
+html[data-theme="light"] body #lineEditModal select,
+html[data-theme="light"] body #lineEditModal textarea{
+  background:#F3F6F7!important;
+  border:1px solid #C9D2D6!important;
+  color:#1D2528!important;
+  -webkit-text-fill-color:#1D2528!important;
+  box-shadow:none!important;
+}
+
+html[data-theme="light"] body #lineEditModal .line-part-editor{
+  background:#F8FAFA!important;
+  border-color:#D5DCDF!important;
+}
+html[data-theme="light"] body #lineEditModal .line-selection-preview{
+  background:#F1F4F5!important;
+  border:1px solid #D5DCDF!important;
+  color:#758187!important;
+  -webkit-text-fill-color:#758187!important;
+}
+html[data-theme="light"] body #lineEditModal .line-part-actions button{
+  background:#FFFFFF!important;
+  border:1px solid #C9D2D6!important;
+  color:#46545B!important;
+  -webkit-text-fill-color:#46545B!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] body #lineEditModal .line-part-actions button:hover{
+  background:#EEF2F2!important;
+  border-color:#B7C3C7!important;
+}
+
+html[data-theme="light"] body #lineEditModal .raw-edit-foot{
+  background:#F8FAFA!important;
+  border-color:#D5DCDF!important;
+}
+html[data-theme="light"] body #lineEditModal .raw-edit-foot button[data-line-close]{
+  background:#FFFFFF!important;
+  border:1px solid #C9D2D6!important;
+  color:#4F5E64!important;
+  -webkit-text-fill-color:#4F5E64!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] body #lineEditModal #lineDeleteBtn{
+  background:#FFF5F5!important;
+  border:1px solid #E1B8B8!important;
+  color:#A34F54!important;
+  -webkit-text-fill-color:#A34F54!important;
+  box-shadow:none!important;
+}
+html[data-theme="light"] body #lineEditModal #lineSaveBtn{
+  background:#607A6A!important;
+  border-color:#607A6A!important;
+  color:#FFFFFF!important;
+  -webkit-text-fill-color:#FFFFFF!important;
+  box-shadow:none!important;
+}
+</style>
+
+<style id="prepro-v323-script-breakdown-exact">
+/* V323 — CLEAN Script half-window scene rail.
+   The Script buttons now use the same HTML classes as Breakdown.
+   This block mirrors Breakdown's actual scene-card geometry instead of layering another variation. */
+
+@media (min-width:781px) and (max-width:1600px){
+  /* Horizontal rail structure */
+  #script .script-reader-layout{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+
+  #script .script-scenes-v27,
+  #script .script-scenes-v27.unified-left-panel-v110,
+  html[data-theme="light"] body #script .script-scenes-v27,
+  html[data-theme="light"] body #script .script-scenes-v27.unified-left-panel-v110{
+    position:static!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    margin:0 0 12px!important;
+    padding:0!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+    background-image:none!important;
+    box-shadow:none!important;
+    overflow:visible!important;
+  }
+
+  #script .script-scenes-v27>.panel-head{display:none!important}
+
+  #script .script-scenes-v27>.panel-body,
+  html[data-theme="light"] body #script .script-scenes-v27>.panel-body{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    margin:0!important;
+    padding:0!important;
+    border:0!important;
+    background:transparent!important;
+    background-image:none!important;
+    box-shadow:none!important;
+    overflow:visible!important;
+  }
+
+  #script #sceneList,
+  #script #sceneList.script-scene-list-v27{
+    display:flex!important;
+    flex-flow:row nowrap!important;
+    align-items:stretch!important;
+    gap:8px!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+    height:auto!important;
+    margin:0 0 2px!important;
+    padding:2px 0 10px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    background:transparent!important;
+    border:0!important;
+    border-radius:0!important;
+    box-shadow:none!important;
+    scroll-snap-type:x proximity!important;
+  }
+
+  /* Exact Breakdown card box + two-row internal layout */
+  #script #sceneList .scene-btn,
+  #script #sceneList .scene-row-unified{
+    box-sizing:border-box!important;
+    flex:0 0 150px!important;
+    width:150px!important;
+    min-width:150px!important;
+    max-width:150px!important;
+    height:54px!important;
+    min-height:54px!important;
+    max-height:54px!important;
+
+    display:grid!important;
+    grid-template-columns:auto auto!important;
+    grid-template-rows:auto auto!important;
+    column-gap:8px!important;
+    row-gap:3px!important;
+    align-content:center!important;
+    align-items:center!important;
+    justify-content:stretch!important;
+
+    margin:0!important;
+    padding:8px 10px!important;
+    border:1px solid #2d393f!important;
+    border-radius:10px!important;
+    background:#101619!important;
+    color:#87948f!important;
+    text-align:left!important;
+    box-shadow:none!important;
+    transform:none!important;
+    scroll-snap-align:start!important;
+  }
+
+  #script #sceneList .scene-no{
+    grid-column:1!important;
+    grid-row:1!important;
+    justify-self:start!important;
+    align-self:center!important;
+    min-width:0!important;
+    font-size:11px!important;
+    line-height:1.1!important;
+    font-weight:800!important;
+    color:inherit!important;
+    white-space:nowrap!important;
+  }
+
+  #script #sceneList .scene-name{
+    grid-column:1/-1!important;
+    grid-row:2!important;
+    display:block!important;
+    min-width:0!important;
+    max-width:130px!important;
+    margin:0!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+    font-size:9px!important;
+    line-height:1.25!important;
+    font-weight:400!important;
+    color:#74817d!important;
+  }
+
+  #script #sceneList .scene-time{
+    grid-column:2!important;
+    grid-row:1!important;
+    justify-self:end!important;
+    align-self:center!important;
+    position:static!important;
+    width:auto!important;
+    min-width:0!important;
+    height:auto!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:2px 6px!important;
+    border:0!important;
+    border-radius:999px!important;
+    font-size:8px!important;
+    line-height:1.3!important;
+    font-weight:800!important;
+    white-space:nowrap!important;
+  }
+
+  #script #sceneList .scene-btn:hover{
+    background:#151e1a!important;
+    border-color:#3c4d43!important;
+    color:#b8c5bf!important;
+  }
+  #script #sceneList .scene-btn.active{
+    background:#1a2c22!important;
+    border-color:#496b57!important;
+    color:#d9e4dd!important;
+    box-shadow:inset 0 0 0 1px rgba(105,145,119,.12)!important;
+  }
+
+  /* Exact Light-mode card palette used by Breakdown */
+  html[data-theme="light"] body #script #sceneList .scene-btn{
+    background:#F8FAFA!important;
+    border-color:#D5DCDF!important;
+    color:#536167!important;
+  }
+  html[data-theme="light"] body #script #sceneList .scene-btn:hover{
+    background:#EEF2F2!important;
+  }
+  html[data-theme="light"] body #script #sceneList .scene-btn.active{
+    background:#DFE8E3!important;
+    border-color:#9DB2A5!important;
+    color:#304B39!important;
+  }
+  html[data-theme="light"] body #script #sceneList .scene-name{
+    color:#536167!important;
+    -webkit-text-fill-color:#536167!important;
+  }
+
+  #script .script-stage-v27{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+
+  /* Script title: same responsive title rule currently used by Breakdown. */
+  #script>.header h2,
+  #script .script-title-row>h2{
+    margin:0!important;
+    padding:0!important;
+    font-size:clamp(20px,1.7vw,28px)!important;
+    line-height:1.15!important;
+    font-weight:760!important;
+    letter-spacing:-.025em!important;
+  }
+}
+
+/* Same narrower-width card size as the shared navigator system. */
+@media (min-width:781px) and (max-width:1100px){
+  #script #sceneList .scene-btn,
+  #script #sceneList .scene-row-unified{
+    flex-basis:132px!important;
+    width:132px!important;
+    min-width:132px!important;
+    max-width:132px!important;
+    height:54px!important;
+    min-height:54px!important;
+    max-height:54px!important;
+  }
 }
 </style>
 
