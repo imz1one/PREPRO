@@ -20731,7 +20731,9 @@ class CanvasPdfDocV142{
     this.y+=needed;
   }
   table(headers,rows,widths,opts={}){
-    const c=this.ctx;
+    // V305 — refresh canvas context whenever a table continues on a new PDF page.
+    // Keeping the old context paints new rows back onto the previous page, causing overlap.
+    let c=this.ctx;
     const fontSize=opts.fontSize||16;
     const headSize=opts.headerFontSize||14;
     const lineH=Math.max(opts.lineHeight||0,Math.ceil(fontSize*1.5));
@@ -20749,6 +20751,7 @@ class CanvasPdfDocV142{
       const wrapped=wrapRow(headers,headSize,700);
       const hh=Math.max(headLineH+pad*2,Math.max(...wrapped.map(x=>x.length))*headLineH+pad*2);
       this.ensure(hh+6);
+      c=this.ctx;
       let x=this.margin;
       c.font=this.font(headSize,700);
       headers.forEach((_,i)=>{
@@ -20782,6 +20785,7 @@ class CanvasPdfDocV142{
 
       if(this.y+rh>this.h-this.margin){
         this.newPage();
+        c=this.ctx;
         drawHeader();
       }
 
@@ -21229,16 +21233,31 @@ async function saveBreakdownPdfV141(){
 
 async function saveShotlistPdfV141(){
   const p=project(),doc=new CanvasPdfDocV142('샷리스트','landscape');
-  const rows=[];
-  p.scenes.forEach(s=>(s.shots||[]).forEach((sh,i)=>rows.push([
-    `${s.number}-${i+1}`,sh.size||'',sh.angle||'',sh.lens||'',sh.focalLength||'',
-    sh.movement==='Static'?'Fix':(sh.movement||''),sh.fps||'',sh.support||'',
-    sh.vfx?'Y':'',sh.description||'',sh.notes||''
-  ])));
-  doc.table(['CUT','SIZE','ANGLE','LENS','FL','MOVE','FPS','SUPPORT','AI/VFX','DESCRIPTION','NOTES'],
-    rows,[.07,.07,.09,.09,.06,.09,.055,.09,.05,.225,.155],
-    {fontSize:12,headerFontSize:11,lineHeight:20,pad:8,boldFirst:true});
-  doc.download('샷리스트');
+  const scenes=p.scenes.filter(s=>(s.shots||[]).length);
+  if(!scenes.length){alert('출력할 샷리스트가 없습니다.');return}
+
+  const headers=['CUT','SIZE','ANGLE','LENS','FL','MOVE','SUPPORT','AI/VFX','대본 구간','DESCRIPTION','NOTES'];
+  const widths=[.055,.075,.065,.075,.05,.065,.07,.05,.18,.17,.145];
+
+  for(let si=0;si<scenes.length;si++){
+    const s=scenes[si];
+    if(si>0)doc.newPage();
+    doc.section(
+      `${s.number} · ${s.meta?.location||s.title||'씬'}`,
+      `${sceneTimeKey(s.meta?.time)||''} · ${(s.shots||[]).length} SHOTS`
+    );
+    const rows=(s.shots||[]).map((sh,i)=>{
+      const subjects=(Array.isArray(sh.subjects)?sh.subjects:[]).join(', ');
+      const sizeWithSubject=[subjects,sh.size||''].filter(Boolean).join(' · ');
+      return [
+        String(i+1),sizeWithSubject,sh.angle||'',sh.lens||'',sh.focalLength||'',
+        sh.movement==='Static'?'Fix':(sh.movement||''),sh.support||'',sh.vfx?'Y':'',
+        sh.scriptExcerpt||'',sh.description||'',sh.notes||''
+      ];
+    });
+    doc.table(headers,rows,widths,{fontSize:10.5,headerFontSize:9.5,lineHeight:17,pad:6,boldFirst:true});
+  }
+  await doc.download('샷리스트');
 }
 
 async function saveStoryboardPdfV141(selectedOnly=false){
@@ -21312,19 +21331,29 @@ async function saveStoryboardPdfV141(selectedOnly=false){
 async function saveShotlistStoryboardPdfV296(){
   const p=project();
   const shotDoc=new CanvasPdfDocV142('샷리스트','landscape');
-  const shotRows=[];
-  p.scenes.forEach(s=>(s.shots||[]).forEach((sh,i)=>{
-    const subjects=(Array.isArray(sh.subjects)?sh.subjects:[]).join(', ');
-    const sizeWithSubject=[subjects,sh.size||''].filter(Boolean).join(' · ');
-    shotRows.push([
-      `${s.number}-${i+1}`,sizeWithSubject,sh.angle||'',sh.lens||'',sh.focalLength||'',
-      sh.movement==='Static'?'Fix':(sh.movement||''),sh.fps||'',sh.support||'',
-      sh.vfx?'Y':'',sh.description||'',sh.notes||''
-    ]);
-  }));
-  shotDoc.table(['CUT','SIZE','ANGLE','LENS','FL','MOVE','FPS','SUPPORT','AI/VFX','DESCRIPTION','NOTES'],
-    shotRows,[.07,.07,.09,.09,.06,.09,.055,.09,.05,.225,.155],
-    {fontSize:12,headerFontSize:11,lineHeight:20,pad:8,boldFirst:true});
+  const shotScenes=p.scenes.filter(s=>(s.shots||[]).length);
+  const headers=['CUT','SIZE','ANGLE','LENS','FL','MOVE','SUPPORT','AI/VFX','대본 구간','DESCRIPTION','NOTES'];
+  const widths=[.055,.075,.065,.075,.05,.065,.07,.05,.18,.17,.145];
+
+  // V305 — scene-grouped Shot List section in the combined PDF.
+  for(let si=0;si<shotScenes.length;si++){
+    const s=shotScenes[si];
+    if(si>0)shotDoc.newPage();
+    shotDoc.section(
+      `${s.number} · ${s.meta?.location||s.title||'씬'}`,
+      `${sceneTimeKey(s.meta?.time)||''} · ${(s.shots||[]).length} SHOTS`
+    );
+    const rows=(s.shots||[]).map((sh,i)=>{
+      const subjects=(Array.isArray(sh.subjects)?sh.subjects:[]).join(', ');
+      const sizeWithSubject=[subjects,sh.size||''].filter(Boolean).join(' · ');
+      return [
+        String(i+1),sizeWithSubject,sh.angle||'',sh.lens||'',sh.focalLength||'',
+        sh.movement==='Static'?'Fix':(sh.movement||''),sh.support||'',sh.vfx?'Y':'',
+        sh.scriptExcerpt||'',sh.description||'',sh.notes||''
+      ];
+    });
+    shotDoc.table(headers,rows,widths,{fontSize:10.5,headerFontSize:9.5,lineHeight:17,pad:6,boldFirst:true});
+  }
 
   const storyboardDoc=new CanvasPdfDocV142('콘티','portrait');
   storyboardDoc.pages=[];storyboardDoc.pageNo=0;storyboardDoc.canvas=null;storyboardDoc.ctx=null;storyboardDoc.y=storyboardDoc.margin;
