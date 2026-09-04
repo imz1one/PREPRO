@@ -21008,6 +21008,37 @@ class CanvasPdfDocV142{
     this.y+=rowH;
   }
 
+  blockingInfoV301(scene,startIndex,count,total){
+    const c=this.ctx;
+    const x=this.margin;
+    const time=sceneTimeKey(scene?.meta?.time)||scene?.meta?.time||'—';
+    const place=scene?.meta?.location||scene?.title||'씬';
+    const range=count>1?`${startIndex+1}-${startIndex+count}`:`${startIndex+1}`;
+
+    const top=this.y;
+    const h=46;
+    c.fillStyle='#f5f6f6';
+    c.fillRect(x,top,this.contentW,h);
+    c.strokeStyle='#cfd4d7';
+    c.strokeRect(x,top,this.contentW,h);
+
+    c.fillStyle='#727b80';
+    c.font=this.font(9.5,800);
+    c.fillText('SCENE',x+12,top+8);
+    c.fillText('LOCATION',x+150,top+8);
+    c.fillText('TIME',x+430,top+8);
+    c.fillText('BLOCKING',x+560,top+8);
+
+    c.fillStyle='#23292c';
+    c.font=this.font(12.5,700);
+    c.fillText(scene?.number||'—',x+12,top+24);
+    c.fillText(String(place),x+150,top+24);
+    c.fillText(String(time),x+430,top+24);
+    c.fillText(`${range} / ${total}`,x+560,top+24);
+
+    this.y+=h+12;
+  }
+
   async blockingPageV166(scene,img,index,slot=0,totalOnPage=1){
     const c=this.ctx;
     const x=this.margin;
@@ -21216,77 +21247,81 @@ async function saveStoryboardPdfV141(selectedOnly=false){
   const printable=scenes.filter(s=>(s.shots?.length||0)||(ensureSceneBlockingV66(s).images?.length||0));
   if(!printable.length){alert('출력할 콘티 또는 블로킹 이미지가 없습니다.');return}
 
-  // Reference-inspired storyboard: A4 portrait, vertically stacked cut rows.
   const doc=new CanvasPdfDocV142(selectedOnly?'선택 씬 콘티':'콘티','portrait');
-  let first=true;
+  let firstScene=true;
 
   for(const s of printable){
     const shots=s.shots||[];
     const blocking=ensureSceneBlockingV66(s);
 
-    if(!first)doc.newPage();
-    first=false;
-
-    doc.section(
-      `${s.number} · ${s.meta?.location||s.title||'씬'}`,
-      `${sceneTimeKey(s.meta?.time)||''} · ${shots.length} SHOTS${blocking.images.length?` · ${blocking.images.length} BLOCKING`:''}`
-    );
-    await doc.storyboardTableHeaderV161();
-
+    // BLOCKING comes first and has its own clearly identified page(s).
     if(blocking.images.length){
-      // V294 — place blocking images two per A4 page.
       for(let i=0;i<blocking.images.length;i+=2){
-        if(i===0){
-          doc.y=doc.margin+68;
-          doc.ctx.fillStyle='#fff';
-          doc.ctx.fillRect(doc.margin,doc.y,doc.contentW,doc.h-doc.y-doc.margin);
+        if(firstScene && i===0){
+          // Reuse the constructor's first page.
+          doc.y=doc.margin+108;
         }else{
           doc.newPage();
         }
-
-        doc.section(
-          `${s.number} · BLOCKING${i?` ${i+1}-${Math.min(i+2,blocking.images.length)}`:''}`,
-          `${s.meta?.location||s.title||'씬'} · 동선 / 카메라 배치`
-        );
+        firstScene=false;
 
         const pair=blocking.images.slice(i,i+2);
+        doc.section(
+          `${s.number} · BLOCKING`,
+          `${s.meta?.location||s.title||'씬'} · ${sceneTimeKey(s.meta?.time)||s.meta?.time||''}`
+        );
+        doc.blockingInfoV301(s,i,pair.length,blocking.images.length);
+
         const pairStartY=doc.y;
         for(let j=0;j<pair.length;j++){
           doc.y=pairStartY;
           await doc.blockingPageV166(s,pair[j],i+j,j,pair.length);
         }
       }
-
-      // Storyboard cuts always begin on a fresh page after blocking.
-      if(shots.length){
-        doc.newPage();
-        doc.section(
-          `${s.number} · ${s.meta?.location||s.title||'씬'}`,
-          `${sceneTimeKey(s.meta?.time)||''} · ${shots.length} SHOTS`
-        );
-        await doc.storyboardTableHeaderV161();
-      }
     }
 
-    for(let i=0;i<shots.length;i++){
-      await doc.storyboardRowV161(shots[i],s,i);
+    // Storyboard shot table follows on a fresh page after blocking.
+    if(shots.length){
+      if(!blocking.images.length){
+        if(firstScene){
+          // Use first page created by constructor.
+          firstScene=false;
+        }else{
+          doc.newPage();
+        }
+      }else{
+        doc.newPage();
+      }
+
+      doc.section(
+        `${s.number} · ${s.meta?.location||s.title||'씬'}`,
+        `${sceneTimeKey(s.meta?.time)||''} · ${shots.length} SHOTS${blocking.images.length?` · ${blocking.images.length} BLOCKING`:''}`
+      );
+      await doc.storyboardTableHeaderV161();
+
+      for(let i=0;i<shots.length;i++){
+        await doc.storyboardRowV161(shots[i],s,i);
+      }
     }
   }
 
   await doc.download(selectedOnly?'선택씬_콘티':'콘티');
 }
 
-
 // PREPRO V296 — Shot List first (landscape), then Storyboard (portrait) in one PDF.
 async function saveShotlistStoryboardPdfV296(){
   const p=project();
   const shotDoc=new CanvasPdfDocV142('샷리스트','landscape');
   const shotRows=[];
-  p.scenes.forEach(s=>(s.shots||[]).forEach((sh,i)=>shotRows.push([
-    `${s.number}-${i+1}`,sh.size||'',sh.angle||'',sh.lens||'',sh.focalLength||'',
-    sh.movement==='Static'?'Fix':(sh.movement||''),sh.fps||'',sh.support||'',
-    sh.vfx?'Y':'',sh.description||'',sh.notes||''
-  ])));
+  p.scenes.forEach(s=>(s.shots||[]).forEach((sh,i)=>{
+    const subjects=(Array.isArray(sh.subjects)?sh.subjects:[]).join(', ');
+    const sizeWithSubject=[subjects,sh.size||''].filter(Boolean).join(' · ');
+    shotRows.push([
+      `${s.number}-${i+1}`,sizeWithSubject,sh.angle||'',sh.lens||'',sh.focalLength||'',
+      sh.movement==='Static'?'Fix':(sh.movement||''),sh.fps||'',sh.support||'',
+      sh.vfx?'Y':'',sh.description||'',sh.notes||''
+    ]);
+  }));
   shotDoc.table(['CUT','SIZE','ANGLE','LENS','FL','MOVE','FPS','SUPPORT','AI/VFX','DESCRIPTION','NOTES'],
     shotRows,[.07,.07,.09,.09,.06,.09,.055,.09,.05,.225,.155],
     {fontSize:12,headerFontSize:11,lineHeight:20,pad:8,boldFirst:true});
@@ -21294,29 +21329,42 @@ async function saveShotlistStoryboardPdfV296(){
   const storyboardDoc=new CanvasPdfDocV142('콘티','portrait');
   storyboardDoc.pages=[];storyboardDoc.pageNo=0;storyboardDoc.canvas=null;storyboardDoc.ctx=null;storyboardDoc.y=storyboardDoc.margin;
   const printable=p.scenes.filter(s=>(s.shots?.length||0)||(ensureSceneBlockingV66(s).images?.length||0));
+
   for(const s of printable){
-    const shots=s.shots||[],blocking=ensureSceneBlockingV66(s);
-    storyboardDoc.newPage();
-    storyboardDoc.section(`${s.number} · ${s.meta?.location||s.title||'씬'}`,`${sceneTimeKey(s.meta?.time)||''} · ${shots.length} SHOTS${blocking.images.length?` · ${blocking.images.length} BLOCKING`:''}`);
-    await storyboardDoc.storyboardTableHeaderV161();
+    const shots=s.shots||[];
+    const blocking=ensureSceneBlockingV66(s);
+
+    // Include blocking page(s) in the combined PDF, two images per A4 page.
     if(blocking.images.length){
       for(let i=0;i<blocking.images.length;i+=2){
-        if(i===0){
-          storyboardDoc.y=storyboardDoc.margin+68;
-          storyboardDoc.ctx.fillStyle='#fff';
-          storyboardDoc.ctx.fillRect(storyboardDoc.margin,storyboardDoc.y,storyboardDoc.contentW,storyboardDoc.h-storyboardDoc.y-storyboardDoc.margin);
-        }else storyboardDoc.newPage();
-        storyboardDoc.section(`${s.number} · BLOCKING${i?` ${i+1}-${Math.min(i+2,blocking.images.length)}`:''}`,`${s.meta?.location||s.title||'씬'} · 동선 / 카메라 배치`);
-        const pair=blocking.images.slice(i,i+2),pairStartY=storyboardDoc.y;
-        for(let j=0;j<pair.length;j++){storyboardDoc.y=pairStartY;await storyboardDoc.blockingPageV166(s,pair[j],i+j,j,pair.length)}
-      }
-      if(shots.length){
         storyboardDoc.newPage();
-        storyboardDoc.section(`${s.number} · ${s.meta?.location||s.title||'씬'}`,`${sceneTimeKey(s.meta?.time)||''} · ${shots.length} SHOTS`);
-        await storyboardDoc.storyboardTableHeaderV161();
+        const pair=blocking.images.slice(i,i+2);
+
+        storyboardDoc.section(
+          `${s.number} · BLOCKING`,
+          `${s.meta?.location||s.title||'씬'} · ${sceneTimeKey(s.meta?.time)||s.meta?.time||''}`
+        );
+        storyboardDoc.blockingInfoV301(s,i,pair.length,blocking.images.length);
+
+        const pairStartY=storyboardDoc.y;
+        for(let j=0;j<pair.length;j++){
+          storyboardDoc.y=pairStartY;
+          await storyboardDoc.blockingPageV166(s,pair[j],i+j,j,pair.length);
+        }
       }
     }
-    for(let i=0;i<shots.length;i++)await storyboardDoc.storyboardRowV161(shots[i],s,i);
+
+    if(shots.length){
+      storyboardDoc.newPage();
+      storyboardDoc.section(
+        `${s.number} · ${s.meta?.location||s.title||'씬'}`,
+        `${sceneTimeKey(s.meta?.time)||''} · ${shots.length} SHOTS${blocking.images.length?` · ${blocking.images.length} BLOCKING`:''}`
+      );
+      await storyboardDoc.storyboardTableHeaderV161();
+      for(let i=0;i<shots.length;i++){
+        await storyboardDoc.storyboardRowV161(shots[i],s,i);
+      }
+    }
   }
   const images=[...(await canvasPagesToJpegsV296(shotDoc.pages,'landscape')),...(await canvasPagesToJpegsV296(storyboardDoc.pages,'portrait'))];
   if(!images.length)throw new Error('PDF page rendering failed');
