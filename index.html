@@ -13871,8 +13871,15 @@ html[data-theme="light"] .sidebar .nav button.active .nav-icon{color:#4D6B58!imp
 
       <article class="export-card-v130">
         <div class="export-card-top-v130"><span class="export-index-v130">04</span><span class="export-type-v130">A4 가로 + 세로 · PDF</span></div>
-        <div class="export-card-copy-v130"><h3>샷리스트 + 콘티</h3><p>샷리스트 전체 뒤에 콘티 전체를 이어 붙여 하나의 PDF로 저장합니다.</p></div>
-        <div class="export-card-actions-v130"><button type="button" data-print-view="shots-storyboard" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('shots-storyboard');}">통합 PDF 저장</button></div>
+        <div class="export-card-copy-v130"><h3>샷리스트 + 콘티</h3><p>전체 통합본 또는 선택한 씬의 샷리스트·블로킹·콘티를 하나의 PDF로 저장합니다.</p></div>
+        <div class="export-scene-pdf-v307">
+          <details id="exportShotStoryScenesV307" class="export-scene-picker-v307">
+            <summary><span id="exportShotStoryScenesSummaryV307">씬 선택</span><span class="export-scene-caret-v307">⌄</span></summary>
+            <div id="exportShotStoryScenesMenuV307" class="export-scene-menu-v307"></div>
+          </details>
+          <button type="button" id="exportShotStorySceneBtnV307" class="export-scene-btn-v307">선택 씬 PDF</button>
+        </div>
+        <div class="export-card-actions-v130"><button type="button" data-print-view="shots-storyboard" class="primary" onclick="if(typeof openPrintDocument==='function'){openPrintDocument('shots-storyboard');}">전체 통합 PDF</button></div>
       </article>
 
       <article class="export-card-v130">
@@ -21400,6 +21407,89 @@ async function saveShotlistStoryboardPdfV296(){
   downloadPdfBytesV296(buildPdfFromMixedJpegsV296(images),'샷리스트+콘티');
 }
 
+
+// PREPRO V307 — export multiple selected scenes as Shot List + Blocking + Storyboard.
+async function saveShotlistStoryboardScenesPdfV307(sceneIds){
+  const p=project();
+  const ids=[...new Set((sceneIds||[]).filter(Boolean))];
+  const scenes=(p.scenes||[]).filter(s=>ids.includes(s.id));
+  if(!scenes.length){alert('내보낼 씬을 선택하세요.');return}
+
+  const shotDoc=new CanvasPdfDocV142('선택 씬 샷리스트','landscape');
+  let wroteShotSection=false;
+
+  for(const s of scenes){
+    const shots=s.shots||[];
+    if(!shots.length)continue;
+    if(wroteShotSection)shotDoc.newPage();
+    wroteShotSection=true;
+    shotDoc.section(
+      `${s.number} · ${s.meta?.location||s.title||'씬'}`,
+      `${sceneTimeKey(s.meta?.time)||s.meta?.time||''} · ${shots.length} SHOTS`
+    );
+    const rows=shots.map((sh,i)=>{
+      const subjects=(Array.isArray(sh.subjects)?sh.subjects:[]).join(', ');
+      const sizeWithSubject=[subjects,sh.size||''].filter(Boolean).join(' · ');
+      return [
+        `${s.number}-${i+1}`,sizeWithSubject,sh.angle||'',sh.lens||'',sh.focalLength||'',
+        sh.movement==='Static'?'Fix':(sh.movement||''),sh.support||'',sh.vfx?'Y':'',
+        sh.scriptExcerpt||'',sh.description||'',sh.notes||''
+      ];
+    });
+    shotDoc.table(
+      ['CUT','SIZE','ANGLE','LENS','FL','MOVE','SUPPORT','AI/VFX','SCRIPT','DESCRIPTION','NOTES'],
+      rows,[.06,.09,.075,.075,.055,.075,.075,.05,.18,.16,.105],
+      {fontSize:11,headerFontSize:10,lineHeight:18,pad:7,boldFirst:true}
+    );
+  }
+
+  const storyboardDoc=new CanvasPdfDocV142('선택 씬 콘티','portrait');
+  storyboardDoc.pages=[]; storyboardDoc.pageNo=0; storyboardDoc.canvas=null;
+  storyboardDoc.ctx=null; storyboardDoc.y=storyboardDoc.margin;
+
+  for(const s of scenes){
+    const shots=s.shots||[];
+    const blocking=ensureSceneBlockingV66(s);
+
+    if(blocking.images.length){
+      for(let i=0;i<blocking.images.length;i+=2){
+        storyboardDoc.newPage();
+        const pair=blocking.images.slice(i,i+2);
+        storyboardDoc.section(
+          `${s.number} · BLOCKING`,
+          `${s.meta?.location||s.title||'씬'} · ${sceneTimeKey(s.meta?.time)||s.meta?.time||''}`
+        );
+        if(typeof storyboardDoc.blockingInfoV301==='function'){
+          storyboardDoc.blockingInfoV301(s,i,pair.length,blocking.images.length);
+        }
+        const pairStartY=storyboardDoc.y;
+        for(let j=0;j<pair.length;j++){
+          storyboardDoc.y=pairStartY;
+          await storyboardDoc.blockingPageV166(s,pair[j],i+j,j,pair.length);
+        }
+      }
+    }
+
+    if(shots.length){
+      storyboardDoc.newPage();
+      storyboardDoc.section(
+        `${s.number} · ${s.meta?.location||s.title||'씬'}`,
+        `${sceneTimeKey(s.meta?.time)||''} · ${shots.length} SHOTS${blocking.images.length?` · ${blocking.images.length} BLOCKING`:''}`
+      );
+      await storyboardDoc.storyboardTableHeaderV161();
+      for(let i=0;i<shots.length;i++)await storyboardDoc.storyboardRowV161(shots[i],s,i);
+    }
+  }
+
+  const mixed=[];
+  if(wroteShotSection) mixed.push(...(await canvasPagesToJpegsV296(shotDoc.pages,'landscape')));
+  if(storyboardDoc.pages.length) mixed.push(...(await canvasPagesToJpegsV296(storyboardDoc.pages,'portrait')));
+  if(!mixed.length){alert('선택한 씬에 내보낼 샷리스트/콘티가 없습니다.');return}
+
+  const label=scenes.length===1 ? scenes[0].number : `${scenes[0].number}-${scenes[scenes.length-1].number}`;
+  downloadPdfBytesV296(buildPdfFromMixedJpegsV296(mixed),`${label}_샷리스트+콘티`);
+}
+
 async function saveSchedulePdfV141(){
   const p=project(),doc=new CanvasPdfDocV142('촬영 일정표','landscape');
   for(let i=0;i<p.shootDays.length;i++){
@@ -26413,6 +26503,144 @@ html[data-theme="light"] body #shots .shot-subject-menu-v297 input[data-shot-sub
     overflow-x:hidden!important;
     -webkit-overflow-scrolling:touch!important;
   }
+}
+</style>
+
+
+<style id="prepro-v307-scene-export-ui">
+#exports .export-scene-pdf-v307{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  gap:7px!important;
+  margin-top:12px!important;
+  align-items:center!important;
+}
+#exports .export-scene-picker-v307{position:relative!important;min-width:0!important}
+#exports .export-scene-picker-v307>summary{
+  list-style:none!important;display:flex!important;align-items:center!important;justify-content:space-between!important;
+  height:32px!important;padding:0 10px!important;box-sizing:border-box!important;
+  border:1px solid var(--line-soft)!important;border-radius:7px!important;
+  background:var(--panel)!important;color:var(--text)!important;font-size:10px!important;font-weight:650!important;
+  cursor:pointer!important;box-shadow:none!important;
+}
+#exports .export-scene-picker-v307>summary::-webkit-details-marker{display:none!important}
+#exports .export-scene-picker-v307[open]>summary{border-color:var(--accent)!important}
+#exports .export-scene-caret-v307{font-size:13px!important;opacity:.6!important;margin-left:8px!important}
+#exports .export-scene-menu-v307{
+  position:absolute!important;left:0!important;right:0!important;top:37px!important;z-index:80!important;
+  max-height:220px!important;overflow:auto!important;padding:6px!important;
+  border:1px solid var(--line-soft)!important;border-radius:8px!important;background:var(--panel)!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.14)!important;
+}
+#exports .export-scene-option-v307{
+  display:flex!important;align-items:center!important;gap:8px!important;padding:7px 8px!important;
+  border-radius:6px!important;font-size:10px!important;color:var(--text)!important;cursor:pointer!important;
+}
+#exports .export-scene-option-v307:hover{background:var(--hover)!important}
+#exports .export-scene-option-v307 input{
+  appearance:none!important;-webkit-appearance:none!important;width:14px!important;height:14px!important;
+  min-width:14px!important;margin:0!important;border:1px solid var(--line)!important;border-radius:4px!important;
+  background:var(--panel)!important;position:relative!important;
+}
+#exports .export-scene-option-v307 input:checked{background:var(--accent)!important;border-color:var(--accent)!important}
+#exports .export-scene-option-v307 input:checked:after{
+  content:'✓';position:absolute;inset:-2px 0 0!important;text-align:center!important;font-size:10px!important;
+  font-weight:900!important;color:white!important;
+}
+#exports .export-scene-btn-v307{
+  height:32px!important;padding:0 12px!important;border:1px solid var(--line-soft)!important;border-radius:7px!important;
+  background:var(--panel)!important;color:var(--text)!important;font-size:9.5px!important;font-weight:700!important;
+  box-shadow:none!important;transform:none!important;white-space:nowrap!important;
+}
+#exports .export-scene-btn-v307:hover{border-color:var(--accent)!important;background:var(--hover)!important}
+#exports .export-scene-btn-v307:active{transform:none!important;box-shadow:none!important}
+@media(max-width:720px){
+  #exports .export-scene-pdf-v307{grid-template-columns:1fr!important}
+}
+</style>
+<script id="prepro-v307-scene-export-bind">
+(function(){
+  function setupV307(){
+    const menu=document.getElementById('exportShotStoryScenesMenuV307');
+    const sum=document.getElementById('exportShotStoryScenesSummaryV307');
+    const btn=document.getElementById('exportShotStorySceneBtnV307');
+    if(!menu||!sum||!btn||typeof project!=='function')return;
+    const p=project();
+    const old=[...menu.querySelectorAll('input:checked')].map(x=>x.value);
+    menu.innerHTML=(p.scenes||[]).map(s=>{
+      const label=[s.number,s.meta?.location||s.title||''].filter(Boolean).join(' · ');
+      return `<label class="export-scene-option-v307"><input type="checkbox" value="${s.id}"><span>${label}</span></label>`;
+    }).join('');
+    menu.querySelectorAll('input').forEach(cb=>{
+      cb.checked=old.includes(cb.value);
+      cb.onchange=update;
+    });
+    function update(){
+      const checked=[...menu.querySelectorAll('input:checked')];
+      if(!checked.length)sum.textContent='씬 선택';
+      else if(checked.length===1)sum.textContent=checked[0].nextElementSibling.textContent;
+      else sum.textContent=`${checked.length}개 씬 선택`;
+    }
+    update();
+    btn.onclick=()=>{
+      const ids=[...menu.querySelectorAll('input:checked')].map(x=>x.value);
+      if(!ids.length){alert('내보낼 씬을 하나 이상 선택하세요.');return}
+      Promise.resolve(saveShotlistStoryboardScenesPdfV307(ids)).catch(err=>{
+        console.error('[PREPRO selected scenes PDF]',err);
+        alert('선택 씬 PDF 생성 중 오류가 발생했습니다.\\n\\n'+(err?.message||String(err)));
+      });
+    };
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setupV307,{once:true});
+  else setupV307();
+  window.addEventListener('load',setupV307,{once:true});
+  document.addEventListener('click',e=>{
+    if(e.target.closest?.('[data-view="exports"]'))setTimeout(setupV307,0);
+  });
+})();
+</script>
+
+
+<style id="prepro-v308-scene-picker-refine">
+/* V308 — only refine the multi-scene picker appearance */
+#exports .export-scene-menu-v307{
+  padding:5px!important;
+  border-radius:7px!important;
+  max-height:196px!important;
+}
+#exports .export-scene-option-v307{
+  min-height:30px!important;
+  padding:4px 7px!important;
+  gap:7px!important;
+  border-radius:5px!important;
+  font-size:9.5px!important;
+  line-height:1.25!important;
+}
+#exports .export-scene-option-v307 + .export-scene-option-v307{
+  border-top:1px solid var(--line-soft)!important;
+  border-top-left-radius:0!important;
+  border-top-right-radius:0!important;
+}
+#exports .export-scene-option-v307 input{
+  width:13px!important;
+  height:13px!important;
+  min-width:13px!important;
+  min-height:13px!important;
+  flex:0 0 13px!important;
+  padding:0!important;
+  border-radius:3px!important;
+  box-shadow:none!important;
+}
+#exports .export-scene-option-v307 input:checked:after{
+  inset:-2px 0 0!important;
+  font-size:9px!important;
+}
+#exports .export-scene-option-v307 span{
+  display:block!important;
+  min-width:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
 }
 </style>
 
